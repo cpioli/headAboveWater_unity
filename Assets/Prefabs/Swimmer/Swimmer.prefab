@@ -29,6 +29,8 @@ GameObject:
   - component: {fileID: 114214630767746370}
   - component: {fileID: 114867922059158688}
   - component: {fileID: 114558536061076234}
+  - component: {fileID: 114277316814401314}
+  - component: {fileID: 114119714468191616}
   m_Layer: 0
   m_Name: Swimmer
   m_TagString: Untagged
@@ -149,7 +151,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.014322281, y: 0.33879614}
+  m_Offset: {x: -0.014322281, y: 0.3943472}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -160,7 +162,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.31799316, y: 0.16073132}
+  m_Size: {x: 0.31799316, y: 0.04962921}
   m_EdgeRadius: 0
 --- !u!70 &70215106123468288
 CapsuleCollider2D:
@@ -206,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: 43e98e1d64f57ef4da1d7a80f564bd7f, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -220,6 +222,34 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &114119714468191616
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079486292611504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 9978f657200a39140a32def9d3b52ca8, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114939762220755728}
+        m_MethodName: SetPaused
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
@@ -247,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: 743f48c6bbc70f24f972635160b1609d, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -282,23 +312,23 @@ MonoBehaviour:
   maxValue:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 935c89e8ffc0c574dabc010c5aa0d15c, type: 2}
   strokesInABar:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 19639c1ebc829cc4797f77924df1382d, type: 2}
   replenishmentTime:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 7bc4342674c460f4b853231e5bf6b92c, type: 2}
   exhaustionDelay:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: ce82f9eb1b251524ca36978a01b6bbbc, type: 2}
   strokeDelay:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: c591f831b9ef4bf4397f04c56f4cd163, type: 2}
   exhaustionEvent:
     m_PersistentCalls:
       m_Calls:
@@ -342,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: b24c00d1d6c57c945883536a825cba69, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -356,6 +386,34 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &114277316814401314
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079486292611504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: cce1a48183003a94f8cf2dbb17025e7d, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114939762220755728}
+        m_MethodName: SetPaused
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
@@ -377,15 +435,15 @@ MonoBehaviour:
   maxValue:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: a69f3bcd0c7d2864c962c7c9be9f7d7e, type: 2}
   consumptionTime:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 967086bb0f91b524c8d805bb6c0d5891, type: 2}
   replenishmentTime:
     UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 05f3963b1f7652f4fb5010cca9fc6284, type: 2}
   emptyEvent:
     m_PersistentCalls:
       m_Calls:
@@ -413,7 +471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: b24c00d1d6c57c945883536a825cba69, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -436,12 +494,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1741805375818754}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: 25b36a9ca014cc34c956e70c5204a98e, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -469,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: a0d3f94259216f043b5aa09f450a62ff, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -497,7 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: f732cb3027f4b124d894768f1637bf82, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -525,7 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: 7bf4ae99bdfcad14abb5e74e663c4418, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -548,12 +606,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1741805375818754}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: 07bd9f227d6340947b0ecae7f9e96f5b, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -581,7 +639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c99ac3398f28f45a055bdc418a6027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Event: {fileID: 0}
+  Event: {fileID: 11400000, guid: b24c00d1d6c57c945883536a825cba69, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -656,9 +714,10 @@ MonoBehaviour:
   gravityModifier: 1
   maxSpeed: 2.5
   jumpTakeOffSpeed: 7
-  groundMovement: {fileID: 0}
-  underwaterMovement: {fileID: 0}
-  underwaterGroundMovement: {fileID: 0}
+  groundMovement: {fileID: 11400000, guid: f586d43f8d4dea448997c7a1179725cc, type: 2}
+  underwaterMovement: {fileID: 11400000, guid: 769f3093ccda8bf49b6adb77137b4efb, type: 2}
+  underwaterGroundMovement: {fileID: 11400000, guid: 1c187b93b613ec84d9d64e69c5d049ce,
+    type: 2}
   riverbedWalkingEvent:
     m_PersistentCalls:
       m_Calls:
