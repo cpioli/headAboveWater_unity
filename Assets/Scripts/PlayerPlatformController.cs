@@ -7,35 +7,34 @@ public class PlayerPlatformController : PhysicsObject {
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private MovementState currentMoveState;
-
+    private MovementStateInWater moveStateWater;
+    private MovementStateOnGround moveStateGround;
     private bool exhausted;
     private bool underwater;
     private bool isPaused;
 
     public UnityEvent riverbedWalkingEvent;
     public UnityEvent riverbedStillEvent;
-    public MovementStateInWater moveStateWater;
-    public MovementStateOnGround moveStateGround;
     public float maxSpeed = 7;
     public float jumpTakeOffSpeed = 7f;
     public bool xMovement;
-
 
     void Awake ()
     {
         exhausted = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        //currentMovementType = groundMovement;
-        //currentMovementType.Initialize(this.gameObject);
         moveStateWater = GetComponent<MovementStateInWater>();
         moveStateGround = GetComponent<MovementStateOnGround>();
         currentMoveState = moveStateGround;
+        currentMoveState.OnStateEnter(animator);
 	}
 	
     public void SetState(MovementState mState)
     {
+        currentMoveState.OnStateExit();
         currentMoveState = mState;
+        currentMoveState.OnStateEnter(animator);
     }
 
     //called once per frame (FixedVelocity can be called more than once per frame)

@@ -11,10 +11,8 @@ public class MovementStateOnGround : MovementState
 
     public MovementStateOnGround(PlayerPlatformController ppController) : base(ppController)
     {
-        //jumpTakeOffSpeed = 7f;
-        //gravityModifier = 1f;
         this.ppController = ppController;
-        moveSpeed = new Vector2(2.5f, 0f);
+        //moveSpeed = new Vector2(2.5f, 0f);
     }
     
     public override void OnStateEnter(Animator animator)

@@ -10,8 +10,13 @@ public abstract class MovementState : MonoBehaviour {
     public FloatReference gravityModifier;
     public Vector2Reference airVelocity; //of an unladen swallow?
     public Vector2Reference groundedVelocity;
-    protected bool grounded;
     protected bool exhausted;
+
+    private void Awake()
+    {
+        this.ppController = gameObject.GetComponent<PlayerPlatformController>();
+        exhausted = false;
+    }
 
     public MovementState(PlayerPlatformController ppController)
     {
@@ -26,13 +31,9 @@ public abstract class MovementState : MonoBehaviour {
     {
         this.animator = animator;
     }
+
     public virtual void OnStateExit()
     {
 
-    }
-
-    public virtual void SetPlayerGrounded(bool isGrounded)
-    {
-        this.grounded = isGrounded;
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
@@ -35,6 +33,11 @@ public class MovementStateInWater : MovementState {
         
     }
 
+    public override void OnStateExit()
+    {
+        base.OnStateExit();
+    }
+
     /// <summary>
     /// Keeps track of time underwater or above water for the Oxygen and
     /// Stamina meters. Also keeps track of time.
@@ -51,13 +54,15 @@ public class MovementStateInWater : MovementState {
     {
         Vector2 move = Vector2.zero;
         move.x = Input.GetAxis("Horizontal");
-        if(grounded && ppController.xMovement && Mathf.Abs(move.x) > 0.0f)
+        //if(grounded && ppController.xMovement && Mathf.Abs(move.x) > 0.0f)
         if (!exhausted) ComputeYVelocity(ref velocity);
+        print("Exhausted: " + exhausted);
         return move;
     }
 
     private void ComputeYVelocity(ref Vector2 velocity)
     {
+        print("ComputeYVelocity is called.");
         if (Input.GetButtonDown("Jump"))
         {
             velocity.y = jumpTakeOffSpeed;
@@ -75,5 +80,10 @@ public class MovementStateInWater : MovementState {
     public void SetSubmerged(bool isSubmerged)
     {
         this.submerged = isSubmerged;
+    }
+
+    public void SetExhausted(bool isExhausted)
+    {
+        this.exhausted = isExhausted;
     }
 }
