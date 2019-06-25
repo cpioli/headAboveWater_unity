@@ -1,43 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-using cpioli;
 
 public class PlayerPlatformController : PhysicsObject {
 
-    public float maxSpeed = 7;
-    public float jumpTakeOffSpeed = 7f;
+    private UnityEvent currentStrokeEvent;
+    private SpriteRenderer spriteRenderer;
+    private Animator animator;
+    private MovementState currentMoveState;
 
-    public GroundMovement groundMovement;
-    public UnderwaterMovement underwaterMovement;
-    public GroundMovement underwaterGroundMovement;
+    private bool exhausted;
+    private bool underwater;
+    private bool isPaused;
 
     public UnityEvent riverbedWalkingEvent;
     public UnityEvent riverbedStillEvent;
-    private UnityEvent currentStrokeEvent;
-    private Movement currentMovementType;
+    public MovementStateInWater moveStateWater;
+    public MovementStateOnGround moveStateGround;
+    public float maxSpeed = 7;
+    public float jumpTakeOffSpeed = 7f;
+    public bool xMovement;
 
-    private bool exhausted;
-    private bool xMovement;
-    private bool underwater;
-    private bool isPaused;
-    private SpriteRenderer spriteRenderer;
-    private Animator animator;
 
-	void Awake ()
+    void Awake ()
     {
         exhausted = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        currentMovementType = groundMovement;
-        currentMovementType.Initialize(this.gameObject);
+        //currentMovementType = groundMovement;
+        //currentMovementType.Initialize(this.gameObject);
+        moveStateWater = GetComponent<MovementStateInWater>();
+        moveStateGround = GetComponent<MovementStateOnGround>();
+        currentMoveState = moveStateGround;
 	}
 	
-    public void SetState(Movement mState)
+    public void SetState(MovementState mState)
     {
-        currentMovementType = mState;
-        currentMovementType.Initialize(this.gameObject);
+        currentMoveState = mState;
     }
 
     //called once per frame (FixedVelocity can be called more than once per frame)
@@ -46,11 +44,11 @@ public class PlayerPlatformController : PhysicsObject {
         if (isPaused) return;
         //get values for target velocity. Move is a value between [-1, 0, 1]
         Vector2 move = Vector2.zero;
-        move = currentMovementType.ComputeVelocity(underwater, exhausted, ref velocity);
-
+        //move = currentMovementType.ComputeVelocity(underwater, exhausted, ref velocity);
+        move = currentMoveState.ComputeVelocity(grounded, ref velocity);
         //UpdateGrounded only runs when the player-character is grounded
         if (grounded != animator.GetBool("grounded")) UpdateGrounded(grounded);
-        if (currentMovementType == underwaterGroundMovement) UpdateRiverbedXMovement(move);
+        //if (currentMovementType == underwaterGroundMovement) UpdateRiverbedXMovement(move);
         bool flipSprite = (spriteRenderer.flipX ? (move.x > 0.01f) : (move.x < -0.01f));
         if (flipSprite)
         {
@@ -69,14 +67,6 @@ public class PlayerPlatformController : PhysicsObject {
     private void UpdateGrounded(bool grounded)
     {
         animator.SetBool("grounded", grounded);
-        if(currentMovementType == underwaterMovement && grounded)
-        {
-            SetState(underwaterGroundMovement);
-        }
-        if(currentMovementType == underwaterGroundMovement && !grounded)
-        {
-            SetState(underwaterMovement);
-        }
     }
 
     private void UpdateRiverbedXMovement(Vector2 move)
@@ -98,7 +88,7 @@ public class PlayerPlatformController : PhysicsObject {
         if(collision.CompareTag("water"))
         {
             print("UNDERWATER!");
-            SetState(underwaterMovement);
+            SetState(moveStateWater);
             velocity.y *= 0.6f;
         }
     }
