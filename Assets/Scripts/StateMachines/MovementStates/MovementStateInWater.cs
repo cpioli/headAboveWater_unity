@@ -14,6 +14,9 @@ public class MovementStateInWater : MovementState {
     public UnityEvent StrokeEvent;
     public UnityEvent UnderwaterStrokeEvent;
     public UnityEvent SurfaceStrokeEvent;
+    public UnityEvent riverbedWalkingEvent;
+    public UnityEvent riverbedStillEvent;
+
     private const float waterGravityModifier = 0.265f;
     private bool submerged;
 
@@ -21,9 +24,6 @@ public class MovementStateInWater : MovementState {
     {
         this.ppController = ppController;
         moveSpeed = new Vector2(2f, 0f);
-
-        //this.gravityModifier = 0.265f;
-        //this.jumpTakeOffSpeed = 2.5f;
     }
 
     public override void OnStateEnter(Animator animator)
@@ -51,6 +51,7 @@ public class MovementStateInWater : MovementState {
     {
         Vector2 move = Vector2.zero;
         move.x = Input.GetAxis("Horizontal");
+        if(grounded && ppController.xMovement && Mathf.Abs(move.x) > 0.0f)
         if (!exhausted) ComputeYVelocity(ref velocity);
         return move;
     }

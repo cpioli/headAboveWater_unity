@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using cpioli.Variables;
-using UnityEngine.Events;
 
-public abstract class MovementState {
+public abstract class MovementState : MonoBehaviour {
 
     protected PlayerPlatformController ppController;
     protected Animator animator;
     protected Vector2 moveSpeed; //velocity.x
-    protected FloatReference jumpTakeOffSpeed;
-    protected FloatReference gravityModifier;
+    public FloatReference jumpTakeOffSpeed;
+    public FloatReference gravityModifier;
+    public Vector2Reference airVelocity; //of an unladen swallow?
+    public Vector2Reference groundedVelocity;
     protected bool grounded;
     protected bool exhausted;
 
