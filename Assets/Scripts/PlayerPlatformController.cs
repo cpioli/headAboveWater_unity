@@ -41,13 +41,10 @@ public class PlayerPlatformController : PhysicsObject {
     protected override void ComputeVelocity()
     {
         if (isPaused) return;
-        //get values for target velocity. Move is a value between [-1, 0, 1]
         Vector2 move = Vector2.zero;
-        //move = currentMovementType.ComputeVelocity(underwater, exhausted, ref velocity);
         move = currentMoveState.ComputeVelocity(grounded, ref velocity);
         //UpdateGrounded only runs when the player-character is grounded
         if (grounded != animator.GetBool("grounded")) UpdateGrounded(grounded);
-        //if (currentMovementType == underwaterGroundMovement) UpdateRiverbedXMovement(move);
         bool flipSprite = (spriteRenderer.flipX ? (move.x > 0.01f) : (move.x < -0.01f));
         if (flipSprite)
         {
@@ -66,20 +63,6 @@ public class PlayerPlatformController : PhysicsObject {
     private void UpdateGrounded(bool grounded)
     {
         animator.SetBool("grounded", grounded);
-    }
-
-    private void UpdateRiverbedXMovement(Vector2 move)
-    {
-        if(Mathf.Abs(move.x) > 0.01f && !xMovement)
-        {
-            xMovement = true;
-            riverbedWalkingEvent.Invoke();
-        }
-        if(Mathf.Abs(move.x) < 0.01f && xMovement)
-        {
-            xMovement = false;
-            riverbedStillEvent.Invoke();
-        }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
