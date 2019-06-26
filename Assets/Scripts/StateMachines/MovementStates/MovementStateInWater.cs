@@ -17,6 +17,7 @@ public class MovementStateInWater : MovementState {
 
     private const float waterGravityModifier = 0.265f;
     private bool submerged;
+    private bool riverbedWalking;
 
     public MovementStateInWater(PlayerPlatformController ppController) : base(ppController)
     {
@@ -54,15 +55,26 @@ public class MovementStateInWater : MovementState {
     {
         Vector2 move = Vector2.zero;
         move.x = Input.GetAxis("Horizontal");
+        if (!riverbedWalking && WalkingOnRiverbed(grounded, move))
+        {
+            print("Walking on the riverbed!");
+            riverbedWalking = true;
+            riverbedWalkingEvent.Invoke();
+        }
+        else if(riverbedWalking && !WalkingOnRiverbed(grounded, move))
+        {
+            print("off the riverbed!");
+            riverbedWalking = false;
+            riverbedStillEvent.Invoke();
+        }
+
         //if(grounded && ppController.xMovement && Mathf.Abs(move.x) > 0.0f)
         if (!exhausted) ComputeYVelocity(ref velocity);
-        print("Exhausted: " + exhausted);
         return move;
     }
 
     private void ComputeYVelocity(ref Vector2 velocity)
     {
-        print("ComputeYVelocity is called.");
         if (Input.GetButtonDown("Jump"))
         {
             velocity.y = jumpTakeOffSpeed;
@@ -71,10 +83,11 @@ public class MovementStateInWater : MovementState {
             if (submerged) UnderwaterStrokeEvent.Invoke();
             else SurfaceStrokeEvent.Invoke();
         }
-        else if (Input.GetButtonUp("Jump"))
-        {
-            if (velocity.y > 0.0f) velocity.y *= 0.5f;
-        }
+    }
+
+    private bool WalkingOnRiverbed(bool grounded, Vector2 move)
+    {
+        return grounded && Mathf.Abs(move.x) > 0.0f;
     }
 
     public void SetSubmerged(bool isSubmerged)
