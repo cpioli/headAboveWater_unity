@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,7 +15,14 @@ namespace cpioli.Events
 
         private void OnEnable()
         {
-            Event.RegisterListener(this);
+            try
+            {
+                Event.RegisterListener(this);
+            }
+            catch(NullReferenceException e)
+            {
+                Debug.LogError("NullReferenceException:Event missing!  GameObject: " + this.gameObject.name);
+            }
         }
 
         public void OnDisable()
