@@ -11,7 +11,6 @@ public class PlayerPlatformController : PhysicsObject {
     private MovementStateOnGround moveStateGround;
     private bool exhausted;
     private bool underwater;
-    private bool isPaused;
 
     public UnityEvent riverbedWalkingEvent;
     public UnityEvent riverbedStillEvent;
@@ -40,7 +39,7 @@ public class PlayerPlatformController : PhysicsObject {
     //called once per frame (FixedVelocity can be called more than once per frame)
     protected override void ComputeVelocity()
     {
-        if (isPaused) return;
+        if (paused) return;
         Vector2 move = Vector2.zero;
         move = currentMoveState.ComputeVelocity(grounded, ref velocity);
         //UpdateGrounded only runs when the player-character is grounded
@@ -91,8 +90,10 @@ public class PlayerPlatformController : PhysicsObject {
         return underwater;
     }
 
-    public void SetPaused(bool isPaused)
+    public void SetPaused(bool paused)
     {
-        this.isPaused = isPaused;
+        this.paused = paused;
+        if (paused) animator.enabled = false;
+        else animator.enabled = true;
     }
 }

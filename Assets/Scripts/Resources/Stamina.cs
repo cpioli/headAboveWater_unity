@@ -12,6 +12,7 @@ public class Stamina : Resource {
     public UnityEvent exhaustionEvent;
     public UnityEvent startReplenishingEvent;
 
+    private bool paused;
     private bool stoppingReplenishment;
     private float strokeCost;
     private float delayTimer;
@@ -22,12 +23,14 @@ public class Stamina : Resource {
         stoppingReplenishment = false;
         currentValue = maxValue.Value;
         strokeCost = maxValue.Value / strokesInABar;
+        paused = false;
         delayTimer = 0f;
 	}
 
     // Update is called once per frame
     void Update()
     {
+        if(paused) return;
         RestoreStamina(Time.deltaTime);
     }
 
@@ -86,5 +89,10 @@ public class Stamina : Resource {
     public void SetStopReplenishment(bool stopping)
     {
         stoppingReplenishment = stopping;
+    }
+
+    public void SetPaused(bool paused)
+    {
+        this.paused = paused;
     }
 }

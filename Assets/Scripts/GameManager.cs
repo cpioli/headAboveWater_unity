@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 
     private void HandleAllInput()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
             if (gamePaused)
                 ResumeEvent.Invoke();

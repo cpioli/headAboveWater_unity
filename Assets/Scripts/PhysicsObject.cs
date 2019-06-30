@@ -14,6 +14,7 @@ public class PhysicsObject : MonoBehaviour {
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
 
+    protected bool paused;
     protected bool grounded;
     protected Vector2 velocity;
     protected Vector2 targetVelocity; //this is where we store incoming input from outside of the class. We're going to plug this into our velocity calculation.
@@ -38,6 +39,7 @@ public class PhysicsObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (paused) return;
         targetVelocity = Vector2.zero;
         ComputeVelocity();
 	}
@@ -49,6 +51,7 @@ public class PhysicsObject : MonoBehaviour {
 
     void FixedUpdate()
     {
+        if (paused) return;
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
         velocity.x = targetVelocity.x;
 
