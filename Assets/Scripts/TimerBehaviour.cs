@@ -31,13 +31,20 @@ public class TimerBehaviour : MonoBehaviour {
     {
         totalTimePassed += Time.deltaTime;
         sb.Remove(0, sb.Length); //flush the StringBuilder
-        minutes = totalTimePassed / 60.0f;
+        sb.Append("0");
+        minutes = Mathf.FloorToInt(totalTimePassed / 60.0f);
         minutes = Mathf.Clamp(minutes, 0.0f, 9.0f);
+        sb.Append(minutes.ToString("N0") + ":");
         if (seconds > 6000.0f) //over ten minutes have passed
             seconds = 59.99f;
         else
+        {
             seconds = totalTimePassed % 60.0f;
-        sb.Append(minutes.ToString("N0") + ":" + seconds.ToString("N2"));
+            if (seconds < 10.0f)
+                sb.Append("0");
+        }
+
+        sb.Append(seconds.ToString("N2"));
         textObject.text = sb.ToString();
     }
 
