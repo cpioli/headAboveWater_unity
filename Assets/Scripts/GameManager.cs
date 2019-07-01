@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour {
 
     private GameState currentGameState;
     private InPlayState inPlayState;
+    private GameOverState gameOverState;
     
 
 
 	// Use this for initialization
 	void Start () {
         inPlayState = GetComponent<InPlayState>();
+        gameOverState = GetComponent<GameOverState>();
         currentGameState = inPlayState;
 	}
 
@@ -21,8 +22,15 @@ public class GameManager : MonoBehaviour {
         currentGameState.Run();
     }
 
-    private void HandleAllInput()
+    private void ChangeGameState(GameState newGameState)
     {
-        
+        currentGameState.OnStateExit();
+        currentGameState = newGameState;
+        currentGameState.OnStateEnter(this);
+    }
+
+    public void SwimmerDies()
+    {
+        ChangeGameState(gameOverState);
     }
 }
