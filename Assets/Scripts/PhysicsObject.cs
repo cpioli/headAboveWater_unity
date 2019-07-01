@@ -15,6 +15,7 @@ public class PhysicsObject : MonoBehaviour {
     protected const float shellRadius = 0.01f;
 
     protected bool paused;
+    protected bool gameOver;
     protected bool grounded;
     protected Vector2 velocity;
     protected Vector2 targetVelocity; //this is where we store incoming input from outside of the class. We're going to plug this into our velocity calculation.
@@ -32,6 +33,8 @@ public class PhysicsObject : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        paused = false;
+        gameOver = false;
         contactFilter.useTriggers = false;
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useLayerMask = true;
@@ -39,7 +42,7 @@ public class PhysicsObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (paused) return;
+        if (paused || gameOver) return;
         targetVelocity = Vector2.zero;
         ComputeVelocity();
 	}
@@ -51,7 +54,7 @@ public class PhysicsObject : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (paused) return;
+        if (paused || gameOver) return;
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
         velocity.x = targetVelocity.x;
 

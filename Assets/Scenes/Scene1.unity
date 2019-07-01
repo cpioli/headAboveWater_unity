@@ -210,16 +210,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114416382260078784, guid: 328a62d10532d754e8ad51acb7ca2bea,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114248597482543350, guid: 328a62d10532d754e8ad51acb7ca2bea,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328a62d10532d754e8ad51acb7ca2bea, type: 2}
   m_IsPrefabAsset: 0
@@ -1814,23 +1804,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114946457911973218, guid: 18e5cb9d70d6bd64a859e6c8f8f63522,
-        type: 2}
-      propertyPath: Event
-      value: 
-      objectReference: {fileID: 11400000, guid: 652182ec8d2f3f6459e1b0a6c9dfe43a,
-        type: 2}
-    - target: {fileID: 114547344086009020, guid: 18e5cb9d70d6bd64a859e6c8f8f63522,
-        type: 2}
-      propertyPath: emptyEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 11400000, guid: c8b30e274c8ea9e4284db62d9aa34b2a,
-        type: 2}
-    - target: {fileID: 114547344086009020, guid: 18e5cb9d70d6bd64a859e6c8f8f63522,
-        type: 2}
-      propertyPath: emptyEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Raise
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
   m_IsPrefabAsset: 0
@@ -2180,7 +2153,7 @@ Prefab:
     - target: {fileID: 224253463254237504, guid: 81510cadc0eff964daed25b7f61c0060,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 435
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 224253463254237504, guid: 81510cadc0eff964daed25b7f61c0060,
         type: 2}

@@ -39,7 +39,7 @@ public class PlayerPlatformController : PhysicsObject {
     //called once per frame (FixedVelocity can be called more than once per frame)
     protected override void ComputeVelocity()
     {
-        if (paused) return;
+        if (paused || gameOver) return;
         Vector2 move = Vector2.zero;
         move = currentMoveState.ComputeVelocity(grounded, ref velocity);
         //UpdateGrounded only runs when the player-character is grounded
@@ -95,5 +95,10 @@ public class PlayerPlatformController : PhysicsObject {
         this.paused = paused;
         if (paused) animator.enabled = false;
         else animator.enabled = true;
+    }
+
+    public void GameOver()
+    {
+        base.gameOver = true;
     }
 }
