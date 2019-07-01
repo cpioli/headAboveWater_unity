@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseScreenBehaviour : MonoBehaviour {
+public class InterruptedBehaviour : MonoBehaviour {
 
     private Text text;
 

@@ -5,30 +5,24 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour {
 
-    private bool gamePaused;
+    private GameState currentGameState;
+    private InPlayState inPlayState;
+    
 
-    public UnityEvent PauseEvent;
-    public UnityEvent ResumeEvent;
 
 	// Use this for initialization
 	void Start () {
-        gamePaused = false;
+        inPlayState = GetComponent<InPlayState>();
+        currentGameState = inPlayState;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-        HandleAllInput();
-	}
+        currentGameState.Run();
+    }
 
     private void HandleAllInput()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (gamePaused)
-                ResumeEvent.Invoke();
-            else
-                PauseEvent.Invoke();
-            gamePaused = !gamePaused;
-        }
+        
     }
 }

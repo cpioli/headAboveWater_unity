@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224553302654323560}
   - component: {fileID: 222426944874227400}
   - component: {fileID: 114972390392543846}
-  - component: {fileID: 114500674172037266}
+  - component: {fileID: 114707770259975088}
   - component: {fileID: 114422242020728576}
   - component: {fileID: 114159329421997590}
   m_Layer: 0
@@ -46,7 +46,7 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114500674172037266}
+      - m_Target: {fileID: 114707770259975088}
         m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
@@ -74,7 +74,7 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114500674172037266}
+      - m_Target: {fileID: 114707770259975088}
         m_MethodName: Pause
         m_Mode: 1
         m_Arguments:
@@ -87,7 +87,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114500674172037266
+--- !u!114 &114707770259975088
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
