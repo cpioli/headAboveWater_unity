@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using cpioli.Variables;
+using cpioli.Events;
 
-public class Oxygen : Resource {
+public class Oxygen : Resource, ICommonGameEvents {
 
     public FloatReference consumptionTime; //time in seconds to consume a full bar of Oxygen
     public FloatReference replenishmentTime; //time in seconds to replenish a full bar of Oxygen
@@ -46,5 +47,26 @@ public class Oxygen : Resource {
     public void SetPaused(bool paused)
     {
         this.paused = paused;
+    }
+
+    public void GamePaused(bool paused)
+    {
+        print("Intelligent Component System works!");
+        this.paused = paused;
+    }
+
+    public void GameOver()
+    {
+        this.paused = true;
+    }
+
+    public void LevelStarted()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void LevelCompleted()
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -35,7 +35,7 @@ public class TimerBehaviour : MonoBehaviour {
         minutes = Mathf.FloorToInt(totalTimePassed / 60.0f);
         minutes = Mathf.Clamp(minutes, 0.0f, 9.0f);
         sb.Append(minutes.ToString("N0") + ":");
-        if (seconds > 6000.0f) //over ten minutes have passed
+        if (seconds > 600.0f) //over ten minutes have passed
             seconds = 59.99f;
         else
         {

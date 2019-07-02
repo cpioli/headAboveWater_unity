@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
+using cpioli.Events;
 
 public class PlayerPlatformController : PhysicsObject {
 
@@ -9,7 +11,7 @@ public class PlayerPlatformController : PhysicsObject {
     private MovementState currentMoveState;
     private MovementStateInWater moveStateWater;
     private MovementStateOnGround moveStateGround;
-    private bool exhausted;
+    private ICommonGameEvents[] childrenListeners;
     private bool underwater;
 
     public UnityEvent riverbedWalkingEvent;
@@ -20,13 +22,13 @@ public class PlayerPlatformController : PhysicsObject {
 
     void Awake ()
     {
-        exhausted = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         moveStateWater = GetComponent<MovementStateInWater>();
         moveStateGround = GetComponent<MovementStateOnGround>();
         currentMoveState = moveStateGround;
         currentMoveState.OnStateEnter(animator);
+        RetrieveChildrenComponents();
 	}
 	
     public void SetState(MovementState mState)
@@ -42,26 +44,13 @@ public class PlayerPlatformController : PhysicsObject {
         if (paused || gameOver) return;
         Vector2 move = Vector2.zero;
         move = currentMoveState.ComputeVelocity(grounded, ref velocity);
-        //UpdateGrounded only runs when the player-character is grounded
-        if (grounded != animator.GetBool("grounded")) UpdateGrounded(grounded);
+        if (grounded != animator.GetBool("grounded"))
+            animator.SetBool("grounded", grounded);
         bool flipSprite = (spriteRenderer.flipX ? (move.x > 0.01f) : (move.x < -0.01f));
-        if (flipSprite)
-        {
-            spriteRenderer.flipX = !spriteRenderer.flipX;
-        }
-
+        if (flipSprite) spriteRenderer.flipX = !spriteRenderer.flipX;
         targetVelocity = move * maxSpeed;
         animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
         animator.SetFloat("velocityY", velocity.y);
-    }
-
-    /*
-     * Updates the Animator's grounded boolean
-     * ALSO: updates the currentMovementType
-     */
-    private void UpdateGrounded(bool grounded)
-    {
-        animator.SetBool("grounded", grounded);
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -74,25 +63,11 @@ public class PlayerPlatformController : PhysicsObject {
         }
     }
 
-    public void SetSwimmerExhaustion(bool exhausted)
-    {
-        this.exhausted = exhausted;
-    }
-
-    public void SetUnderwater(bool underwater)
-    {
-        this.underwater = underwater;
-        print("Underwater = " + underwater);
-    }
-
-    public bool GetUnderwater()
-    {
-        return underwater;
-    }
-
     public void SetPaused(bool paused)
     {
         this.paused = paused;
+        for (int i = 0; i < childrenListeners.Length; i++)
+            childrenListeners[i].GamePaused(paused);
         if (paused) animator.enabled = false;
         else animator.enabled = true;
     }
@@ -100,5 +75,13 @@ public class PlayerPlatformController : PhysicsObject {
     public void GameOver()
     {
         base.gameOver = true;
+        for (int i = 0; i < childrenListeners.Length; i++)
+            childrenListeners[i].GameOver();
     }
+
+    public void RetrieveChildrenComponents()
+    {
+        childrenListeners = GetComponentsInChildren<ICommonGameEvents>();
+    }
+
 }
