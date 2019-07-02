@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using cpioli.Variables;
+using cpioli.Events;
 
-public class Stamina : Resource {
+public class Stamina : Resource, ICommonGameEvents {
 
     public IntReference strokesInABar;
     public FloatReference replenishmentTime;
@@ -94,5 +95,25 @@ public class Stamina : Resource {
     public void SetPaused(bool paused)
     {
         this.paused = paused;
+    }
+
+    public void GamePaused(bool paused)
+    {
+        this.paused = paused;
+    }
+
+    public void GameOver()
+    {
+        this.paused = true;
+    }
+
+    public void LevelStarted()
+    {
+        
+    }
+
+    public void LevelCompleted()
+    {
+
     }
 }
