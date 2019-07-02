@@ -62,7 +62,9 @@ public class Oxygen : Resource, ICommonGameEvents {
 
     public void LevelStarted()
     {
-        throw new System.NotImplementedException();
+        this.currentValue = maxValue;
+        paused = false;
+        submerged = false;
     }
 
     public void LevelCompleted()

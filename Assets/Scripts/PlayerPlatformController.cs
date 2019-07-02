@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using cpioli.Variables;
 using cpioli.Events;
 
 public class PlayerPlatformController : PhysicsObject {
@@ -14,6 +15,7 @@ public class PlayerPlatformController : PhysicsObject {
     private ICommonGameEvents[] childrenListeners;
     private bool underwater;
 
+    public Vector3Reference startPosition;
     public UnityEvent riverbedWalkingEvent;
     public UnityEvent riverbedStillEvent;
     public float maxSpeed = 7;
@@ -77,6 +79,15 @@ public class PlayerPlatformController : PhysicsObject {
         base.gameOver = true;
         for (int i = 0; i < childrenListeners.Length; i++)
             childrenListeners[i].GameOver();
+    }
+
+    public void LevelBegin()
+    {
+        base.gameOver = false;
+        gameObject.transform.position = startPosition;
+        for (int i = 0; i < childrenListeners.Length; i++)
+            childrenListeners[i].LevelStarted();
+        SetState(moveStateGround);
     }
 
     public void RetrieveChildrenComponents()

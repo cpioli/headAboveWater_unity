@@ -109,7 +109,10 @@ public class Stamina : Resource, ICommonGameEvents {
 
     public void LevelStarted()
     {
-        
+        stoppingReplenishment = false;
+        currentValue = maxValue.Value;
+        paused = false;
+        delayTimer = 0.0f;
     }
 
     public void LevelCompleted()
