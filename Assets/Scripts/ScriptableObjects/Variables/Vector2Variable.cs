@@ -8,7 +8,7 @@ namespace cpioli.Variables
     public class Vector2Variable : ScriptableObject
     {
 #if UNITY_EDITOR
-        [Multiline]
+        [TextArea(3,5)]
         public string DeveloperDescription = "";
 #endif
         public Vector2 Value;

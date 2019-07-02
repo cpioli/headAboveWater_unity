@@ -8,7 +8,7 @@ namespace cpioli.Variables
     public class IntVariable : ScriptableObject
     {
 #if UNITY_EDITOR
-        [Multiline]
+        [TextArea(3, 5)]
         public string DeveloperDescription = "";
 #endif
         public int Value;
