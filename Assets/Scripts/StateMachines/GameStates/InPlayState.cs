@@ -7,6 +7,7 @@ public class InPlayState : GameState {
 
     private bool gamePaused;
 
+    public UnityEvent LevelBeginEvent;
     public UnityEvent PauseEvent;
     public UnityEvent ResumeEvent;
 
@@ -14,6 +15,8 @@ public class InPlayState : GameState {
     {
         base.OnStateEnter(gm);
         gamePaused = false;
+        LevelBeginEvent.Invoke();
+        print("Beginning Level!");
     }
 
     public override void OnStateExit()

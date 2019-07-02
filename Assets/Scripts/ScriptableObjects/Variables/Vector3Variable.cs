@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace cpioli.Variables
 {
+    [CreateAssetMenu(menuName="Variable/Vector3", order =5 )]
     public class Vector3Variable : ScriptableObject
     {
 #if UNITY_EDITOR

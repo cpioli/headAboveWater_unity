@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
         inPlayState = GetComponent<InPlayState>();
         gameOverState = GetComponent<GameOverState>();
         currentGameState = inPlayState;
+        currentGameState.OnStateEnter(this);
 	}
 
 	// Update is called once per frame
@@ -32,5 +33,10 @@ public class GameManager : MonoBehaviour {
     public void SwimmerDies()
     {
         ChangeGameState(gameOverState);
+    }
+
+    public void RestartLevel()
+    {
+        ChangeGameState(inPlayState);
     }
 }
