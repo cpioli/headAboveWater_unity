@@ -41,6 +41,7 @@ public class Oxygen : Resource, ICommonGameEvents {
 
     public void SetSwimmerSubmerged(bool submerged)
     {
+        print("Swimmer submerged? " + submerged);
         this.submerged = submerged;
     }
 
