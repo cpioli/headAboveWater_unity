@@ -8,7 +8,8 @@
     /// </summary>
     public interface ICommonGameEvents
     {
-        void GamePaused(bool paused);
+        void GamePaused();
+        void GameResumed();
         void GameOver();
         void LevelStarted();
         void LevelCompleted();

@@ -45,17 +45,6 @@ public class Oxygen : Resource, ICommonGameEvents {
         this.submerged = submerged;
     }
 
-    public void SetPaused(bool paused)
-    {
-        this.paused = paused;
-    }
-
-    public void GamePaused(bool paused)
-    {
-        print("Intelligent Component System works!");
-        this.paused = paused;
-    }
-
     public void GameOver()
     {
         this.paused = true;
@@ -71,5 +60,15 @@ public class Oxygen : Resource, ICommonGameEvents {
     public void LevelCompleted()
     {
         throw new System.NotImplementedException();
+    }
+
+    public void GamePaused()
+    {
+        this.paused = true;
+    }
+
+    public void GameResumed()
+    {
+        this.paused = false;
     }
 }

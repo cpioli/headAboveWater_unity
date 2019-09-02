@@ -92,16 +92,6 @@ public class Stamina : Resource, ICommonGameEvents {
         stoppingReplenishment = stopping;
     }
 
-    public void SetPaused(bool paused)
-    {
-        this.paused = paused;
-    }
-
-    public void GamePaused(bool paused)
-    {
-        this.paused = paused;
-    }
-
     public void GameOver()
     {
         this.paused = true;
@@ -117,6 +107,15 @@ public class Stamina : Resource, ICommonGameEvents {
 
     public void LevelCompleted()
     {
+    }
 
+    public void GamePaused()
+    {
+        this.paused = true;
+    }
+
+    public void GameResumed()
+    {
+        this.paused = false;
     }
 }

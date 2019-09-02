@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using cpioli.Variables;
 using cpioli.Events;
 
-public class PlayerPlatformController : PhysicsObject {
+public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
     private UnityEvent currentStrokeEvent;
     private SpriteRenderer spriteRenderer;
@@ -12,7 +12,7 @@ public class PlayerPlatformController : PhysicsObject {
     private MovementState currentMoveState;
     private MovementStateInWater moveStateWater;
     private MovementStateOnGround moveStateGround;
-    private ICommonGameEvents[] childrenListeners;
+    //private ICommonGameEvents[] childrenListeners;
     private bool underwater;
 
     public Vector3Reference startPosition;
@@ -30,7 +30,6 @@ public class PlayerPlatformController : PhysicsObject {
         moveStateGround = GetComponent<MovementStateOnGround>();
         currentMoveState = moveStateGround;
         currentMoveState.OnStateEnter(animator);
-        RetrieveChildrenComponents();
 	}
 	
     public void SetState(MovementState mState)
@@ -65,34 +64,33 @@ public class PlayerPlatformController : PhysicsObject {
         }
     }
 
-    public void SetPaused(bool paused)
-    {
-        this.paused = paused;
-        for (int i = 0; i < childrenListeners.Length; i++)
-            childrenListeners[i].GamePaused(paused);
-        if (paused) animator.enabled = false;
-        else animator.enabled = true;
-    }
-
     public void GameOver()
     {
         base.gameOver = true;
-        for (int i = 0; i < childrenListeners.Length; i++)
-            childrenListeners[i].GameOver();
+
     }
 
-    public void LevelBegin()
+    public void GamePaused()
+    {
+        this.paused = true;
+        animator.enabled = false;
+    }
+
+    public void GameResumed()
+    {
+        this.paused = false;
+        animator.enabled = true;
+    }
+
+    public void LevelStarted()
     {
         base.gameOver = false;
         gameObject.transform.position = startPosition;
-        for (int i = 0; i < childrenListeners.Length; i++)
-            childrenListeners[i].LevelStarted();
         SetState(moveStateGround);
     }
 
-    public void RetrieveChildrenComponents()
+    public void LevelCompleted()
     {
-        childrenListeners = GetComponentsInChildren<ICommonGameEvents>();
+        throw new System.NotImplementedException();
     }
-
 }
