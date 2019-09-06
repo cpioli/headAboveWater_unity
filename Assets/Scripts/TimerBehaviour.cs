@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Text;
+using cpioli.Events;
 
-public class TimerBehaviour : MonoBehaviour {
+public class TimerBehaviour : MonoBehaviour, ICommonGameEvents {
 
     private StringBuilder sb; //requires the "using System.Text" declaration
     private Text textObject;
@@ -48,34 +49,35 @@ public class TimerBehaviour : MonoBehaviour {
         textObject.text = sb.ToString();
     }
 
-    //Listens to PauseEvent
-    public void Pause()
-    {
-        paused = true;
-    }
-
-    //Listens to UnpauseEvent
-    public void Resume()
-    {
-        paused = false;
-    }
-
-    //Listens to GameOverEvent
-    public void Stop()
-    {
-        paused = true;
-    }
-
-    //Listens to LevelStartEvent
-    public void Play()
-    {
-        paused = false;
-    }
-
     //Listens to RestartLevelEvent
     public void Reset()
     {
         totalTimePassed = 0.0f;
+    }
+
+    public void GamePaused()
+    {
+        paused = true;
+    }
+
+    public void GameResumed()
+    {
+        paused = false;
+    }
+
+    public void GameOver()
+    {
+        paused = true;
+    }
+
+    public void LevelStarted()
+    {
+        paused = false;
+    }
+
+    public void LevelCompleted()
+    {
+        paused = true;
     }
 }
     
