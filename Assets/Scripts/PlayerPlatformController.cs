@@ -12,7 +12,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     private MovementState currentMoveState;
     private MovementStateInWater moveStateWater;
     private MovementStateOnGround moveStateGround;
-    //private ICommonGameEvents[] childrenListeners;
     private bool underwater;
 
     public Vector3Reference startPosition;
