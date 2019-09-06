@@ -25,8 +25,21 @@ namespace cpioli.Events
             GameOver.Event.RegisterListener(GameOver);
             LevelBegin.Event.RegisterListener(LevelBegin);
 
+            GameObject go = this.gameObject;
+            while(go.transform.parent != null)
+            {
+                go = go.transform.parent.gameObject;
+            }
             ICommonGameEvents[] commonGameEvents =
-                transform.parent.gameObject.GetComponentsInChildren<ICommonGameEvents>();
+                go.GetComponentsInChildren<ICommonGameEvents>();
+
+            if(commonGameEvents.Length == 0)
+            {
+                Debug.Log("No scripts implementing ICommonGameEvents found within GameObject \""
+                    + transform.parent.name
+                    + "\", do its behaviour scripts implement ICommonGameEvents?");
+                return;
+            }
 
             for (int i = commonGameEvents.Length - 1; i >= 0; i--)
             {
