@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Taken from the Unity2d platforming tutorial at 
@@ -79,6 +80,32 @@ public class PhysicsObject : MonoBehaviour {
             for(int i = 0; i < count; i++)
             {
                 hitBufferList.Add(hitBuffer[i]);
+            }
+
+            Tilemap tm;
+            //Code to detect which Tile is hit
+            for(int i = 0; i < hitBufferList.Count; i++)
+            {
+                tm = hitBufferList[i].collider.GetComponent<Tilemap>();
+                if (tm == null) continue;
+                Grid layoutGrid = tm.layoutGrid;
+                Vector2 collisionPos = hitBufferList[i].point;
+                //vector math to find the tilebase
+                Vector2 dir = collisionPos - hitBufferList[i].centroid;
+                Vector2 tilePos = hitBufferList[i].centroid + dir * 2.0f;
+                tilePos.x = Mathf.Floor(tilePos.x);
+                //if (tilePos.x % 2 == 1) tilePos.x -= 1.0f;
+                tilePos.y = Mathf.Floor(tilePos.y);
+                Vector3Int worldPos = new Vector3Int((int)tilePos.x, (int)tilePos.y, 0);
+                Vector3Int cellPos = layoutGrid.WorldToCell(worldPos);                
+                Debug.DrawLine(new Vector3(hitBufferList[i].centroid.x, hitBufferList[i].centroid.y, 1f),
+                    worldPos, Color.blue, 40.0f);
+                TileBase tb = tm.GetTile(cellPos);
+                if (tb == null) print("We couldn't find the tile at location " + tilePos + "!");
+                else
+                {
+                    print("Cell at pos: " + cellPos + ": " + tb.name);
+                }
             }
 
             for (int i = 0; i < hitBufferList.Count; i++)
