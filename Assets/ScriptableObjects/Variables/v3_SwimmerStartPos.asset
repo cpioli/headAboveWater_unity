@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: v3_SwimmerStartPos
   m_EditorClassIdentifier: 
   DeveloperDescription: Starting position for player-character on the test level
-  Value: {x: -20.62, y: 4, z: 0}
+  Value: {x: -24, y: 5, z: 0}
