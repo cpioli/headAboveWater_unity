@@ -18,6 +18,7 @@ public class PhysicsObject : MonoBehaviour {
     protected bool paused;
     protected bool gameOver;
     protected bool grounded;
+    protected bool grabbedLedge;
     protected Vector2 velocity;
     protected Vector2 targetVelocity; //this is where we store incoming input from outside of the class. We're going to plug this into our velocity calculation.
     protected Vector2 groundNormal;
@@ -80,7 +81,7 @@ public class PhysicsObject : MonoBehaviour {
     void Movement(Vector2 move, bool yMovement)
     {
         float distance = move.magnitude;
-
+        if (grabbedLedge) return;
         if (distance > minMoveDistance)
         {
             int count = rBody2d.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
@@ -94,7 +95,7 @@ public class PhysicsObject : MonoBehaviour {
                 {
                    if(SwimmerReachesLedgeTile(ledgeType, ledgeTilePosition))
                     {
-                        print("The Swimmer can grab the edge!");
+                        GrabTheLedge(ledgeTilePosition, ledgeType);
                     }
                 }
             }
@@ -157,12 +158,20 @@ public class PhysicsObject : MonoBehaviour {
 
     }
 
-    private bool SwimmerReachesLedgeTile(LEDGE ledgeType, Vector2 tilePosition)
+    protected bool SwimmerReachesLedgeTile(LEDGE ledgeType, Vector2 tilePosition)
     {
         if (ledgeType == LEDGE.NONE) return false;
         Vector2 distance = rBody2d.position - tilePosition;
         //note: I don't need to check the x component of distance, only the y component.
-        //this method will only be called when the player collides with a ledge
         return (distance.y >= 0.5f && distance.y <= 1.0f);
+    }
+
+    private void GrabTheLedge(Vector2 tilePos, LEDGE ledgeType)
+    {
+        grabbedLedge = true;
+        Vector3 currPosition = transform.position;
+
+        currPosition.y = tilePos.y + 1f;
+        transform.position = currPosition;
     }
 }

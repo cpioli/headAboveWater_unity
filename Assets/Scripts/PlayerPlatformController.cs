@@ -29,6 +29,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         moveStateGround = GetComponent<MovementStateOnGround>();
         currentMoveState = moveStateGround;
         currentMoveState.OnStateEnter(animator);
+        grabbedLedge = false;
 	}
 	
     public void SetState(MovementState mState)
@@ -42,6 +43,38 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     protected override void ComputeVelocity()
     {
         if (paused || gameOver) return;
+        if(grabbedLedge)
+        {
+            if (LettingGoOfLedge())
+            {
+                grabbedLedge = false;
+                CalculateMovement();
+            }
+        } else
+        {
+            CalculateMovement();
+        }
+        
+    }
+
+    private bool LettingGoOfLedge()
+    {
+        bool falling = (ledgeType == LEDGE.LEFT && Input.GetKeyDown(KeyCode.D))
+            || (ledgeType == LEDGE.RIGHT && Input.GetKeyDown(KeyCode.A));
+        bool climbing = (Input.GetKeyDown(KeyCode.Space));
+        if(falling)
+        {
+            print("Falling back");
+        }
+        if(climbing)
+        {
+            print("Climbing");
+        }
+        return falling || climbing;
+    }
+
+    private void CalculateMovement()
+    {
         Vector2 move = Vector2.zero;
         move = currentMoveState.ComputeVelocity(grounded, ref velocity);
         if (grounded != animator.GetBool("grounded"))

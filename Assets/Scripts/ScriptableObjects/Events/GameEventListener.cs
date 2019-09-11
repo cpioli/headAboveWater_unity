@@ -35,7 +35,6 @@ namespace cpioli.Events
 
         public void OnEventRaised()
         {
-            Debug.Log("Event " + name + " has been raised!");
             Response.Invoke();
         }
     }
