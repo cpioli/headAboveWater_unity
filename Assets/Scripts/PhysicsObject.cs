@@ -26,6 +26,14 @@ public class PhysicsObject : MonoBehaviour {
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
     protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D>(16);
 
+    protected enum LEDGE
+    {
+        LEFT,
+        NONE,
+        RIGHT
+    };
+    protected LEDGE ledgeType; //"protected" so accessible to PlayerPlatformController
+
     private void OnEnable()
     {
         rBody2d = GetComponent<Rigidbody2D>();
@@ -77,17 +85,18 @@ public class PhysicsObject : MonoBehaviour {
         {
             int count = rBody2d.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
             hitBufferList.Clear();
+            Vector2 ledgeTilePosition = Vector2.zero;
+            ledgeType = LEDGE.NONE;
             for (int i = 0; i < count; i++)
             {
                 hitBufferList.Add(hitBuffer[i]);
-                if (IsLedgeTile(hitBuffer[i])) print("Hit a ledge tile!");
-            }
-
-
-            //Code to detect which Tile is hit
-            for (int i = 0; i < hitBufferList.Count; i++)
-            {
-
+                if (IsLedgeTile(hitBuffer[i], out ledgeType, out ledgeTilePosition))
+                {
+                   if(SwimmerReachesLedgeTile(ledgeType, ledgeTilePosition))
+                    {
+                        print("The Swimmer can grab the edge!");
+                    }
+                }
             }
 
             for (int i = 0; i < hitBufferList.Count; i++)
@@ -117,12 +126,14 @@ public class PhysicsObject : MonoBehaviour {
         rBody2d.position = rBody2d.position + move.normalized * distance;
     }
 
-    private bool IsLedgeTile(RaycastHit2D hit)
+    private bool IsLedgeTile(RaycastHit2D hit, out LEDGE ledgeType, out Vector2 tilePos)
     {
+        ledgeType = LEDGE.NONE;
+        tilePos = Vector2.zero;
         Tilemap tm = hit.collider.GetComponent<Tilemap>();
         if (tm == null) return false;
 
-        Vector2 tilePos = 2f * hit.point - hit.centroid;
+        tilePos = 2f * hit.point - hit.centroid;
         tilePos.x = Mathf.Floor(tilePos.x);
         tilePos.y = Mathf.Floor(tilePos.y);
         Vector3Int worldPos = new Vector3Int((int)tilePos.x, (int)tilePos.y, 0);
@@ -131,14 +142,27 @@ public class PhysicsObject : MonoBehaviour {
         if (tb == null) return false;
 
         if (string.Equals(tb.name, "spritesheet_ground_39")
-            || string.Equals(tb.name, "spritesheet_ground_40")
             || string.Equals(tb.name, "spritesheet_ground_18")
-            || string.Equals(tb.name, "spritesheet_ground_19")
-            )
+           )
         {
+            ledgeType = LEDGE.RIGHT;
+            return true;
+        } else if(string.Equals(tb.name, "spritesheet_ground_40")
+            || string.Equals(tb.name, "spritesheet_ground_19"))
+        {
+            ledgeType = LEDGE.LEFT;
             return true;
         }
         else return false;
 
+    }
+
+    private bool SwimmerReachesLedgeTile(LEDGE ledgeType, Vector2 tilePosition)
+    {
+        if (ledgeType == LEDGE.NONE) return false;
+        Vector2 distance = rBody2d.position - tilePosition;
+        //note: I don't need to check the x component of distance, only the y component.
+        //this method will only be called when the player collides with a ledge
+        return (distance.y >= 0.5f && distance.y <= 1.0f);
     }
 }
