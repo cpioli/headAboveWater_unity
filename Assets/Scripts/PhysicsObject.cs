@@ -33,20 +33,20 @@ public class PhysicsObject : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         paused = false;
         gameOver = false;
         contactFilter.useTriggers = false;
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useLayerMask = true;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update() {
         if (paused || gameOver) return;
         targetVelocity = Vector2.zero;
         ComputeVelocity();
-	}
+    }
 
     protected virtual void ComputeVelocity()
     {
@@ -77,35 +77,17 @@ public class PhysicsObject : MonoBehaviour {
         {
             int count = rBody2d.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
             hitBufferList.Clear();
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 hitBufferList.Add(hitBuffer[i]);
+                if (IsLedgeTile(hitBuffer[i])) print("Hit a ledge tile!");
             }
 
-            Tilemap tm;
+
             //Code to detect which Tile is hit
-            for(int i = 0; i < hitBufferList.Count; i++)
+            for (int i = 0; i < hitBufferList.Count; i++)
             {
-                tm = hitBufferList[i].collider.GetComponent<Tilemap>();
-                if (tm == null) continue;
-                Grid layoutGrid = tm.layoutGrid;
-                Vector2 collisionPos = hitBufferList[i].point;
-                //vector math to find the tilebase
-                Vector2 dir = collisionPos - hitBufferList[i].centroid;
-                Vector2 tilePos = hitBufferList[i].centroid + dir * 2.0f;
-                tilePos.x = Mathf.Floor(tilePos.x);
-                //if (tilePos.x % 2 == 1) tilePos.x -= 1.0f;
-                tilePos.y = Mathf.Floor(tilePos.y);
-                Vector3Int worldPos = new Vector3Int((int)tilePos.x, (int)tilePos.y, 0);
-                Vector3Int cellPos = layoutGrid.WorldToCell(worldPos);                
-                Debug.DrawLine(new Vector3(hitBufferList[i].centroid.x, hitBufferList[i].centroid.y, 1f),
-                    worldPos, Color.blue, 40.0f);
-                TileBase tb = tm.GetTile(cellPos);
-                if (tb == null) print("We couldn't find the tile at location " + tilePos + "!");
-                else
-                {
-                    print("Cell at pos: " + cellPos + ": " + tb.name);
-                }
+
             }
 
             for (int i = 0; i < hitBufferList.Count; i++)
@@ -114,7 +96,7 @@ public class PhysicsObject : MonoBehaviour {
                 if (currentNormal.y > minGroundNormalY)
                 {
                     grounded = true;
-                    if(yMovement)
+                    if (yMovement)
                     {
                         groundNormal = currentNormal;
                         currentNormal.x = 0;
@@ -122,7 +104,7 @@ public class PhysicsObject : MonoBehaviour {
                 }
 
                 float projection = Vector2.Dot(velocity, currentNormal);
-                if(projection < 0)
+                if (projection < 0)
                 {
                     velocity = velocity - projection * currentNormal;
                 }
@@ -133,5 +115,30 @@ public class PhysicsObject : MonoBehaviour {
         }
 
         rBody2d.position = rBody2d.position + move.normalized * distance;
+    }
+
+    private bool IsLedgeTile(RaycastHit2D hit)
+    {
+        Tilemap tm = hit.collider.GetComponent<Tilemap>();
+        if (tm == null) return false;
+
+        Vector2 tilePos = 2f * hit.point - hit.centroid;
+        tilePos.x = Mathf.Floor(tilePos.x);
+        tilePos.y = Mathf.Floor(tilePos.y);
+        Vector3Int worldPos = new Vector3Int((int)tilePos.x, (int)tilePos.y, 0);
+        Vector3Int cellPos = tm.layoutGrid.WorldToCell(worldPos);
+        TileBase tb = tm.GetTile(cellPos);
+        if (tb == null) return false;
+
+        if (string.Equals(tb.name, "spritesheet_ground_39")
+            || string.Equals(tb.name, "spritesheet_ground_40")
+            || string.Equals(tb.name, "spritesheet_ground_18")
+            || string.Equals(tb.name, "spritesheet_ground_19")
+            )
+        {
+            return true;
+        }
+        else return false;
+
     }
 }
