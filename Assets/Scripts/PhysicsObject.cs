@@ -111,7 +111,6 @@ public class PhysicsObject : MonoBehaviour {
             hitBufferList.Clear();
             ResetHitTiles();
             Vector2 ledgeTilePosition = Vector2.zero;
-            int j = 0;
             for (int i = 0; i < count; i++)
             {
                 hitBufferList.Add(hitBuffer[i]);

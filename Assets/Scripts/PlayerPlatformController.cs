@@ -58,6 +58,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         if (paused || gameOver) return;
         if (!grabbedLedge && !climbing)
         {
+            CalculateMovement();
             grabbedLedge = GrabbingLedge(out lastClimbingLocation);
             if (grabbedLedge)
             {
@@ -65,7 +66,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
                 GrabTheLedge(lastClimbingLocation);
             }
         }
-        if(grabbedLedge)
+        else if(grabbedLedge && !climbing)
         {
             if (LettingGoOfLedge())
             {
@@ -78,16 +79,11 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
                 CalculateMovement();
             }
         }
-        else
+        else if(!grabbedLedge && climbing)
         {
-            /*if(climbing)
-            {
-                Vector2 distance = rBody2d.position - lastClimbingLocation;
-                if (distance.magnitude > 1.0f)
+            Vector2 distance = rBody2d.position - lastClimbingLocation;
+            if (distance.magnitude > 1.0f)
                     climbing = false;
-            }*/
-
-            CalculateMovement();
         }
         
     }
@@ -150,7 +146,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         }
         tilePos = new Vector2(tilesHit[i].worldPos.x, tilesHit[i].worldPos.y);
         Vector2 distance = rBody2d.position - tilePos;
-        return (distance.y >= 0.5f && distance.y <= 1.2f);
+        return (distance.y >= 0.25f && distance.y <= 1.2f);
         
     }
 
