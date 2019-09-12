@@ -6,7 +6,23 @@ using UnityEngine.Tilemaps;
 /// <summary>
 /// Taken from the Unity2d platforming tutorial at 
 /// </summary>
+/// 
+
+
+
 public class PhysicsObject : MonoBehaviour {
+    //note: "TileData" is used by 2d-extras for its code
+    //I might want to consider using a different name for this struct
+    public struct TileData
+    {
+        public Vector3Int worldPos { get; set; }
+        public string name { get; set; }
+        public TileData(Vector3Int v3i, string name = "")
+        {
+            worldPos = v3i;
+            this.name = name;
+        }
+    }
 
 
     public float minGroundNormalY = .65f;
@@ -27,19 +43,25 @@ public class PhysicsObject : MonoBehaviour {
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
     protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D>(16);
 
-    protected enum LEDGE
-    {
-        LEFT,
-        NONE,
-        RIGHT
-    };
-    protected LEDGE ledgeType; //"protected" so accessible to PlayerPlatformController
+    protected TileData[] tilesHit = new TileData[3];
+
+
+
 
     private void OnEnable()
     {
         rBody2d = GetComponent<Rigidbody2D>();
+
     }
 
+    private void ResetHitTiles()
+    {
+        for (int i = 0; i < tilesHit.Length; i++)
+        {
+            tilesHit[i].name = "";
+            tilesHit[i].worldPos = Vector3Int.zero;
+        }
+    }
 
     // Use this for initialization
     void Start() {
@@ -65,6 +87,8 @@ public class PhysicsObject : MonoBehaviour {
     void FixedUpdate()
     {
         if (paused || gameOver) return;
+        if (grabbedLedge) return;
+
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
         velocity.x = targetVelocity.x;
 
@@ -81,23 +105,19 @@ public class PhysicsObject : MonoBehaviour {
     void Movement(Vector2 move, bool yMovement)
     {
         float distance = move.magnitude;
-        if (grabbedLedge) return;
         if (distance > minMoveDistance)
         {
             int count = rBody2d.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
             hitBufferList.Clear();
+            ResetHitTiles();
             Vector2 ledgeTilePosition = Vector2.zero;
-            ledgeType = LEDGE.NONE;
+            int j = 0;
             for (int i = 0; i < count; i++)
             {
                 hitBufferList.Add(hitBuffer[i]);
-                if (IsLedgeTile(hitBuffer[i], out ledgeType, out ledgeTilePosition))
-                {
-                   if(SwimmerReachesLedgeTile(ledgeType, ledgeTilePosition))
-                    {
-                        GrabTheLedge(ledgeTilePosition, ledgeType);
-                    }
-                }
+                Tilemap tm = hitBuffer[i].collider.GetComponent<Tilemap>();
+                if (tm == null) continue;
+                GetTile(hitBuffer[i], out tilesHit[i]);
             }
 
             for (int i = 0; i < hitBufferList.Count; i++)
@@ -127,51 +147,24 @@ public class PhysicsObject : MonoBehaviour {
         rBody2d.position = rBody2d.position + move.normalized * distance;
     }
 
-    private bool IsLedgeTile(RaycastHit2D hit, out LEDGE ledgeType, out Vector2 tilePos)
+    private void GetTile(RaycastHit2D hit, out TileData data)
     {
-        ledgeType = LEDGE.NONE;
-        tilePos = Vector2.zero;
+        data = new TileData();
         Tilemap tm = hit.collider.GetComponent<Tilemap>();
-        if (tm == null) return false;
+        if (tm == null) return;
 
-        tilePos = 2f * hit.point - hit.centroid;
+        Vector2 tilePos = 2f * hit.point - hit.centroid;
         tilePos.x = Mathf.Floor(tilePos.x);
         tilePos.y = Mathf.Floor(tilePos.y);
         Vector3Int worldPos = new Vector3Int((int)tilePos.x, (int)tilePos.y, 0);
         Vector3Int cellPos = tm.layoutGrid.WorldToCell(worldPos);
         TileBase tb = tm.GetTile(cellPos);
-        if (tb == null) return false;
 
-        if (string.Equals(tb.name, "spritesheet_ground_39")
-            || string.Equals(tb.name, "spritesheet_ground_18")
-           )
-        {
-            ledgeType = LEDGE.RIGHT;
-            return true;
-        } else if(string.Equals(tb.name, "spritesheet_ground_40")
-            || string.Equals(tb.name, "spritesheet_ground_19"))
-        {
-            ledgeType = LEDGE.LEFT;
-            return true;
-        }
-        else return false;
+        if (tb == null) return;
+        data.name = tb.name;
+        data.worldPos = worldPos;
 
     }
 
-    protected bool SwimmerReachesLedgeTile(LEDGE ledgeType, Vector2 tilePosition)
-    {
-        if (ledgeType == LEDGE.NONE) return false;
-        Vector2 distance = rBody2d.position - tilePosition;
-        //note: I don't need to check the x component of distance, only the y component.
-        return (distance.y >= 0.5f && distance.y <= 1.0f);
-    }
 
-    private void GrabTheLedge(Vector2 tilePos, LEDGE ledgeType)
-    {
-        grabbedLedge = true;
-        Vector3 currPosition = transform.position;
-
-        currPosition.y = tilePos.y + 1f;
-        transform.position = currPosition;
-    }
 }
