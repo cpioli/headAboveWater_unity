@@ -16,52 +16,57 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     private Vector2 lastClimbingLocation;
     private UnityEvent currentStrokeEvent;
     private SpriteRenderer spriteRenderer;
-    private MovementState currentMoveState;
-    private MovementStateInWater moveStateWater;
-    private MovementStateOnGround moveStateGround;
-    public bool inWater;
-    private bool climbing;
+    private PlayerMovementState currentPMState;
+    //private bool climbing;
 
+    [HideInInspector]
+    public bool xMovement;
+    [HideInInspector]
+    public Vector2 move;
+    public PlayerMovementState initialPMState;
     public Animator animator;
     public bool exhausted;
+    public bool inWater;
     public Vector3Reference startPosition;
     public UnityEvent riverbedWalkingEvent;
     public UnityEvent riverbedStillEvent;
     public float maxSpeed = 7;
     public float jumpTakeOffSpeed = 7f;
-    [HideInInspector]
-    public bool xMovement;
-    [HideInInspector]
-    public Vector2 move;
-
 
     void Awake ()
     {
         lastClimbingLocation = Vector2.zero;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        moveStateWater = GetComponent<MovementStateInWater>();
-        moveStateGround = GetComponent<MovementStateOnGround>();
-        currentMoveState = moveStateGround;
-        currentMoveState.OnStateEnter(animator);
-        grabbedLedge = false;
-        climbing = false;
+        SetState(initialPMState);
+        //grabbedLedge = false;
+        //climbing = false;
         inWater = false;
         move = Vector2.zero;
+        exhausted = false;
 	}
 	
-    public void SetState(MovementState mState)
+    public void SetState(PlayerMovementState mState)
     {
-        currentMoveState.OnStateExit();
-        currentMoveState = mState;
-        currentMoveState.OnStateEnter(animator);
+        if(currentPMState != null)
+            currentPMState.OnStateExit(this);
+        currentPMState = mState;
+        currentPMState.OnStateEnter(this);
     }
 
     //called once per frame (FixedVelocity can be called more than once per frame)
     protected override void ComputeVelocity()
     {
         if (paused || gameOver) return;
-        if (!grabbedLedge && !climbing)
+        currentPMState.ComputeVelocity(this, ref this.velocity);
+        if (grounded != animator.GetBool("grounded"))
+            animator.SetBool("grounded", grounded);
+        bool flipSprite = (spriteRenderer.flipX ? (move.x > 0.01f) : (move.x < -0.01f));
+        if (flipSprite) spriteRenderer.flipX = !spriteRenderer.flipX;
+        targetVelocity.x = move.x * maxSpeed;
+        animator.SetFloat("velocityX", Mathf.Abs(targetVelocity.x) / maxSpeed);
+        animator.SetFloat("velocityY", targetVelocity.y);
+        /*if (!grabbedLedge && !climbing)
         {
             CalculateMovement();
             grabbedLedge = GrabbingLedge(out lastClimbingLocation);
@@ -89,8 +94,8 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
             Vector2 distance = rBody2d.position - lastClimbingLocation;
             if (distance.magnitude > 1.0f)
                     climbing = false;
-        }
-        
+        }*/
+
     }
 
     private bool LettingGoOfLedge()
@@ -118,14 +123,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
     private void CalculateMovement()
     {
-        move = currentMoveState.ComputeVelocity(grounded, ref velocity);
-        if (grounded != animator.GetBool("grounded"))
-            animator.SetBool("grounded", grounded);
-        bool flipSprite = (spriteRenderer.flipX ? (move.x > 0.01f) : (move.x < -0.01f));
-        if (flipSprite) spriteRenderer.flipX = !spriteRenderer.flipX;
-        targetVelocity = move * maxSpeed;
-        animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
-        animator.SetFloat("velocityY", velocity.y);
+
     }
 
     private bool GrabbingLedge(out Vector2 tilePos)
@@ -156,22 +154,11 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
     private void GrabTheLedge(Vector2 tilePos)
     {
-        grabbedLedge = true;
+        //grabbedLedge = true;
         Vector3 currPosition = transform.position;
 
         currPosition.y = tilePos.y + 1f;
         transform.position = currPosition;
-    }
-
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.CompareTag("water"))
-        {
-            print("UNDERWATER!");
-            inWater = true;
-            SetState(moveStateWater);
-            velocity.y *= 0.6f;
-        }
     }
 
     public void GameOver()
@@ -196,7 +183,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     {
         base.gameOver = false;
         gameObject.transform.position = startPosition;
-        SetState(moveStateGround);
     }
 
     public void LevelCompleted()
@@ -204,5 +190,15 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         throw new System.NotImplementedException();
     }
 
-    
+    public bool FindCollision(string tagName)
+    {
+        for(int i = 0; i < hitBufferList.Count; i++)
+        {
+            if (hitBufferList[i].collider.gameObject.CompareTag(tagName))
+                return true;
+        }
+
+        return false;
+        
+    }    
 }

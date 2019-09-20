@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: SwimmerMidairState
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMidairState
+  gravityModifier:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: a03674cea9dafdf4f9fef408b9f212ad, type: 2}
+  jumpTakeOffVelocity:
+    UseConstant: 0
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: b08ff44a9464bdc4aa6f3628197a4b75, type: 2}
+  moveVelocity:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: fc5051966d75f7448a599da11f3772fa, type: 2}
+  PlayerAbovewaterState: {fileID: 11400000, guid: e40d716b5cb4cfb43a31db743f573f8c,
+    type: 2}

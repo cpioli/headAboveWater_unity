@@ -31,7 +31,7 @@ public class PhysicsObject : MonoBehaviour {
     protected bool paused;
     protected bool gameOver;
     protected bool grounded;
-    protected bool grabbedLedge;
+    //protected bool grabbedLedge;
     protected Vector2 velocity;
     protected Vector2 targetVelocity; //this is where we store incoming input from outside of the class. We're going to plug this into our velocity calculation.
     protected Vector2 groundNormal;
@@ -61,7 +61,7 @@ public class PhysicsObject : MonoBehaviour {
     void Start() {
         paused = false;
         gameOver = false;
-        contactFilter.useTriggers = false;
+        contactFilter.useTriggers = true;
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useLayerMask = true;
     }
@@ -81,7 +81,7 @@ public class PhysicsObject : MonoBehaviour {
     void FixedUpdate()
     {
         if (paused || gameOver) return;
-        if (grabbedLedge) return;
+        //if (grabbedLedge) return;
 
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
         velocity.x = targetVelocity.x;
@@ -115,6 +115,7 @@ public class PhysicsObject : MonoBehaviour {
 
             for (int i = 0; i < hitBufferList.Count; i++)
             {
+                if (hitBufferList[i].collider.isTrigger) continue;
                 Vector2 currentNormal = hitBufferList[i].normal;
                 if (currentNormal.y > minGroundNormalY)
                 {

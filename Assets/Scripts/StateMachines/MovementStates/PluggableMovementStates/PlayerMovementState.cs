@@ -8,99 +8,18 @@ public abstract class PlayerMovementState : ScriptableObject {
 
     public FloatReference gravityModifier;
     public FloatReference jumpTakeOffVelocity;
-    public FloatReference moveVelocity;
+    public Vector2Reference moveVelocity;
 
-    public abstract void ComputeVelocity(PlayerPlatformController ppc);
+    public abstract void ComputeVelocity(PlayerPlatformController ppc, ref Vector2 velocity);
     public virtual void OnStateEnter(PlayerPlatformController ppc)
     {
         ppc.gravityModifier = this.gravityModifier;
         ppc.jumpTakeOffSpeed = this.jumpTakeOffVelocity;
-        ppc.maxSpeed = this.moveVelocity;
+        ppc.maxSpeed = this.moveVelocity.Value.x;
     }
     public virtual void OnStateExit(PlayerPlatformController ppc)
     {
 
-    }
-}
-
-public class PlayerSwimState : PlayerMovementState
-{
-    public UnityEvent StrokeEvent;
-    public override void OnStateEnter(PlayerPlatformController ppc)
-    {
-        base.OnStateEnter(ppc);
-    }
-
-    public override void OnStateExit(PlayerPlatformController ppc)
-    {
-        base.OnStateExit(ppc);
-    }
-
-    public override void ComputeVelocity(PlayerPlatformController ppc)
-    {
-        ppc.move = Vector2.zero;
-        ppc.move.x = Input.GetAxis("Horizontal");
-        if (ppc.exhausted) return;
-        if (Input.GetButtonDown("Jump"))
-        {
-            ppc.move.y = ppc.jumpTakeOffSpeed;
-            ppc.animator.SetTrigger("strokePerformed");
-            StrokeEvent.Invoke();
-        }
-    }
-}
-
-public abstract class SwimmingAbovewaterState : PlayerSwimState
-{
-    public UnityEvent AbovewaterStrokeEvent;
-
-    public override void OnStateEnter(PlayerPlatformController ppc)
-    {
-        base.OnStateEnter(ppc);
-        ppc.animator.SetBool("inWater", true);
-    }
-
-    public override void OnStateExit(PlayerPlatformController ppc)
-    {
-        base.OnStateExit(ppc);
-    }
-
-    public override void ComputeVelocity(PlayerPlatformController ppc)
-    {
-        base.ComputeVelocity(ppc);
-        if(Input.GetButtonDown("Jump")) AbovewaterStrokeEvent.Invoke();
-    }
-}
-
-public class SwimmingUnderwaterState : PlayerSwimState
-{
-
-    public UnityEvent UnderwaterStrokeEvent;
-
-    public override void OnStateEnter(PlayerPlatformController ppc)
-    {
-        base.OnStateEnter(ppc);
-        ppc.animator.SetBool("inWater", true);
-    }
-
-    public override void OnStateExit(PlayerPlatformController ppc)
-    {
-        base.OnStateExit(ppc);
-    }
-
-    public override void ComputeVelocity(PlayerPlatformController ppc)
-    {
-        base.ComputeVelocity(ppc);
-        if (Input.GetButtonDown("Jump")) UnderwaterStrokeEvent.Invoke();
-    }
-}
-
-public class PlayerMidairState : PlayerMovementState
-{
-    public override void ComputeVelocity(PlayerPlatformController ppc)
-    {
-        ppc.move = Vector2.zero;
-        ppc.move.x = Input.GetAxis("Horizontal");
     }
 }
 
@@ -116,7 +35,7 @@ public class LedgeHangState : PlayerMovementState
         base.OnStateExit(ppc);
     }
 
-    public override void ComputeVelocity(PlayerPlatformController ppc)
+    public override void ComputeVelocity(PlayerPlatformController ppc, ref Vector2 velocity)
     {
         if ((Input.GetKeyUp(KeyCode.A) && ppc.ledgeType == PlayerPlatformController.LEDGE.LEFT)
          || (Input.GetKeyUp(KeyCode.D) && ppc.ledgeType == PlayerPlatformController.LEDGE.RIGHT)
@@ -135,7 +54,7 @@ public class LedgeHangState : PlayerMovementState
 
 public class ClimbingOverLedgeState : PlayerMovementState
 {
-    public override void ComputeVelocity(PlayerPlatformController ppc)
+    public override void ComputeVelocity(PlayerPlatformController ppc, ref Vector2 velocity)
     {
         throw new System.NotImplementedException();
     }
