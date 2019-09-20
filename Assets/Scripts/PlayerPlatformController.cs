@@ -5,24 +5,25 @@ using cpioli.Events;
 
 public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
-    protected enum LEDGE
+    public enum LEDGE
     {
         LEFT,
         NONE,
         RIGHT
     };
-    protected LEDGE ledgeType;
+    public LEDGE ledgeType;
 
     private Vector2 lastClimbingLocation;
     private UnityEvent currentStrokeEvent;
     private SpriteRenderer spriteRenderer;
-    private Animator animator;
     private MovementState currentMoveState;
     private MovementStateInWater moveStateWater;
     private MovementStateOnGround moveStateGround;
-    private bool underwater;
+    public bool inWater;
     private bool climbing;
 
+    public Animator animator;
+    public bool exhausted;
     public Vector3Reference startPosition;
     public UnityEvent riverbedWalkingEvent;
     public UnityEvent riverbedStillEvent;
@@ -30,6 +31,8 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     public float jumpTakeOffSpeed = 7f;
     [HideInInspector]
     public bool xMovement;
+    [HideInInspector]
+    public Vector2 move;
 
 
     void Awake ()
@@ -43,6 +46,8 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         currentMoveState.OnStateEnter(animator);
         grabbedLedge = false;
         climbing = false;
+        inWater = false;
+        move = Vector2.zero;
 	}
 	
     public void SetState(MovementState mState)
@@ -113,7 +118,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
     private void CalculateMovement()
     {
-        Vector2 move = Vector2.zero;
         move = currentMoveState.ComputeVelocity(grounded, ref velocity);
         if (grounded != animator.GetBool("grounded"))
             animator.SetBool("grounded", grounded);
@@ -141,7 +145,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         }
         if (i == tilesHit.Length)
         {
-            print("No ledge type!");
+            //print("No ledge type!");
             return false;
         }
         tilePos = new Vector2(tilesHit[i].worldPos.x, tilesHit[i].worldPos.y);
@@ -164,6 +168,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         if(collision.CompareTag("water"))
         {
             print("UNDERWATER!");
+            inWater = true;
             SetState(moveStateWater);
             velocity.y *= 0.6f;
         }
@@ -198,7 +203,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     {
         throw new System.NotImplementedException();
     }
-    /*
-     * 
-     */
+
+    
 }

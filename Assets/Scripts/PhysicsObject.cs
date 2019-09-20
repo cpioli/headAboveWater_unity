@@ -7,9 +7,6 @@ using UnityEngine.Tilemaps;
 /// Taken from the Unity2d platforming tutorial at 
 /// </summary>
 /// 
-
-
-
 public class PhysicsObject : MonoBehaviour {
     //note: "TileData" is used by 2d-extras for its code
     //I might want to consider using a different name for this struct
@@ -44,9 +41,6 @@ public class PhysicsObject : MonoBehaviour {
     protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D>(16);
 
     protected TileData[] tilesHit = new TileData[3];
-
-
-
 
     private void OnEnable()
     {
