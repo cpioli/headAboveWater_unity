@@ -115,7 +115,11 @@ public class PhysicsObject : MonoBehaviour {
 
             for (int i = 0; i < hitBufferList.Count; i++)
             {
-                if (hitBufferList[i].collider.isTrigger) continue;
+                if (hitBufferList[i].collider.isTrigger)
+                {
+                    print("We're in the water!");
+                    continue;
+                }
                 Vector2 currentNormal = hitBufferList[i].normal;
                 if (currentNormal.y > minGroundNormalY)
                 {

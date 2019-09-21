@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using cpioli.Events;
 
 [CreateAssetMenu(menuName = "StateSystem/Swimmer/Abovewater", order = 2)]
 public class SwimmingAbovewaterState : PlayerSwimState
 {
-    public UnityEvent AbovewaterStrokeEvent;
+    public GameEvent AbovewaterStrokeEvent;
+    public PlayerMovementState UnderwaterState;
 
     public override void OnStateEnter(PlayerPlatformController ppc)
     {
@@ -24,6 +25,8 @@ public class SwimmingAbovewaterState : PlayerSwimState
     public override void ComputeVelocity(PlayerPlatformController ppc, ref Vector2 velocity)
     {
         base.ComputeVelocity(ppc, ref velocity);
-        if (Input.GetButtonDown("Jump")) AbovewaterStrokeEvent.Invoke();
+        if (Input.GetButtonDown("Jump")) AbovewaterStrokeEvent.Raise();
+        if (CheckHeadUnderwater(ppc)) ppc.SetState(UnderwaterState);
+        
     }
 }

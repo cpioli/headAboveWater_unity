@@ -30,4 +30,9 @@ public abstract class PlayerSwimState : PlayerMovementState
             StrokeEvent.Invoke();
         }
     }
+
+    protected bool CheckHeadUnderwater(PlayerPlatformController ppc)
+    {
+        return ppc.headCollider.IsTouching(ppc.waterCollider);
+    }
 }

@@ -23,6 +23,8 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     public bool xMovement;
     [HideInInspector]
     public Vector2 move;
+    [HideInInspector]
+    public BoxCollider2D headCollider, waterCollider;
     public PlayerMovementState initialPMState;
     public Animator animator;
     public bool exhausted;
@@ -44,7 +46,9 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         inWater = false;
         move = Vector2.zero;
         exhausted = false;
-	}
+        headCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
+        waterCollider = GameObject.FindGameObjectWithTag("water").GetComponent<BoxCollider2D>();
+    }
 	
     public void SetState(PlayerMovementState mState)
     {
