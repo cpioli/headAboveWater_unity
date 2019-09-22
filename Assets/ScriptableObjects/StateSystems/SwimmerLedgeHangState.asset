@@ -8,13 +8,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: SwimmerAbovewaterState
-  m_EditorClassIdentifier: Assembly-CSharp::SwimmingAbovewaterState
+  m_Script: {fileID: 11500000, guid: a58040efb255f41489cab8e018151664, type: 3}
+  m_Name: SwimmerLedgeHangState
+  m_EditorClassIdentifier: 
   gravityModifier:
-    UseConstant: 0
+    UseConstant: 1
     ConstantValue: 0
-    Variable: {fileID: 11400000, guid: fc3cd9b0482b2fc4799f3fbf244849a5, type: 2}
+    Variable: {fileID: 0}
   jumpTakeOffVelocity:
     UseConstant: 0
     ConstantValue: 0
@@ -23,7 +23,6 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0}
     Variable: {fileID: 11400000, guid: 045c04cb616e3b140804aa421a3675fc, type: 2}
-  StrokeEvent: {fileID: 11400000, guid: 75815b1a0ab04c04e96afe9d38170da1, type: 2}
-  AbovewaterStrokeEvent: {fileID: 11400000, guid: f732cb3027f4b124d894768f1637bf82,
+  UnderwaterSwimState: {fileID: 11400000, guid: 2fe0ba2ea396a5d41a7883a6ca83376a,
     type: 2}
-  UnderwaterState: {fileID: 11400000, guid: 2fe0ba2ea396a5d41a7883a6ca83376a, type: 2}
+  LedgeClimbingState: {fileID: 11400000, guid: 01feb0b142e3b0b4baeb94cb4d653747, type: 2}

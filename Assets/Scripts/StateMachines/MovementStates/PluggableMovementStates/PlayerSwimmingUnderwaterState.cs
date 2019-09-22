@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using cpioli.Events;
 
 [CreateAssetMenu(menuName = "StateSystem/Swimmer/Underwater", order = 3)]
@@ -10,6 +8,7 @@ public class SwimmingUnderwaterState : PlayerSwimState
     public GameEvent UnderwaterStrokeEvent;
     public PlayerMovementState AbovewaterState;
     public PlayerMovementState GroundedState;
+    public PlayerMovementState LedgeHangState;
 
     public override void OnStateEnter(PlayerPlatformController ppc)
     {
@@ -31,8 +30,14 @@ public class SwimmingUnderwaterState : PlayerSwimState
         if (ppc.isGrounded())
         {
             ppc.SetState(GroundedState);
-            return;
         }
-        if (!CheckHeadUnderwater(ppc)) ppc.SetState(AbovewaterState);
+        if (!CheckHeadUnderwater(ppc))
+        {
+            ppc.SetState(AbovewaterState);
+        }
+        if (ppc.GrabbingLedge())
+        {
+            ppc.SetState(LedgeHangState);
+        }
     }
 }

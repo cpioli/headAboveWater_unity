@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using cpioli.Events;
 
 [CreateAssetMenu (menuName ="StateSystem/Swimmer/GroundedUnderwater", order = 4)]

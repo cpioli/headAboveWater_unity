@@ -13,7 +13,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     };
     public LEDGE ledgeType;
 
-    private Vector2 lastClimbingLocation;
+    public Vector2 lastClimbingLocation;
     private UnityEvent currentStrokeEvent;
     private SpriteRenderer spriteRenderer;
     private PlayerMovementState currentPMState;
@@ -130,10 +130,13 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
     }
 
-    private bool GrabbingLedge(out Vector2 tilePos)
+    public bool GrabbingLedge()
     {
-        tilePos = Vector2.zero;
-        if (tilesHit[0].worldPos == Vector3Int.zero) return false;
+        lastClimbingLocation = Vector2.zero;
+        if (tilesHit[0].worldPos == Vector3Int.zero)
+        {
+            return false;
+        }
         int i;
         for (i = 0; i < tilesHit.Length; i++)
         {
@@ -147,12 +150,11 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         }
         if (i == tilesHit.Length)
         {
-            //print("No ledge type!");
             return false;
         }
-        tilePos = new Vector2(tilesHit[i].worldPos.x, tilesHit[i].worldPos.y);
-        Vector2 distance = rBody2d.position - tilePos;
-        return (distance.y >= 0.25f && distance.y <= 1.2f);
+        lastClimbingLocation = new Vector2(tilesHit[i].worldPos.x, tilesHit[i].worldPos.y);
+        Vector2 distance = rBody2d.position - lastClimbingLocation;
+        return (distance.y >= 0.25f && distance.y <= 1.4f);
         
     }
 

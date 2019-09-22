@@ -31,7 +31,6 @@ public class PhysicsObject : MonoBehaviour {
     protected bool paused;
     protected bool gameOver;
     protected bool grounded;
-    //protected bool grabbedLedge;
     protected Vector2 velocity;
     protected Vector2 targetVelocity; //this is where we store incoming input from outside of the class. We're going to plug this into our velocity calculation.
     protected Vector2 groundNormal;
@@ -81,7 +80,6 @@ public class PhysicsObject : MonoBehaviour {
     void FixedUpdate()
     {
         if (paused || gameOver) return;
-        //if (grabbedLedge) return;
 
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
         velocity.x = targetVelocity.x;
@@ -105,19 +103,20 @@ public class PhysicsObject : MonoBehaviour {
             hitBufferList.Clear();
             ResetHitTiles();
             Vector2 ledgeTilePosition = Vector2.zero;
+            int j = 0;
             for (int i = 0; i < count; i++)
             {
                 hitBufferList.Add(hitBuffer[i]);
                 Tilemap tm = hitBuffer[i].collider.GetComponent<Tilemap>();
                 if (tm == null) continue;
-                GetTile(hitBuffer[i], out tilesHit[i]);
+                GetTile(hitBuffer[i], out tilesHit[j]);
+                j++;
             }
 
             for (int i = 0; i < hitBufferList.Count; i++)
             {
                 if (hitBufferList[i].collider.isTrigger)
                 {
-                    print("We're in the water!");
                     continue;
                 }
                 Vector2 currentNormal = hitBufferList[i].normal;
