@@ -41,3 +41,4 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   AbovewaterStrokeEvent: {fileID: 11400000, guid: f732cb3027f4b124d894768f1637bf82,
     type: 2}
+  UnderwaterState: {fileID: 11400000, guid: 2fe0ba2ea396a5d41a7883a6ca83376a, type: 2}

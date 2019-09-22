@@ -204,5 +204,10 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
         return false;
         
-    }    
+    }
+    
+    public bool isGrounded()
+    {
+        return this.grounded;
+    }
 }

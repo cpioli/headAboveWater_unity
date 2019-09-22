@@ -9,6 +9,7 @@ public class SwimmingUnderwaterState : PlayerSwimState
 
     public GameEvent UnderwaterStrokeEvent;
     public PlayerMovementState AbovewaterState;
+    public PlayerMovementState GroundedState;
 
     public override void OnStateEnter(PlayerPlatformController ppc)
     {
@@ -27,6 +28,11 @@ public class SwimmingUnderwaterState : PlayerSwimState
     {
         base.ComputeVelocity(ppc, ref velocity);
         if (Input.GetButtonDown("Jump")) UnderwaterStrokeEvent.Raise();
+        if (ppc.isGrounded())
+        {
+            ppc.SetState(GroundedState);
+            return;
+        }
         if (!CheckHeadUnderwater(ppc)) ppc.SetState(AbovewaterState);
     }
 }
