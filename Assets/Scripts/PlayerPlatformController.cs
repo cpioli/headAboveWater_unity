@@ -11,29 +11,31 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         NONE,
         RIGHT
     };
-    public LEDGE ledgeType;
 
-    public Vector2 lastClimbingLocation;
-    private UnityEvent currentStrokeEvent;
     private SpriteRenderer spriteRenderer;
     private PlayerMovementState currentPMState;
-    //private bool climbing;
 
+    [HideInInspector]
+    public bool exhausted;
+    [HideInInspector]
+    public float maxSpeed = 7;
+    [HideInInspector]
+    public float jumpTakeOffSpeed = 7f;
+    [HideInInspector]
+    public Vector2 lastClimbingLocation;
     [HideInInspector]
     public bool xMovement;
     [HideInInspector]
     public Vector2 move;
     [HideInInspector]
     public BoxCollider2D headCollider, waterCollider;
-    public PlayerMovementState initialPMState;
+    [HideInInspector]
     public Animator animator;
-    public bool exhausted;
-    public bool inWater;
+    [HideInInspector]
+    public LEDGE ledgeType;
+
+    public PlayerMovementState initialPMState;
     public Vector3Reference startPosition;
-    public UnityEvent riverbedWalkingEvent;
-    public UnityEvent riverbedStillEvent;
-    public float maxSpeed = 7;
-    public float jumpTakeOffSpeed = 7f;
 
     void Awake ()
     {
@@ -41,9 +43,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         SetState(initialPMState);
-        //grabbedLedge = false;
-        //climbing = false;
-        inWater = false;
         move = Vector2.zero;
         exhausted = false;
         headCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
@@ -68,66 +67,8 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         bool flipSprite = (spriteRenderer.flipX ? (move.x > 0.01f) : (move.x < -0.01f));
         if (flipSprite) spriteRenderer.flipX = !spriteRenderer.flipX;
         targetVelocity.x = move.x * maxSpeed;
-        animator.SetFloat("velocityX", Mathf.Abs(targetVelocity.x) / maxSpeed);
-        animator.SetFloat("velocityY", targetVelocity.y);
-        /*if (!grabbedLedge && !climbing)
-        {
-            CalculateMovement();
-            grabbedLedge = GrabbingLedge(out lastClimbingLocation);
-            if (grabbedLedge)
-            {
-                print("I grabbed the ledge!?");
-                GrabTheLedge(lastClimbingLocation);
-            }
-        }
-        else if(grabbedLedge && !climbing)
-        {
-            if (LettingGoOfLedge())
-            {
-                grabbedLedge = false;
-                CalculateMovement();
-            } else if(ClimbingOverLedge())
-            {
-                grabbedLedge = false;
-                climbing = true;
-                CalculateMovement();
-            }
-        }
-        else if(!grabbedLedge && climbing)
-        {
-            Vector2 distance = rBody2d.position - lastClimbingLocation;
-            if (distance.magnitude > 1.0f)
-                    climbing = false;
-        }*/
-
-    }
-
-    private bool LettingGoOfLedge()
-    {
-        bool falling = (ledgeType == LEDGE.LEFT && Input.GetKeyDown(KeyCode.A))
-            || (ledgeType == LEDGE.RIGHT && Input.GetKeyDown(KeyCode.D))
-            || (Input.GetKeyDown(KeyCode.S));
-        if(falling)
-        {
-            print("Falling down");
-        }
-
-        return falling;
-    }
-
-    private bool ClimbingOverLedge()
-    {
-        bool isClimbing = (Input.GetKeyDown(KeyCode.Space));
-        if (isClimbing)
-        {
-            print("Climbing");
-        }
-        return isClimbing;
-    }
-
-    private void CalculateMovement()
-    {
-
+        animator.SetFloat("velocityX", move.x);
+        animator.SetFloat("velocityY", velocity.y);
     }
 
     public bool GrabbingLedge()
@@ -156,15 +97,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         Vector2 distance = rBody2d.position - lastClimbingLocation;
         return (distance.y >= 0.25f && distance.y <= 1.4f);
         
-    }
-
-    private void GrabTheLedge(Vector2 tilePos)
-    {
-        //grabbedLedge = true;
-        Vector3 currPosition = transform.position;
-
-        currPosition.y = tilePos.y + 1f;
-        transform.position = currPosition;
     }
 
     public void GameOver()
@@ -205,7 +137,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         }
 
         return false;
-        
     }
     
     public bool isGrounded()
