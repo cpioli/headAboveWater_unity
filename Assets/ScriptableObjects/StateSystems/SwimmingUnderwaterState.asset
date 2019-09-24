@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: SwimmerUnderwaterState
+  m_Name: SwimmingUnderwaterState
   m_EditorClassIdentifier: Assembly-CSharp::SwimmingUnderwaterState
   gravityModifier:
     UseConstant: 0
@@ -26,6 +26,6 @@ MonoBehaviour:
   StrokeEvent: {fileID: 11400000, guid: 75815b1a0ab04c04e96afe9d38170da1, type: 2}
   UnderwaterStrokeEvent: {fileID: 11400000, guid: a0d3f94259216f043b5aa09f450a62ff,
     type: 2}
-  AbovewaterState: {fileID: 11400000, guid: e40d716b5cb4cfb43a31db743f573f8c, type: 2}
+  AbovewaterState: {fileID: 11400000, guid: adbfdb54a2333e44f9a604cb7f6913cb, type: 2}
   GroundedState: {fileID: 11400000, guid: 8d80e1c44820723448a48d641d7f0254, type: 2}
   LedgeHangState: {fileID: 11400000, guid: 6050d2ece29fdf949ae412740dc7210f, type: 2}

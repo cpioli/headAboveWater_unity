@@ -27,5 +27,5 @@ MonoBehaviour:
     type: 2}
   StillOnRiverbedEvent: {fileID: 11400000, guid: 07bd9f227d6340947b0ecae7f9e96f5b,
     type: 2}
-  playerUnderwaterState: {fileID: 11400000, guid: 2fe0ba2ea396a5d41a7883a6ca83376a,
+  playerUnderwaterState: {fileID: 11400000, guid: f6a42d1a56318e14c9aac07965167be3,
     type: 2}
