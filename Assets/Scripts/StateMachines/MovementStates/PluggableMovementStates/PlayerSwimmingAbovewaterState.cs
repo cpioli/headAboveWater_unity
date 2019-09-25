@@ -4,8 +4,9 @@ using UnityEngine;
 using cpioli.Events;
 
 [CreateAssetMenu(menuName = "StateSystem/Swimmer/Abovewater", order = 2)]
-public class SwimmingAbovewaterState : PlayerSwimState
+public class SwimmingAbovewaterState : PlayerMovementState
 {
+    public GameEvent StrokeEvent;
     public GameEvent AbovewaterStrokeEvent;
     public PlayerMovementState UnderwaterState;
 
@@ -24,9 +25,18 @@ public class SwimmingAbovewaterState : PlayerSwimState
 
     public override void ComputeVelocity(PlayerPlatformController ppc, ref Vector2 velocity)
     {
-        base.ComputeVelocity(ppc, ref velocity);
+        ppc.move = Vector2.zero;
+        ppc.move.x = Input.GetAxis("Horizontal");
+        if (ppc.exhausted) return;
+        if (Input.GetButtonDown("Jump"))
+        {
+            Debug.Log("Jumping!");
+            velocity.y = ppc.jumpTakeOffSpeed;
+            ppc.animator.SetTrigger("strokePerformed");
+            StrokeEvent.Raise();
+        }
         if (Input.GetButtonDown("Jump")) AbovewaterStrokeEvent.Raise();
-        if (CheckHeadUnderwater(ppc)) ppc.SetState(UnderwaterState);
+        if (ppc.headCollider.IsTouching(ppc.waterCollider)) ppc.SetState(UnderwaterState);
         
     }
 }

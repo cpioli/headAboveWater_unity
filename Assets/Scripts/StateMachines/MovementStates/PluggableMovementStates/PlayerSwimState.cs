@@ -18,20 +18,8 @@ public class PlayerSwimState : PlayerMovementState
 
     public override void ComputeVelocity(PlayerPlatformController ppc, ref Vector2 velocity)
     {
-        ppc.move = Vector2.zero;
-        ppc.move.x = Input.GetAxis("Horizontal");
-        if (ppc.exhausted) return;
-        if (Input.GetButtonDown("Jump"))
-        {
-            Debug.Log("Jumping!");
-            velocity.y = ppc.jumpTakeOffSpeed;
-            ppc.animator.SetTrigger("strokePerformed");
-            StrokeEvent.Raise();
-        }
+
     }
 
-    protected bool CheckHeadUnderwater(PlayerPlatformController ppc)
-    {
-        return ppc.headCollider.IsTouching(ppc.waterCollider);
-    }
+
 }
