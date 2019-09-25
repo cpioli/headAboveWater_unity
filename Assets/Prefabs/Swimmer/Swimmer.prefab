@@ -1193,45 +1193,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minGroundNormalY: 0.65
   gravityModifier: 1
+  exhausted: 0
+  maxSpeed: 2.5
+  jumpTakeOffSpeed: 7
+  lastClimbingLocation: {x: 0, y: 0}
+  xMovement: 0
+  move: {x: 0, y: 0}
+  headCollider: {fileID: 0}
+  waterCollider: {fileID: 0}
+  animator: {fileID: 0}
+  ledgeType: 0
+  initialPMState: {fileID: 0}
   startPosition:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
     Variable: {fileID: 11400000, guid: 1596c1cbdb06a2349b0010581b21d5df, type: 2}
-  riverbedWalkingEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 25b36a9ca014cc34c956e70c5204a98e, type: 2}
-        m_MethodName: Raise
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  riverbedStillEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 07bd9f227d6340947b0ecae7f9e96f5b, type: 2}
-        m_MethodName: Raise
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  maxSpeed: 2.5
-  jumpTakeOffSpeed: 7
-  xMovement: 0
 --- !u!212 &212241708545828322
 SpriteRenderer:
   m_ObjectHideFlags: 1
