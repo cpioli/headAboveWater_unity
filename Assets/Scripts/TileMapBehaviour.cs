@@ -8,7 +8,8 @@ public class TileMapBehaviour : MonoBehaviour {
 
     [Range(0.01f, 0.5f)]
     public float radius;
-    public TileBase[] LedgeTiles;
+    public TileBase[] LeftLedgeTiles;
+    public TileBase[] RightLedgeTiles;
     public GameObject ledgeColliderContainer;
 
     private const int cellToScreenWidth = 16; //16 cells in the screen
@@ -102,12 +103,12 @@ public class TileMapBehaviour : MonoBehaviour {
             if (currLedgeIndices[1] == nextLedgeIndices[0])
             { //we have exited the sector to our left
                 print("Removing colliders from index " + currLedgeIndices[0]);
-                //RemoveColliders(currLedgeIndices[0]);
+                RemoveColliders(currLedgeIndices[0]);
             }
             else if (currLedgeIndices[0] == nextLedgeIndices[0])
             { //we have exited the sector to our right
                 print("Removing colliders from index " + currLedgeIndices[1]);
-                //RemoveColliders(currLedgeIndices[1]);
+                RemoveColliders(currLedgeIndices[1]);
             }
         }
         else //if the player's rigidbody is in two sectors (rule: the sectors will always be adjacent)
@@ -117,12 +118,12 @@ public class TileMapBehaviour : MonoBehaviour {
             if (currLedgeIndices[0] == nextLedgeIndices[0])
             {
                 print("Adding colliders from index " + nextLedgeIndices[1]);
-                //AddColliders(nextLedgeIndices[1]);
+                AddColliders(nextLedgeIndices[1]);
             }
             else if (currLedgeIndices[0] == nextLedgeIndices[1])
             {
                 print("Adding colliders from index " + nextLedgeIndices[0]);
-                //AddColliders(nextLedgeIndices[0]);
+                AddColliders(nextLedgeIndices[0]);
             }
         }
     }
@@ -172,6 +173,7 @@ public class TileMapBehaviour : MonoBehaviour {
         int rowMax = (int)tilemapBounds.max.y;
         Vector3Int tilePosition = Vector3Int.zero;
         TileBase tb;
+        PlayerPlatformController.LEDGE ledgeType;
         while (col <= colMax)
         {
             row = (int)tilemapBounds.min.y;
@@ -181,24 +183,16 @@ public class TileMapBehaviour : MonoBehaviour {
                 tilePosition.y = row;
                 tilePosition.z = 0;
                 tilePosition = tilemap.WorldToCell(tilePosition);
+                ledgeType = PlayerPlatformController.LEDGE.NONE;
                 tb = null;
                 if (tilemap.HasTile(tilePosition))
                 {
                     tb = tilemap.GetTile(tilePosition);
-                }
-                else
-                {
-                    row++;
-                    continue;
-                }
-                if ( tb != null &&IsLedgeTile(ref tb))
-                {
-                    InsertTileIntoIndex(ref tb, ref tilePosition);
-                }
-                else
-                {
-                    row++;
-                    continue;
+                    ledgeType = IsLedgeTile(ref tb);
+                    if (ledgeType != PlayerPlatformController.LEDGE.NONE)
+                    {
+                        InsertTileIntoIndex(ref ledgeType, ref tilePosition);
+                    }
                 }
                 row++;
             }
@@ -206,21 +200,34 @@ public class TileMapBehaviour : MonoBehaviour {
         }
     }
 
-    private bool IsLedgeTile(ref TileBase _Tile)
+    private PlayerPlatformController.LEDGE IsLedgeTile(ref TileBase _Tile)
     {
-        for(int i = 0; i < LedgeTiles.Length; i++)
+        if (_Tile == null) return PlayerPlatformController.LEDGE.NONE;
+
+        for(int i = 0; i < LeftLedgeTiles.Length; i++)
         {
-            if (_Tile.name.Equals(LedgeTiles[i].name)) return true;
+            if (_Tile.name.Equals(LeftLedgeTiles[i].name))
+                return PlayerPlatformController.LEDGE.LEFT;
+        }
+        for(int i = 0; i < RightLedgeTiles.Length; i++)
+        {
+            if (_Tile.name.Equals(RightLedgeTiles[i].name))
+                return PlayerPlatformController.LEDGE.RIGHT;
         }
 
-        return false;
+        return PlayerPlatformController.LEDGE.NONE;
        
     }
 
-    private void InsertTileIntoIndex(ref TileBase tb, ref Vector3Int position)
+    private void InsertTileIntoIndex(ref PlayerPlatformController.LEDGE ledgeType, ref Vector3Int position)
     {
         int key = position.x / cellToScreenWidth;
         Vector2Int localPosition = new Vector2Int(position.x, position.y);
+        if(ledgeType == PlayerPlatformController.LEDGE.RIGHT)
+        {
+            localPosition.x += 1;
+        }
+        localPosition.y += 1;
         if(!ledgeIndex.ContainsKey(key))
         {
             ledgeIndex.Add(key, new List<Vector2Int>());
