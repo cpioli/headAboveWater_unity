@@ -9,6 +9,7 @@ public class TileMapBehaviour : MonoBehaviour {
     [Range(0.01f, 0.5f)]
     public float radius;
     public TileBase[] LedgeTiles;
+    public GameObject ledgeColliderContainer;
 
     private const int cellToScreenWidth = 16; //16 cells in the screen
     private int[] nextLedgeIndices = new int[2];
@@ -16,18 +17,18 @@ public class TileMapBehaviour : MonoBehaviour {
     private float playerWidth;
     private Bounds tilemapBounds;
     private CircleCollider2D[] colliders = new CircleCollider2D[16];
-    private Dictionary<int, LinkedList<Vector3Int>> ledgeIndex;
+    private Dictionary<int, List<Vector3Int>> ledgeIndex;
     private Tilemap tilemap;
     private TileData tileData;
     private Vector2 playerPosition;
     private GameObject swimmer;
 
-	// Use this for initialization
-	void Awake () {
-		try
+    // Use this for initialization
+    void Awake() {
+        try
         {
             tilemap = GetComponent<Tilemap>();
-        } catch(NullReferenceException e)
+        } catch (NullReferenceException e)
         {
             Debug.LogError("Could not find the Tilemap in object " + name);
             return;
@@ -35,22 +36,25 @@ public class TileMapBehaviour : MonoBehaviour {
         tilemapBounds = tilemap.localBounds;
         playerWidth = GameObject.Find("Swimmer").GetComponent<CapsuleCollider2D>().size.x;
         swimmer = GameObject.Find("Swimmer");
-        ledgeIndex = new Dictionary<int, LinkedList<Vector3Int>>();
+        ledgeIndex = new Dictionary<int, List<Vector3Int>>();
         CreateLedgeIndex();
         nextLedgeIndices[0] = int.MinValue;
         nextLedgeIndices[1] = int.MinValue;
         currLedgeIndices[0] = int.MinValue;
         currLedgeIndices[1] = int.MinValue;
         UpdateSwimmerPosition(swimmer.transform.position, ref currLedgeIndices);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if(!UpdateSwimmerPosition(swimmer.transform.position, ref nextLedgeIndices))
+    }
+
+    // Update is called once per frame
+    void Update() {
+        if (!UpdateSwimmerPosition(swimmer.transform.position, ref nextLedgeIndices))
         {
             print("New section(s) entered: " + nextLedgeIndices[0] + ", " + nextLedgeIndices[1]);
+            ReassignColliders();
+            currLedgeIndices[0] = nextLedgeIndices[0];
+            currLedgeIndices[1] = nextLedgeIndices[1];
         }
-	}
+    }
 
     /// <summary>
     /// Returns true if ledge indices change
@@ -66,7 +70,7 @@ public class TileMapBehaviour : MonoBehaviour {
             indices[0] = index1;
             indices[1] = index1 + 1;
         }
-        else if(xPos < (float)(playerWidth / 2.0f))
+        else if (xPos < (float)(playerWidth / 2.0f))
         {
             indices[0] = index1 - 1;
             indices[1] = index1;
@@ -81,9 +85,9 @@ public class TileMapBehaviour : MonoBehaviour {
 
     private void InitializeColliders()
     {
-        for(int i = 0; i < colliders.Length; i++)
+        for (int i = 0; i < colliders.Length; i++)
         {
-            colliders[i] = new CircleCollider2D();
+            colliders[i] = ledgeColliderContainer.AddComponent(typeof(CircleCollider2D)) as CircleCollider2D;
             colliders[i].radius = radius;
             colliders[i].transform.position = Vector3.zero;
         }
@@ -91,20 +95,71 @@ public class TileMapBehaviour : MonoBehaviour {
 
     private void ReassignColliders()
     {
-        if(currLedgeIndices[0] != nextLedgeIndices[0]
-            && currLedgeIndices[0] != nextLedgeIndices[1])
+        //if the Swimmer's rigidbody is only located in one sector
+        if (nextLedgeIndices[1] == int.MinValue)
         {
-
+            if (currLedgeIndices[1] == nextLedgeIndices[0])
+            { //we have exited the sector to our left
+                print("Removing colliders from index " + currLedgeIndices[0]);
+                //RemoveColliders(currLedgeIndices[0]);
+            }
+            else if (currLedgeIndices[0] == nextLedgeIndices[0])
+            { //we have exited the sector to our right
+                print("Removing colliders from index " + currLedgeIndices[1]);
+                //RemoveColliders(currLedgeIndices[1]);
+            }
+        }
+        else //if the player's rigidbody is in two sectors (rule: the sectors will always be adjacent)
+        {
+            print("Player is overlapping two sectors!");
+            //if the player is "going right"
+            if (currLedgeIndices[0] == nextLedgeIndices[0])
+            {
+                print("Adding colliders from index " + nextLedgeIndices[1]);
+                //AddColliders(nextLedgeIndices[1]);
+            }
+            else if (currLedgeIndices[0] == nextLedgeIndices[1])
+            {
+                print("Adding colliders from index " + nextLedgeIndices[0]);
+                //AddColliders(nextLedgeIndices[0]);
+            }
         }
     }
 
     private void RemoveColliders(int index)
     {
-        LinkedList<Vector3Int> collidersToRemove = ledgeIndex[index];
-
+        List<Vector3Int> collidersToRemove = ledgeIndex[index]; //remove the colliders from the most previous sector
         for(int i = 0; i < collidersToRemove.Count; i++)
         {
-            
+            for(int j = 0; j < colliders.Length; j++)
+            {
+                if (colliders[j].transform.position == collidersToRemove[i])
+                {
+                    colliders[j].transform.position = Vector3.zero;
+                    break;
+                }
+            }
+        }
+    }
+
+    private void AddColliders(int index)
+    {
+        List<Vector3Int> collidersToAdd = ledgeIndex[index];
+        int thisColliderToAdd = 0, collidersIndex = 0;
+        while(thisColliderToAdd < collidersToAdd.Count)
+        {
+            try
+            {
+                if(colliders[ collidersIndex ].transform.position == Vector3.zero)
+                {
+                    colliders[collidersIndex].transform.position = collidersToAdd[thisColliderToAdd];
+                    thisColliderToAdd++;
+                }
+            } catch (IndexOutOfRangeException e)
+            {
+                Debug.LogError("Error: Not enough room for every Ledge collider!\n" + e.ToString());
+            }
+            collidersIndex++;
         }
     }
 
@@ -114,7 +169,6 @@ public class TileMapBehaviour : MonoBehaviour {
         int row = (int)tilemapBounds.min.y;
         int colMax = (int)tilemapBounds.max.x;
         int rowMax = (int)tilemapBounds.max.y;
-        print("Bounds: " + "(" + col + "," + row + ")" + "," + "(" + colMax + "," + rowMax + ")");
         Vector3Int tilePosition = Vector3Int.zero;
         TileBase tb;
         while (col <= colMax)
@@ -167,8 +221,8 @@ public class TileMapBehaviour : MonoBehaviour {
         int key = position.x / cellToScreenWidth;
         if(!ledgeIndex.ContainsKey(key))
         {
-            ledgeIndex.Add(key, new LinkedList<Vector3Int>());
+            ledgeIndex.Add(key, new List<Vector3Int>());
         }
-        ledgeIndex[key].AddLast(position);
+        ledgeIndex[key].Add(position);
     }
 }
