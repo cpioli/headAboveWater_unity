@@ -8,9 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: SwimmerMidairState
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMidairState
+  m_Script: {fileID: 11500000, guid: 1f16e29bc7c7b5b4c9bd4bce5072ee56, type: 3}
+  m_Name: SwimmerMidair
+  m_EditorClassIdentifier: 
   gravityModifier:
     UseConstant: 0
     ConstantValue: 0
@@ -23,5 +23,5 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0}
     Variable: {fileID: 11400000, guid: fc5051966d75f7448a599da11f3772fa, type: 2}
-  PlayerAbovewaterState: {fileID: 11400000, guid: adbfdb54a2333e44f9a604cb7f6913cb,
+  PlayerAbovewaterState: {fileID: 11400000, guid: 0fc77691ce81eff42b9d535872e2b558,
     type: 2}

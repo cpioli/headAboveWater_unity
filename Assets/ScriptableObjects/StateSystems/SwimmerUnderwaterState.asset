@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50546702f2af32c4f838d9023ec98d17, type: 3}
+  m_Name: SwimmerUnderwaterState
+  m_EditorClassIdentifier: 
+  gravityModifier:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  jumpTakeOffVelocity:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  moveVelocity:
+    UseConstant: 1
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 0}
+  StrokeEvent: {fileID: 0}
+  UnderwaterStrokeEvent: {fileID: 0}
+  AbovewaterState: {fileID: 0}
+  GroundedState: {fileID: 0}
+  LedgeHangState: {fileID: 0}

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using cpioli.Events;
 
-[CreateAssetMenu(menuName = "StateSystem/Swimmer/Abovewater", order = 2)]
-public class SwimmingAbovewaterState : PlayerMovementState
+[CreateAssetMenu(menuName="StateSystem/Swimmer/Abovewater", order = 2)]
+public class PlayerSwimmingAbovewaterState : PlayerMovementState
 {
     public GameEvent StrokeEvent;
     public GameEvent AbovewaterStrokeEvent;

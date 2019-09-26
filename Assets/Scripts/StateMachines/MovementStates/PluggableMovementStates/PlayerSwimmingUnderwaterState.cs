@@ -2,7 +2,7 @@
 using cpioli.Events;
 
 [CreateAssetMenu(menuName = "StateSystem/Swimmer/Underwater", order = 3)]
-public class SwimmingUnderwaterState : PlayerMovementState
+public class PlayerSwimmingUnderwaterState : PlayerMovementState
 {
     public GameEvent StrokeEvent;
     public GameEvent UnderwaterStrokeEvent;
