@@ -12,19 +12,20 @@ MonoBehaviour:
   m_Name: SwimmerUnderwaterState
   m_EditorClassIdentifier: 
   gravityModifier:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: fc3cd9b0482b2fc4799f3fbf244849a5, type: 2}
   jumpTakeOffVelocity:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 0
-    Variable: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 8ea7e2ee43381c54e8883a8aa9411854, type: 2}
   moveVelocity:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 0}
-  StrokeEvent: {fileID: 0}
-  UnderwaterStrokeEvent: {fileID: 0}
-  AbovewaterState: {fileID: 0}
-  GroundedState: {fileID: 0}
-  LedgeHangState: {fileID: 0}
+    Variable: {fileID: 11400000, guid: 045c04cb616e3b140804aa421a3675fc, type: 2}
+  StrokeEvent: {fileID: 11400000, guid: 75815b1a0ab04c04e96afe9d38170da1, type: 2}
+  UnderwaterStrokeEvent: {fileID: 11400000, guid: a0d3f94259216f043b5aa09f450a62ff,
+    type: 2}
+  AbovewaterState: {fileID: 11400000, guid: 0fc77691ce81eff42b9d535872e2b558, type: 2}
+  GroundedState: {fileID: 11400000, guid: 8d80e1c44820723448a48d641d7f0254, type: 2}
+  LedgeHangState: {fileID: 11400000, guid: 6050d2ece29fdf949ae412740dc7210f, type: 2}

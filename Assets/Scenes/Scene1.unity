@@ -1398,7 +1398,7 @@ Prefab:
         type: 2}
       propertyPath: initialPMState
       value: 
-      objectReference: {fileID: 11400000, guid: 8de09d43ce7b092499c72cbbc6d216fa,
+      objectReference: {fileID: 11400000, guid: 1f20d2985e713cb43872f1405876d049,
         type: 2}
     - target: {fileID: 114348551094711792, guid: 18e5cb9d70d6bd64a859e6c8f8f63522,
         type: 2}
@@ -8966,11 +8966,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 0.16
-  LedgeTiles:
-  - {fileID: 11400000, guid: 25fb659bf344fa04584b36952de6bcc9, type: 2}
-  - {fileID: 11400000, guid: 8b047f8cb661eb64f99e8a46994c3d90, type: 2}
-  - {fileID: 11400000, guid: ac3baf8c4b243164584e8aed5175a449, type: 2}
-  - {fileID: 11400000, guid: 1e7a800b5c3d1c34b930e7c720d2da24, type: 2}
+  LeftLedgeTiles: []
+  RightLedgeTiles: []
   ledgeColliderContainer: {fileID: 186385085}
 --- !u!66 &1816771408
 CompositeCollider2D:
