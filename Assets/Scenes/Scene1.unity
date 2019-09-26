@@ -8965,13 +8965,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4bf50754528bd408b1b80d493a9229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.01
+  radius: 0.16
   LedgeTiles:
   - {fileID: 11400000, guid: 25fb659bf344fa04584b36952de6bcc9, type: 2}
   - {fileID: 11400000, guid: 8b047f8cb661eb64f99e8a46994c3d90, type: 2}
   - {fileID: 11400000, guid: ac3baf8c4b243164584e8aed5175a449, type: 2}
   - {fileID: 11400000, guid: 1e7a800b5c3d1c34b930e7c720d2da24, type: 2}
-  ledgeTileContainer: {fileID: 186385085}
+  ledgeColliderContainer: {fileID: 186385085}
 --- !u!66 &1816771408
 CompositeCollider2D:
   m_ObjectHideFlags: 0

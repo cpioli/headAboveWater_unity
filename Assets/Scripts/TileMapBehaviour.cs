@@ -17,7 +17,7 @@ public class TileMapBehaviour : MonoBehaviour {
     private float playerWidth;
     private Bounds tilemapBounds;
     private CircleCollider2D[] colliders = new CircleCollider2D[16];
-    private Dictionary<int, List<Vector3Int>> ledgeIndex;
+    private Dictionary<int, List<Vector2Int>> ledgeIndex;
     private Tilemap tilemap;
     private TileData tileData;
     private Vector2 playerPosition;
@@ -36,8 +36,9 @@ public class TileMapBehaviour : MonoBehaviour {
         tilemapBounds = tilemap.localBounds;
         playerWidth = GameObject.Find("Swimmer").GetComponent<CapsuleCollider2D>().size.x;
         swimmer = GameObject.Find("Swimmer");
-        ledgeIndex = new Dictionary<int, List<Vector3Int>>();
+        ledgeIndex = new Dictionary<int, List<Vector2Int>>();
         CreateLedgeIndex();
+        InitializeColliders();
         nextLedgeIndices[0] = int.MinValue;
         nextLedgeIndices[1] = int.MinValue;
         currLedgeIndices[0] = int.MinValue;
@@ -89,7 +90,7 @@ public class TileMapBehaviour : MonoBehaviour {
         {
             colliders[i] = ledgeColliderContainer.AddComponent(typeof(CircleCollider2D)) as CircleCollider2D;
             colliders[i].radius = radius;
-            colliders[i].transform.position = Vector3.zero;
+            colliders[i].offset = Vector2.zero;
         }
     }
 
@@ -128,14 +129,14 @@ public class TileMapBehaviour : MonoBehaviour {
 
     private void RemoveColliders(int index)
     {
-        List<Vector3Int> collidersToRemove = ledgeIndex[index]; //remove the colliders from the most previous sector
+        List<Vector2Int> collidersToRemove = ledgeIndex[index]; //remove the colliders from the most previous sector
         for(int i = 0; i < collidersToRemove.Count; i++)
         {
             for(int j = 0; j < colliders.Length; j++)
             {
-                if (colliders[j].transform.position == collidersToRemove[i])
+                if (colliders[j].offset == collidersToRemove[i])
                 {
-                    colliders[j].transform.position = Vector3.zero;
+                    colliders[j].offset = Vector2.zero;
                     break;
                 }
             }
@@ -144,15 +145,15 @@ public class TileMapBehaviour : MonoBehaviour {
 
     private void AddColliders(int index)
     {
-        List<Vector3Int> collidersToAdd = ledgeIndex[index];
+        List<Vector2Int> collidersToAdd = ledgeIndex[index];
         int thisColliderToAdd = 0, collidersIndex = 0;
         while(thisColliderToAdd < collidersToAdd.Count)
         {
             try
             {
-                if(colliders[ collidersIndex ].transform.position == Vector3.zero)
+                if(colliders[ collidersIndex ].offset == Vector2.zero)
                 {
-                    colliders[collidersIndex].transform.position = collidersToAdd[thisColliderToAdd];
+                    colliders[collidersIndex].offset = collidersToAdd[thisColliderToAdd];
                     thisColliderToAdd++;
                 }
             } catch (IndexOutOfRangeException e)
@@ -219,10 +220,11 @@ public class TileMapBehaviour : MonoBehaviour {
     private void InsertTileIntoIndex(ref TileBase tb, ref Vector3Int position)
     {
         int key = position.x / cellToScreenWidth;
+        Vector2Int localPosition = new Vector2Int(position.x, position.y);
         if(!ledgeIndex.ContainsKey(key))
         {
-            ledgeIndex.Add(key, new List<Vector3Int>());
+            ledgeIndex.Add(key, new List<Vector2Int>());
         }
-        ledgeIndex[key].Add(position);
+        ledgeIndex[key].Add(localPosition);
     }
 }
