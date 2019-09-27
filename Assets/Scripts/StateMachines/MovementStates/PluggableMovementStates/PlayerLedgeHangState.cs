@@ -16,7 +16,7 @@ public class PlayerLedgeHangState : PlayerMovementState
         currentPos.y = ppc.lastClimbingLocation.y + 1.0f;
         currentPos.x = ppc.lastClimbingLocation.x - 0.25f;
         if (ppc.ledgeType == PlayerPlatformController.LEDGE.RIGHT)
-            currentPos.x = ppc.lastClimbingLocation.x + 1.0f;
+            currentPos.x = ppc.lastClimbingLocation.x + 1.25f;
         ppc.gameObject.transform.position = currentPos;
         ppc.move = Vector2.zero;
         ppc.SetHanging(true);

@@ -48,6 +48,7 @@ public class PlayerSwimmingUnderwaterState : PlayerMovementState
         if (ppc.FindCollision("Ledge"))//ppc.GrabbingLedge())
         {
             ppc.GetLedgeInfo(ppc.move);
+            if (ppc.ledgeType == PlayerPlatformController.LEDGE.NONE) return;
             ppc.SetState(LedgeHangState);
         }
     }
