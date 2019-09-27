@@ -734,6 +734,60 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5984764, y: 2.2495098}
   m_EdgeRadius: 0
+--- !u!1 &437790073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 437790074}
+  - component: {fileID: 437790075}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &437790074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 437790073}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2068779822}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &437790075
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 437790073}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.09}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.63}
+  m_EdgeRadius: 0
 --- !u!1 &469805155
 GameObject:
   m_ObjectHideFlags: 0
@@ -1466,6 +1520,18 @@ Prefab:
         type: 2}
       propertyPath: listeners.Array.data[0].Response.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4692381842693490, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668735665197678, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891786666612504, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114828094706189298, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
@@ -8966,8 +9032,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 0.16
-  LeftLedgeTiles: []
-  RightLedgeTiles: []
+  LeftLedgeTiles:
+  - {fileID: 11400000, guid: 8b047f8cb661eb64f99e8a46994c3d90, type: 2}
+  - {fileID: 11400000, guid: 1e7a800b5c3d1c34b930e7c720d2da24, type: 2}
+  RightLedgeTiles:
+  - {fileID: 11400000, guid: ac3baf8c4b243164584e8aed5175a449, type: 2}
+  - {fileID: 11400000, guid: 25fb659bf344fa04584b36952de6bcc9, type: 2}
   ledgeColliderContainer: {fileID: 186385085}
 --- !u!66 &1816771408
 CompositeCollider2D:

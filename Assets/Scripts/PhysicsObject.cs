@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -28,6 +29,7 @@ public class PhysicsObject : MonoBehaviour {
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
 
+    protected bool hanging;
     protected bool paused;
     protected bool gameOver;
     protected bool grounded;
@@ -47,7 +49,7 @@ public class PhysicsObject : MonoBehaviour {
 
     }
 
-    private void ResetHitTiles()
+    protected void ResetHitTiles()
     {
         for (int i = 0; i < tilesHit.Length; i++)
         {
@@ -80,7 +82,7 @@ public class PhysicsObject : MonoBehaviour {
     void FixedUpdate()
     {
         if (paused || gameOver) return;
-
+        if (hanging) return;
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
         velocity.x = targetVelocity.x;
 
@@ -109,7 +111,15 @@ public class PhysicsObject : MonoBehaviour {
                 hitBufferList.Add(hitBuffer[i]);
                 Tilemap tm = hitBuffer[i].collider.GetComponent<Tilemap>();
                 if (tm == null) continue;
-                GetTile(hitBuffer[i], out tilesHit[j]);
+                try
+                {
+                    GetTile(hitBuffer[i], out tilesHit[j]);
+                } catch(IndexOutOfRangeException e)
+                {
+                    Debug.LogError("Error: too many bodies hit:\n");
+                    Debug.LogError("count: " + count + "\n");
+                    Debug.LogError("distance: " + distance + "\n");
+                }
                 j++;
             }
 
@@ -144,7 +154,7 @@ public class PhysicsObject : MonoBehaviour {
         rBody2d.position = rBody2d.position + move.normalized * distance;
     }
 
-    private void GetTile(RaycastHit2D hit, out TileData data)
+    protected void GetTile(RaycastHit2D hit, out TileData data)
     {
         data = new TileData();
         Tilemap tm = hit.collider.GetComponent<Tilemap>();

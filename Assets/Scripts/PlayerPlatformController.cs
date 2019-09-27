@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 using cpioli.Variables;
 using cpioli.Events;
 
@@ -14,6 +14,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
     private SpriteRenderer spriteRenderer;
     private PlayerMovementState currentPMState;
+    private Tilemap tilemap;
 
     [HideInInspector]
     public bool exhausted;
@@ -28,7 +29,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     [HideInInspector]
     public Vector2 move;
     [HideInInspector]
-    public BoxCollider2D headCollider, waterCollider;
+    public BoxCollider2D headCollider, waterCollider, ledgeHangCollider;
     [HideInInspector]
     public Animator animator;
     [HideInInspector]
@@ -47,6 +48,8 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         exhausted = false;
         headCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
         waterCollider = GameObject.FindGameObjectWithTag("water").GetComponent<BoxCollider2D>();
+        ledgeHangCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
+        tilemap = GameObject.Find("Platforms").GetComponent<Tilemap>();
     }
 	
     public void SetState(PlayerMovementState mState)
@@ -69,34 +72,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         targetVelocity.x = move.x * maxSpeed;
         animator.SetFloat("velocityX", move.x);
         animator.SetFloat("velocityY", velocity.y);
-    }
-
-    public bool GrabbingLedge()
-    {
-        lastClimbingLocation = Vector2.zero;
-        if (tilesHit[0].worldPos == Vector3Int.zero)
-        {
-            return false;
-        }
-        int i;
-        for (i = 0; i < tilesHit.Length; i++)
-        {
-            if (string.Equals(tilesHit[i].name, "spritesheet_ground_39")
-             || string.Equals(tilesHit[i].name, "spritesheet_ground_18")
-             || string.Equals(tilesHit[i].name, "spritesheet_ground_40")
-             || string.Equals(tilesHit[i].name, "spritesheet_ground_19"))
-            {
-                break;
-            }
-        }
-        if (i == tilesHit.Length)
-        {
-            return false;
-        }
-        lastClimbingLocation = new Vector2(tilesHit[i].worldPos.x, tilesHit[i].worldPos.y);
-        Vector2 distance = rBody2d.position - lastClimbingLocation;
-        return (distance.y >= 0.25f && distance.y <= 1.4f);
-        
     }
 
     public void GameOver()
@@ -133,7 +108,10 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         for(int i = 0; i < hitBufferList.Count; i++)
         {
             if (hitBufferList[i].collider.gameObject.CompareTag(tagName))
+            {
                 return true;
+            }
+
         }
 
         return false;
@@ -142,5 +120,38 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     public bool isGrounded()
     {
         return this.grounded;
+    }
+
+    public void SetHanging(bool isHanging)
+    {
+        hanging = isHanging;
+    }
+
+    public void GetLedgeInfo(Vector2 move)
+    {
+        print("Getting ledge info");
+        int count = rBody2d.Cast(move, contactFilter, hitBuffer, 1.0f);
+        ResetHitTiles();
+        TileData td;
+        for (int i = 0; i < count; i++)
+        {
+            Tilemap tm = hitBuffer[i].collider.GetComponent<Tilemap>();
+            if (tm == null) continue;
+            GetTile(hitBuffer[i], out td);
+            if (string.Equals(td.name, "spritesheet_ground_39")
+             || string.Equals(td.name, "spritesheet_ground_18"))
+            {
+                ledgeType = LEDGE.RIGHT;
+                lastClimbingLocation.x = td.worldPos.x;
+                lastClimbingLocation.y = td.worldPos.y;
+            }
+            else if (string.Equals(td.name, "spritesheet_ground_40")
+           || string.Equals(td.name, "spritesheet_ground_19"))
+            {
+                ledgeType = LEDGE.LEFT;
+                lastClimbingLocation.x = td.worldPos.x;
+                lastClimbingLocation.y = td.worldPos.y;
+            }
+        }
     }
 }

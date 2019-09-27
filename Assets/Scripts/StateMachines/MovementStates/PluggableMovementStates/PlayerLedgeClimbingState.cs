@@ -15,7 +15,7 @@ public class PlayerLedgeClimbingState : PlayerMovementState {
     public override void OnStateEnter(PlayerPlatformController ppc)
     {
         base.OnStateEnter(ppc);
-        ledgePosition = ppc.lastClimbingLocation;
+        ledgePosition = ppc.gameObject.transform.position;
         Debug.Log("Entered the Climbing State");
     }
 
@@ -38,7 +38,8 @@ public class PlayerLedgeClimbingState : PlayerMovementState {
             ppc.animator.SetTrigger("strokePerformed");
             StrokeEvent.Raise();
         }
-        if ((ppc.gameObject.transform.position - ledgePosition).magnitude < 1.0f) {
+
+        if (Vector3.Distance(ppc.transform.position, ledgePosition) > 1.50f) {
             ppc.SetState(UnderwaterSwimState);
         }
     }

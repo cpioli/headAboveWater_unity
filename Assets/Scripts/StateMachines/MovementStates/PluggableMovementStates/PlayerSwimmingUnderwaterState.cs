@@ -14,6 +14,7 @@ public class PlayerSwimmingUnderwaterState : PlayerMovementState
     {
         base.OnStateEnter(ppc);
         ppc.animator.SetBool("inWater", true);
+        
         Debug.Log("Entered the underwater state!");
     }
 
@@ -44,8 +45,9 @@ public class PlayerSwimmingUnderwaterState : PlayerMovementState
         {
             ppc.SetState(AbovewaterState);
         }
-        if (ppc.GrabbingLedge())
+        if (ppc.FindCollision("Ledge"))//ppc.GrabbingLedge())
         {
+            ppc.GetLedgeInfo(ppc.move);
             ppc.SetState(LedgeHangState);
         }
     }
