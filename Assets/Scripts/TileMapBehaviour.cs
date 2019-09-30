@@ -24,7 +24,7 @@ public class TileMapBehaviour : MonoBehaviour {
     private Vector2 playerPosition;
     private GameObject swimmer;
 
-    // Use this for initialization
+#region DefaultMonoBehaviourMethods
     void Awake() {
         try
         {
@@ -47,6 +47,15 @@ public class TileMapBehaviour : MonoBehaviour {
         UpdateSwimmerPosition(swimmer.transform.position, ref currLedgeIndices);
     }
 
+    void Start()
+    {
+        nextLedgeIndices[0] = 0;
+        nextLedgeIndices[1] = int.MinValue;
+        AddColliders(0); //place colliders from the first section in the level
+        currLedgeIndices[0] = nextLedgeIndices[0];
+        currLedgeIndices[1] = nextLedgeIndices[1];
+    }
+
     // Update is called once per frame
     void Update() {
         if (!UpdateSwimmerPosition(swimmer.transform.position, ref nextLedgeIndices))
@@ -57,7 +66,8 @@ public class TileMapBehaviour : MonoBehaviour {
             currLedgeIndices[1] = nextLedgeIndices[1];
         }
     }
-    #region LedgeColliderInitialization
+   #endregion  
+#region LedgeColliderInitialization
     private void InitializeColliders()
     {
         for (int i = 0; i < colliders.Length; i++)
@@ -138,9 +148,8 @@ public class TileMapBehaviour : MonoBehaviour {
         }
         ledgeIndex[key].Add(localPosition);
     }
-    #endregion
-
-    #region Update Ledge Colliders
+#endregion
+#region Update Ledge Colliders
     /// <summary>
     /// Returns true if ledge indices change
     /// </summary>
@@ -237,6 +246,6 @@ public class TileMapBehaviour : MonoBehaviour {
             collidersIndex++;
         }
     }
-    #endregion
+#endregion
 
 }
