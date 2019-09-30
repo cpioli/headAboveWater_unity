@@ -14,7 +14,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
     private SpriteRenderer spriteRenderer;
     private PlayerMovementState currentPMState;
-    private Tilemap tilemap;
 
     [HideInInspector]
     public bool exhausted;
@@ -49,7 +48,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         headCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
         waterCollider = GameObject.FindGameObjectWithTag("water").GetComponent<BoxCollider2D>();
         ledgeHangCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
-        tilemap = GameObject.Find("Platforms").GetComponent<Tilemap>();
     }
 	
     public void SetState(PlayerMovementState mState)
