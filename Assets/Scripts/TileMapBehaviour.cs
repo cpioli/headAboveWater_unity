@@ -57,7 +57,90 @@ public class TileMapBehaviour : MonoBehaviour {
             currLedgeIndices[1] = nextLedgeIndices[1];
         }
     }
+    #region LedgeColliderInitialization
+    private void InitializeColliders()
+    {
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            colliders[i] = ledgeColliderContainer.AddComponent(typeof(CircleCollider2D)) as CircleCollider2D;
+            colliders[i].radius = radius;
+            colliders[i].isTrigger = true;
+            colliders[i].offset = Vector2.zero;
+        }
+    }
 
+    private void CreateLedgeIndex()
+    {
+        int col = (int)tilemapBounds.min.x;
+        int row = (int)tilemapBounds.min.y;
+        int colMax = (int)tilemapBounds.max.x;
+        int rowMax = (int)tilemapBounds.max.y;
+        Vector3Int tilePosition = Vector3Int.zero;
+        TileBase tb;
+        PlayerPlatformController.LEDGE ledgeType;
+        while (col <= colMax)
+        {
+            row = (int)tilemapBounds.min.y;
+            while (row <= rowMax)
+            {
+                tilePosition.x = col;
+                tilePosition.y = row;
+                tilePosition.z = 0;
+                tilePosition = tilemap.WorldToCell(tilePosition);
+                ledgeType = PlayerPlatformController.LEDGE.NONE;
+                tb = null;
+                if (tilemap.HasTile(tilePosition))
+                {
+                    tb = tilemap.GetTile(tilePosition);
+                    ledgeType = IsLedgeTile(ref tb);
+                    if (ledgeType != PlayerPlatformController.LEDGE.NONE)
+                    {
+                        InsertTileIntoIndex(ref ledgeType, ref tilePosition);
+                    }
+                }
+                row++;
+            }
+            col++;
+        }
+    }
+
+    public PlayerPlatformController.LEDGE IsLedgeTile(ref TileBase _Tile)
+    {
+        if (_Tile == null) return PlayerPlatformController.LEDGE.NONE;
+
+        for (int i = 0; i < LeftLedgeTiles.Length; i++)
+        {
+            if (_Tile.name.Equals(LeftLedgeTiles[i].name))
+                return PlayerPlatformController.LEDGE.LEFT;
+        }
+        for (int i = 0; i < RightLedgeTiles.Length; i++)
+        {
+            if (_Tile.name.Equals(RightLedgeTiles[i].name))
+                return PlayerPlatformController.LEDGE.RIGHT;
+        }
+
+        return PlayerPlatformController.LEDGE.NONE;
+
+    }
+
+    private void InsertTileIntoIndex(ref PlayerPlatformController.LEDGE ledgeType, ref Vector3Int position)
+    {
+        int key = position.x / cellToScreenWidth;
+        Vector2Int localPosition = new Vector2Int(position.x, position.y);
+        if (ledgeType == PlayerPlatformController.LEDGE.RIGHT)
+        {
+            localPosition.x += 1;
+        }
+        localPosition.y += 1;
+        if (!ledgeIndex.ContainsKey(key))
+        {
+            ledgeIndex.Add(key, new List<Vector2Int>());
+        }
+        ledgeIndex[key].Add(localPosition);
+    }
+    #endregion
+
+    #region Update Ledge Colliders
     /// <summary>
     /// Returns true if ledge indices change
     /// </summary>
@@ -83,16 +166,6 @@ public class TileMapBehaviour : MonoBehaviour {
         }
 
         return (indices[0] == currLedgeIndices[0] && indices[1] == currLedgeIndices[1]);
-    }
-
-    private void InitializeColliders()
-    {
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            colliders[i] = ledgeColliderContainer.AddComponent(typeof(CircleCollider2D)) as CircleCollider2D;
-            colliders[i].radius = radius;
-            colliders[i].offset = Vector2.zero;
-        }
     }
 
     private void ReassignColliders()
@@ -164,74 +237,6 @@ public class TileMapBehaviour : MonoBehaviour {
             collidersIndex++;
         }
     }
+    #endregion
 
-    private void CreateLedgeIndex()
-    {
-        int col = (int)tilemapBounds.min.x;
-        int row = (int)tilemapBounds.min.y;
-        int colMax = (int)tilemapBounds.max.x;
-        int rowMax = (int)tilemapBounds.max.y;
-        Vector3Int tilePosition = Vector3Int.zero;
-        TileBase tb;
-        PlayerPlatformController.LEDGE ledgeType;
-        while (col <= colMax)
-        {
-            row = (int)tilemapBounds.min.y;
-            while (row <= rowMax)
-            {
-                tilePosition.x = col;
-                tilePosition.y = row;
-                tilePosition.z = 0;
-                tilePosition = tilemap.WorldToCell(tilePosition);
-                ledgeType = PlayerPlatformController.LEDGE.NONE;
-                tb = null;
-                if (tilemap.HasTile(tilePosition))
-                {
-                    tb = tilemap.GetTile(tilePosition);
-                    ledgeType = IsLedgeTile(ref tb);
-                    if (ledgeType != PlayerPlatformController.LEDGE.NONE)
-                    {
-                        InsertTileIntoIndex(ref ledgeType, ref tilePosition);
-                    }
-                }
-                row++;
-            }
-            col++;
-        }
-    }
-
-    private PlayerPlatformController.LEDGE IsLedgeTile(ref TileBase _Tile)
-    {
-        if (_Tile == null) return PlayerPlatformController.LEDGE.NONE;
-
-        for(int i = 0; i < LeftLedgeTiles.Length; i++)
-        {
-            if (_Tile.name.Equals(LeftLedgeTiles[i].name))
-                return PlayerPlatformController.LEDGE.LEFT;
-        }
-        for(int i = 0; i < RightLedgeTiles.Length; i++)
-        {
-            if (_Tile.name.Equals(RightLedgeTiles[i].name))
-                return PlayerPlatformController.LEDGE.RIGHT;
-        }
-
-        return PlayerPlatformController.LEDGE.NONE;
-       
-    }
-
-    private void InsertTileIntoIndex(ref PlayerPlatformController.LEDGE ledgeType, ref Vector3Int position)
-    {
-        int key = position.x / cellToScreenWidth;
-        Vector2Int localPosition = new Vector2Int(position.x, position.y);
-        if(ledgeType == PlayerPlatformController.LEDGE.RIGHT)
-        {
-            localPosition.x += 1;
-        }
-        localPosition.y += 1;
-        if(!ledgeIndex.ContainsKey(key))
-        {
-            ledgeIndex.Add(key, new List<Vector2Int>());
-        }
-        ledgeIndex[key].Add(localPosition);
-    }
 }
