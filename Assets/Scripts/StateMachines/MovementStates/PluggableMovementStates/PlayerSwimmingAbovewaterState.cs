@@ -9,6 +9,7 @@ public class PlayerSwimmingAbovewaterState : PlayerMovementState
     public GameEvent StrokeEvent;
     public GameEvent AbovewaterStrokeEvent;
     public PlayerMovementState UnderwaterState;
+    public PlayerMovementState LedgeHangState;
 
     public override void OnStateEnter(PlayerPlatformController ppc)
     {
@@ -34,9 +35,14 @@ public class PlayerSwimmingAbovewaterState : PlayerMovementState
             velocity.y = ppc.jumpTakeOffSpeed;
             ppc.animator.SetTrigger("strokePerformed");
             StrokeEvent.Raise();
+            AbovewaterStrokeEvent.Raise();
         }
-        if (Input.GetButtonDown("Jump")) AbovewaterStrokeEvent.Raise();
         if (ppc.headCollider.IsTouching(ppc.waterCollider)) ppc.SetState(UnderwaterState);
-        
+        if (ppc.FindCollision("Ledge"))
+        {
+            ppc.GetLedgeInfo(ppc.move);
+            if (ppc.ledgeType == PlayerPlatformController.LEDGE.NONE) return;
+            ppc.SetState(LedgeHangState);
+        }
     }
 }

@@ -27,3 +27,4 @@ MonoBehaviour:
   AbovewaterStrokeEvent: {fileID: 11400000, guid: f732cb3027f4b124d894768f1637bf82,
     type: 2}
   UnderwaterState: {fileID: 11400000, guid: 461668d609b01344abfcff57242597ed, type: 2}
+  LedgeHangState: {fileID: 11400000, guid: 6050d2ece29fdf949ae412740dc7210f, type: 2}
