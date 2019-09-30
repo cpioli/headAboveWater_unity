@@ -12,6 +12,7 @@ public class PlayerLedgeHangState : PlayerMovementState
     public override void OnStateEnter(PlayerPlatformController ppc)
     {
         base.OnStateEnter(ppc);
+        ppc.animator.SetTrigger("grabbedLedge");
         Vector3 currentPos = ppc.gameObject.transform.position;
         currentPos.y = ppc.lastClimbingLocation.y + 1.0f;
         currentPos.x = ppc.lastClimbingLocation.x - 0.25f;
@@ -38,12 +39,15 @@ public class PlayerLedgeHangState : PlayerMovementState
          || (Input.GetKeyDown(KeyCode.D) && ppc.ledgeType == PlayerPlatformController.LEDGE.RIGHT)
          || Input.GetKeyDown(KeyCode.S))      
         {
-            ppc.SetState(LedgeClimbingState);
+            ppc.animator.SetTrigger("grabbedLedge");
+            ppc.SetState(UnderwaterSwimState);
+            return;
         }
         else if (Input.GetButtonDown("Jump"))
         {
-            velocity.y = ppc.jumpTakeOffSpeed;
+            //velocity.y = ppc.jumpTakeOffSpeed;
             ppc.SetState(LedgeClimbingState);
+            return;
         }
     }
 

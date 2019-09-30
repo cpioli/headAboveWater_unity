@@ -23,8 +23,10 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0}
     Variable: {fileID: 11400000, guid: 045c04cb616e3b140804aa421a3675fc, type: 2}
+  stateDuration: 0.5
   StrokeEvent: {fileID: 11400000, guid: 75815b1a0ab04c04e96afe9d38170da1, type: 2}
   UnderwaterStrokeEvent: {fileID: 11400000, guid: a0d3f94259216f043b5aa09f450a62ff,
     type: 2}
   UnderwaterSwimState: {fileID: 11400000, guid: 461668d609b01344abfcff57242597ed,
     type: 2}
+  GroundedState: {fileID: 11400000, guid: 8d80e1c44820723448a48d641d7f0254, type: 2}
