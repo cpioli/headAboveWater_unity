@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
+using cpioli.Events;
 
 namespace cpioli.States
 {
     public abstract class GameState : ScriptableObject
     {
-        public abstract void Act(GameManager gm);
+        private GameManager gm;
+        public GameEventListenerList listeners;
+
+        public abstract void Act();
         public virtual void OnStateEnter(GameManager gm)
         {
-
+            if(this.gm == null) this.gm = gm;
         }
-        public virtual void OnStateExit(GameManager gm)
+        public virtual void OnStateExit()
         {
 
         }

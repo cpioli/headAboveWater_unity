@@ -15,12 +15,12 @@ namespace cpioli.States
             GameOverEvent.Raise();
         }
 
-        public override void OnStateExit(GameManager gm)
+        public override void OnStateExit()
         {
-            base.OnStateExit(gm);
+            base.OnStateExit();
         }
 
-        public override void Act(GameManager gm)
+        public override void Act()
         {
             //do nothing
         }

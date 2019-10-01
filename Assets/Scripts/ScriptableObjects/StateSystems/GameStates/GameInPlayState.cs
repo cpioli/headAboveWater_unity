@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using cpioli.Events;
 
 namespace cpioli.States
@@ -17,13 +16,13 @@ namespace cpioli.States
             Debug.Log("Beginning Level");
         }
 
-        public override void OnStateExit(GameManager gm)
+        public override void OnStateExit()
         {
             Debug.Log("Exiting GameInPlayState");
-            base.OnStateExit(gm);
+            base.OnStateExit();
         }
 
-        public override void Act(GameManager gm)
+        public override void Act()
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {

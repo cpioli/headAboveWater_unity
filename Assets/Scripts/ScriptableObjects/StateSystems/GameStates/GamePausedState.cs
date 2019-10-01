@@ -19,13 +19,13 @@ namespace cpioli.States
             PauseEvent.Raise();
         }
 
-        public override void OnStateExit(GameManager gm)
+        public override void OnStateExit()
         {
-            base.OnStateExit(gm);
+            base.OnStateExit();
             ResumeEvent.Raise();
         }
 
-        public override void Act(GameManager gm)
+        public override void Act()
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {

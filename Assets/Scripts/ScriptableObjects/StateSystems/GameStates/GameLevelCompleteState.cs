@@ -11,12 +11,12 @@ namespace cpioli.States
             base.OnStateEnter(gm);
         }
 
-        public override void OnStateExit(GameManager gm)
+        public override void OnStateExit()
         {
-            base.OnStateExit(gm);
+            base.OnStateExit();
         }
 
-        public override void Act(GameManager gm)
+        public override void Act()
         {
             throw new System.NotImplementedException();
         }

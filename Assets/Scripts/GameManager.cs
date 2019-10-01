@@ -7,11 +7,18 @@ public class GameManager : MonoBehaviour {
     private GameState currentGameState;
     private InPlayState inPlayState;
     private GameOverState gameOverState;
-    
 
+    private GameManager instance;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+        if (instance == null) instance = this;
+        else if (instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
         inPlayState = GetComponent<InPlayState>();
         gameOverState = GetComponent<GameOverState>();
         currentGameState = inPlayState;
