@@ -6,6 +6,7 @@ using cpioli.Events;
 
 namespace cpioli.States
 {
+    [CreateAssetMenu (menuName = "StateSystem/Game/Paused", order = 2)]
     public class GamePausedState : GameState
     {
         public GameEvent PauseEvent;
@@ -15,12 +16,14 @@ namespace cpioli.States
 
         public override void OnStateEnter(GameManager gm)
         {
+            Debug.Log("Entering Paused State");
             base.OnStateEnter(gm);
             PauseEvent.Raise();
         }
 
         public override void OnStateExit()
         {
+            Debug.Log("Exiting Paused State!");
             base.OnStateExit();
             ResumeEvent.Raise();
         }
@@ -29,7 +32,7 @@ namespace cpioli.States
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {
-                //gm.ChangeGameState(InPlayState);
+                gm.ChangeGameState(InPlayState);
                 return;
             }
         }

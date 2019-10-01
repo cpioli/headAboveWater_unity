@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3efb3628142d14bb3a8027aa165dfc, type: 3}
+  m_Name: InPlayState
+  m_EditorClassIdentifier: 
+  LevelBeginEvent: {fileID: 11400000, guid: 3c25bb975287a804484590b965753c1b, type: 2}
+  SwimmerDiesListener:
+    name: 
+    Event: {fileID: 11400000, guid: c8b30e274c8ea9e4284db62d9aa34b2a, type: 2}
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11400000}
+          m_MethodName: ResponseToSwimmerDiesEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  PausedState: {fileID: 11400000, guid: aa5dd6e5677f05c449760de6a5455a3d, type: 2}
+  GameOverState: {fileID: 11400000, guid: eb378a600689f0041a4713250141f8d1, type: 2}

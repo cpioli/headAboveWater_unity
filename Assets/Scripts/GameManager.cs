@@ -5,7 +5,6 @@ using cpioli.States;
 
 public class GameManager : MonoBehaviour {
 
-    private GameManager instance;
     private cpioli.States.GameState currentGameState;
 
     public cpioli.States.GameState initialState;
@@ -13,25 +12,21 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        if (instance == null) instance = this;
-        else if (instance != null)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
 
-        initialState.OnStateEnter(this);
+        ChangeGameState(initialState);
+        //initialState.OnStateEnter(this);
 	}
 
 	// Update is called once per frame
 	void Update () {
-        instance.currentGameState.Act();
+        currentGameState.Act();
     }
 
     public void ChangeGameState(cpioli.States.GameState newGameState)
     {
-        instance.currentGameState.OnStateExit();
-        instance.currentGameState = newGameState;
-        instance.currentGameState.OnStateEnter(this);
+        if(currentGameState != null)
+            currentGameState.OnStateExit();
+        currentGameState = newGameState;
+        currentGameState.OnStateEnter(this);
     }
 }

@@ -47,7 +47,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         exhausted = false;
         headCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
         waterCollider = GameObject.FindGameObjectWithTag("water").GetComponent<BoxCollider2D>();
-        ledgeHangCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
+        //ledgeHangCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
     }
 	
     public void SetState(PlayerMovementState mState)
@@ -127,7 +127,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
     public void GetLedgeInfo(Vector2 move)
     {
-        print("Getting ledge info");
         int count = rBody2d.Cast(move, contactFilter, hitBuffer, 1.0f);
         ResetHitTiles();
         ledgeType = LEDGE.NONE;

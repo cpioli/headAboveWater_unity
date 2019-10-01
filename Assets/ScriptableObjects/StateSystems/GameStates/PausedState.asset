@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48bc55ac6836d54aa00852dbea944d9, type: 3}
+  m_Name: PausedState
+  m_EditorClassIdentifier: 
+  PauseEvent: {fileID: 11400000, guid: 9978f657200a39140a32def9d3b52ca8, type: 2}
+  ResumeEvent: {fileID: 11400000, guid: 652182ec8d2f3f6459e1b0a6c9dfe43a, type: 2}
+  InPlayState: {fileID: 11400000, guid: 010b86660f446a3408894549b46e9298, type: 2}

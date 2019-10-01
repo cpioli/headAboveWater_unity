@@ -13,6 +13,7 @@ namespace cpioli.States
         public override void OnStateEnter(GameManager gm)
         {
             StartPlug.GetComponent<BoxCollider2D>().enabled = false;
+            Debug.Log("Entered the GameState: LevelStart");
             base.OnStateEnter(gm);
         }
 
