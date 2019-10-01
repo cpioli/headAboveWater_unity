@@ -5,8 +5,7 @@ namespace cpioli.States
 {
     public abstract class GameState : ScriptableObject
     {
-        private GameManager gm;
-        public GameEventListenerList listeners;
+        protected GameManager gm;
 
         public abstract void Act();
         public virtual void OnStateEnter(GameManager gm)

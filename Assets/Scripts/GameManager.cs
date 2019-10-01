@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using cpioli.States;
 
 public class GameManager : MonoBehaviour {
 
-    private GameState currentGameState;
-    private InPlayState inPlayState;
-    private GameOverState gameOverState;
-
     private GameManager instance;
+    private cpioli.States.GameState currentGameState;
+
+    public cpioli.States.GameState initialState;
+    public GameObject Swimmer;
 
 	// Use this for initialization
 	void Awake () {
@@ -19,31 +20,18 @@ public class GameManager : MonoBehaviour {
             return;
         }
 
-        inPlayState = GetComponent<InPlayState>();
-        gameOverState = GetComponent<GameOverState>();
-        currentGameState = inPlayState;
-        currentGameState.OnStateEnter(this);
+        initialState.OnStateEnter(this);
 	}
 
 	// Update is called once per frame
 	void Update () {
-        currentGameState.Run();
+        instance.currentGameState.Act();
     }
 
-    private void ChangeGameState(GameState newGameState)
+    public void ChangeGameState(cpioli.States.GameState newGameState)
     {
-        currentGameState.OnStateExit();
-        currentGameState = newGameState;
-        currentGameState.OnStateEnter(this);
-    }
-
-    public void SwimmerDies()
-    {
-        ChangeGameState(gameOverState);
-    }
-
-    public void RestartLevel()
-    {
-        ChangeGameState(inPlayState);
+        instance.currentGameState.OnStateExit();
+        instance.currentGameState = newGameState;
+        instance.currentGameState.OnStateEnter(this);
     }
 }

@@ -1,13 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using cpioli.Events;
 
 namespace cpioli.States
 {
+    [CreateAssetMenu (menuName ="StateSystem/Game/LevelStart", order = 0)]
     public class GameLevelStartState : GameState
     {
+        public GameEventListenerObj Play;
+        public GameState InPlay;
+        public GameObject StartPlug;
+
         public override void OnStateEnter(GameManager gm)
         {
+            StartPlug.GetComponent<BoxCollider2D>().enabled = false;
             base.OnStateEnter(gm);
         }
 
@@ -18,7 +23,16 @@ namespace cpioli.States
 
         public override void Act()
         {
-            throw new System.NotImplementedException();
+            if(!StartPlug.GetComponent<BoxCollider2D>().enabled)
+            {
+
+            }
+        }
+
+        public void RespondToInPlayEvent()
+        {
+            gm.ChangeGameState(InPlay);
+            return;
         }
     }
 
