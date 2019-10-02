@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3efb3628142d14bb3a8027aa165dfc, type: 3}
   m_Name: InPlayState
   m_EditorClassIdentifier: 
+  ledgeHangingState: {fileID: 11400000, guid: 6050d2ece29fdf949ae412740dc7210f, type: 2}
   LevelBeginEvent: {fileID: 11400000, guid: 3c25bb975287a804484590b965753c1b, type: 2}
   SwimmerDiesListener:
     name: 
@@ -33,3 +34,4 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
   PausedState: {fileID: 11400000, guid: aa5dd6e5677f05c449760de6a5455a3d, type: 2}
   GameOverState: {fileID: 11400000, guid: eb378a600689f0041a4713250141f8d1, type: 2}
+  LevelCompleteState: {fileID: 11400000, guid: 575d80bd378ccab49b4c44caca4fb3f4, type: 2}

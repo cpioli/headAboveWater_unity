@@ -13,7 +13,8 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     };
 
     private SpriteRenderer spriteRenderer;
-    private PlayerMovementState currentPMState;
+    [HideInInspector]
+    public PlayerMovementState currentPMState;
 
     [HideInInspector]
     public bool exhausted;
@@ -47,7 +48,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         exhausted = false;
         headCollider = gameObject.GetComponentInChildren<BoxCollider2D>();
         waterCollider = GameObject.FindGameObjectWithTag("water").GetComponent<BoxCollider2D>();
-        //ledgeHangCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider2D>();
     }
 	
     public void SetState(PlayerMovementState mState)
@@ -93,7 +93,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     public void LevelStarted()
     {
         base.gameOver = false;
-        gameObject.transform.position = startPosition;
+        gameObject.transform.position = startPosition.Value;
     }
 
     public void LevelCompleted()

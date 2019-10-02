@@ -30,4 +30,5 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  GameOverEvent: {fileID: 11400000, guid: 4753844f695534a47ab20f831ba1646c, type: 2}
   InPlayState: {fileID: 11400000, guid: 010b86660f446a3408894549b46e9298, type: 2}

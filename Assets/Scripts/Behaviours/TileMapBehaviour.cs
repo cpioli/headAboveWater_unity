@@ -49,9 +49,8 @@ public class TileMapBehaviour : MonoBehaviour {
 
     void Start()
     {
-        nextLedgeIndices[0] = 0;
-        nextLedgeIndices[1] = int.MinValue;
-        AddColliders(0); //place colliders from the first section in the level
+        UpdateSwimmerPosition(swimmer.transform.position, ref nextLedgeIndices);
+        AddColliders(nextLedgeIndices[0]);
         currLedgeIndices[0] = nextLedgeIndices[0];
         currLedgeIndices[1] = nextLedgeIndices[1];
     }
