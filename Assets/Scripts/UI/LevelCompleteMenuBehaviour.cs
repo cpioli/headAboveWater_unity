@@ -1,12 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Text;
 using cpioli.Events;
+using cpioli.Variables;
 
 public class LevelCompleteMenuBehaviour : MonoBehaviour, ICommonGameEvents {
 
     private Button[] menuButtons;
     private Text[] menuTexts;
+    private Text timeText;
     private Image[] menuImages;
+    private StringBuilder sb; //requires the "using System.Text" declaration
+
+    public FloatReference totalTimePassed;
+
+    void Awake()
+    {
+        sb = new StringBuilder();
+        timeText = GameObject.Find("TimeText").GetComponent<Text>();
+        menuButtons = GetComponentsInChildren<Button>();
+        menuTexts = GetComponentsInChildren<Text>();
+        menuImages = GetComponentsInChildren<Image>();
+        Hide();
+    }
 
     private void Hide()
     {
@@ -38,21 +54,41 @@ public class LevelCompleteMenuBehaviour : MonoBehaviour, ICommonGameEvents {
         {
             i.enabled = true;
         }
+        DisplayTime();
+    }
+
+    private void DisplayTime()
+    {
+        float minutes = 0.0f;
+        float seconds = 0.0f;
+        sb.Remove(0, sb.Length); //flush the StringBuilder
+        sb.Append("0");
+        minutes = Mathf.FloorToInt(totalTimePassed.Value / 60.0f);
+        minutes = Mathf.Clamp(minutes, 0.0f, 9.0f);
+        sb.Append(minutes.ToString("N0") + ":");
+        if (seconds > 600.0f) //over ten minutes have passed
+            seconds = 59.99f;
+        else
+        {
+            seconds = totalTimePassed.Value % 60.0f;
+            if (seconds < 10.0f)
+                sb.Append("0");
+        }
+
+        sb.Append(seconds.ToString("N2"));
+        timeText.text = "Time: " + sb.ToString();
     }
 
     public void GameOver()
     {
-        throw new System.NotImplementedException();
     }
 
     public void GamePaused()
     {
-        throw new System.NotImplementedException();
     }
 
     public void GameResumed()
     {
-        throw new System.NotImplementedException();
     }
 
     public void LevelCompleted()
