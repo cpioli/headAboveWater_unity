@@ -9,8 +9,11 @@ namespace cpioli.States
         private PlayerPlatformController ppc;
 
         public PlayerMovementState ledgeHangingState;
-        public GameEvent LevelBeginEvent;
+
+        public GameEvent BeginPlayEvent;
+
         public GameEventListenerObj SwimmerDiesListener;
+
         public GameState PausedState;
         public GameState GameOverState;
         public GameState LevelCompleteState;
@@ -20,7 +23,7 @@ namespace cpioli.States
             base.OnStateEnter(gm);
             SwimmerDiesListener.Event.RegisterListener(SwimmerDiesListener);
             ppc = gm.Swimmer.GetComponent<PlayerPlatformController>();
-
+            
             Debug.Log("Beginning Level");
         }
 
