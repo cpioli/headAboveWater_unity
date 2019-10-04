@@ -182,7 +182,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1079486292611504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.62, y: 4, z: -0.042401616}
+  m_LocalPosition: {x: 98, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4587536267013110}
@@ -960,6 +960,14 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  LevelComplete:
+    name: 
+    Event: {fileID: 11400000, guid: 9e071845ccf83ac449611a153f484202, type: 2}
+    Response:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
 --- !u!114 &114547344086009020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1193,6 +1201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minGroundNormalY: 0.65
   gravityModifier: 1
+  currentPMState: {fileID: 0}
   exhausted: 0
   maxSpeed: 2.5
   jumpTakeOffSpeed: 7
@@ -1201,9 +1210,10 @@ MonoBehaviour:
   move: {x: 0, y: 0}
   headCollider: {fileID: 0}
   waterCollider: {fileID: 0}
+  ledgeHangCollider: {fileID: 0}
   animator: {fileID: 0}
   ledgeType: 0
-  initialPMState: {fileID: 0}
+  initialPMState: {fileID: 11400000, guid: 1f20d2985e713cb43872f1405876d049, type: 2}
   startPosition:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0, z: 0}
