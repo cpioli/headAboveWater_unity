@@ -59,7 +59,7 @@ public class Oxygen : Resource, ICommonGameEvents {
 
     public void LevelCompleted()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void GamePaused()

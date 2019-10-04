@@ -98,7 +98,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
     public void LevelCompleted()
     {
-        throw new System.NotImplementedException();
     }
 
     public bool FindCollision(string tagName)
