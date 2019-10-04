@@ -12,11 +12,13 @@ namespace cpioli.Events
         public GameEventListenerObj Resume;
         public GameEventListenerObj GameOver;
         public GameEventListenerObj LevelBegin;
+        public GameEventListenerObj LevelComplete;
 
         private UnityAction pauseActions;
         private UnityAction resumeActions;
         private UnityAction gameOverActions;
         private UnityAction levelBeginActions;
+        private UnityAction levelCompleteActions;
 
         private void OnEnable()
         {
@@ -24,6 +26,7 @@ namespace cpioli.Events
             Resume.Event.RegisterListener(Resume);
             GameOver.Event.RegisterListener(GameOver);
             LevelBegin.Event.RegisterListener(LevelBegin);
+            LevelComplete.Event.RegisterListener(LevelComplete);
 
             GameObject go = this.gameObject;
             while(go.transform.parent != null)
@@ -48,12 +51,14 @@ namespace cpioli.Events
                 resumeActions += commonGameEvents[i].GameResumed;
                 gameOverActions += commonGameEvents[i].GameOver;
                 levelBeginActions += commonGameEvents[i].LevelStarted;
+                levelCompleteActions += commonGameEvents[i].LevelCompleted;
                 //Pause.Response.AddListener(commonGameEvents[i].GamePaused);
             }
             Pause.Response.AddListener(pauseActions);
             Resume.Response.AddListener(resumeActions);
             GameOver.Response.AddListener(gameOverActions);
             LevelBegin.Response.AddListener(levelBeginActions);
+            LevelComplete.Response.AddListener(levelCompleteActions);
         }
 
         private void OnDisable()
@@ -62,6 +67,7 @@ namespace cpioli.Events
             Resume.Response.RemoveListener(resumeActions);
             GameOver.Response.RemoveListener(gameOverActions);
             LevelBegin.Response.RemoveListener(levelBeginActions);
+            LevelComplete.Response.RemoveListener(levelCompleteActions);
         }
     }
 }
