@@ -13,9 +13,9 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
     };
 
     private SpriteRenderer spriteRenderer;
+
     [HideInInspector]
     public PlayerMovementState currentPMState;
-
     [HideInInspector]
     public bool exhausted;
     [HideInInspector]
@@ -143,7 +143,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
                 ledgeType = LEDGE.RIGHT;
                 lastClimbingLocation.x = td.worldPos.x;
                 lastClimbingLocation.y = td.worldPos.y;
-                //return;
             }
             else if (string.Equals(td.name, "spritesheet_ground_40")
            || string.Equals(td.name, "spritesheet_ground_19"))
@@ -151,10 +150,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
                 ledgeType = LEDGE.LEFT;
                 lastClimbingLocation.x = td.worldPos.x;
                 lastClimbingLocation.y = td.worldPos.y;
-                //return;
             }
         }
-        //ledgeType = LEDGE.NONE;
-        //return;
     }
 }
