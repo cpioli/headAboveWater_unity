@@ -53,6 +53,9 @@ public class TimerBehaviour : MonoBehaviour, ICommonGameEvents {
     public void Reset()
     {
         totalTimePassed.Value = 0.0f;
+        minutes = 0.0f;
+        seconds = 0.0f;
+        paused = false;
     }
 
     public void GamePaused()
@@ -72,8 +75,9 @@ public class TimerBehaviour : MonoBehaviour, ICommonGameEvents {
 
     public void LevelStarted()
     {
+        print("TimerBehaviour.LevelStarted()");
         paused = false;
-        totalTimePassed.SetValue(0.0f);
+        totalTimePassed.Value = 0.0f;
         minutes = 0.0f;
         seconds = 0.0f;
     }

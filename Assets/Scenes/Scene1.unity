@@ -263,6 +263,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 61479249361245782, guid: 0f6956da11d20ba43bf1f775ab5577f2,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f6956da11d20ba43bf1f775ab5577f2, type: 2}
   m_IsPrefabAsset: 0
@@ -454,7 +459,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 111432863}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 98, y: 0, z: -10}
+  m_LocalPosition: {x: 11.7, y: 4.13, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1798749920}
@@ -597,11 +602,69 @@ Transform:
   m_Father: {fileID: 836782654}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &232090539 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1026166424961422, guid: 0f6956da11d20ba43bf1f775ab5577f2,
+    type: 2}
+  m_PrefabInternal: {fileID: 53880957}
 --- !u!4 &232090540 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4402755756912256, guid: 0f6956da11d20ba43bf1f775ab5577f2,
     type: 2}
   m_PrefabInternal: {fileID: 53880957}
+--- !u!61 &232090541 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 61479249361245782, guid: 0f6956da11d20ba43bf1f775ab5577f2,
+    type: 2}
+  m_PrefabInternal: {fileID: 53880957}
+--- !u!114 &232090542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 232090539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b04df29907e1c994aae278b89d52ffc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listeners:
+  - name: LevelBegin and TurnOffMatter
+    Event: {fileID: 11400000, guid: 3c25bb975287a804484590b965753c1b, type: 2}
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 232090541}
+          m_MethodName: set_isTrigger
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - name: When submerged, switch the trigger off
+    Event: {fileID: 11400000, guid: b24c00d1d6c57c945883536a825cba69, type: 2}
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 232090541}
+          m_MethodName: set_isTrigger
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
 --- !u!1 &233391785
 GameObject:
   m_ObjectHideFlags: 0
@@ -1739,11 +1802,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4419113154674514, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 98
+      value: 11.7
       objectReference: {fileID: 0}
     - target: {fileID: 4419113154674514, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.13
       objectReference: {fileID: 0}
     - target: {fileID: 4419113154674514, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1769,6 +1832,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114939762220755728, guid: 18e5cb9d70d6bd64a859e6c8f8f63522,
+        type: 2}
+      propertyPath: initialPMState
+      value: 
+      objectReference: {fileID: 11400000, guid: 461668d609b01344abfcff57242597ed,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
   m_IsPrefabAsset: 0
@@ -1972,7 +2041,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1256484879}
   m_Layer: 0
-  m_Name: -Visualizations-
+  m_Name: -Graphics-
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2602,7 +2671,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1702382747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 98, y: 0, z: -10}
+  m_LocalPosition: {x: 11.7, y: 4.13, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

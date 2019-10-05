@@ -19,7 +19,7 @@ namespace cpioli.Events
                 GameEventListenerObj gelo = listeners[i];
                 try
                 {
-                    print("Enabling Listener " + gelo.name);
+                    //print("Enabling Listener " + gelo.name);
                     gelo.Event.RegisterListener(gelo);
                 }
                 catch (NullReferenceException e)

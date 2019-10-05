@@ -9,6 +9,9 @@ namespace cpioli.States
     public class GameLevelCompleteState : GameState
     {
         public GameEvent LevelCompleteEvent;
+        public GameState LevelBeginState;
+
+        public GameEventListenerObj RestartListener;
 
         public override void OnStateEnter(GameManager gm)
         {
@@ -26,6 +29,11 @@ namespace cpioli.States
         public override void Act()
         {
 
+        }
+
+        public void ResponseToRestartEvent()
+        {
+            gm.ChangeGameState(LevelBeginState);
         }
     }
 }

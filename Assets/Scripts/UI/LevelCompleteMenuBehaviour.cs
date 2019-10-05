@@ -59,6 +59,7 @@ public class LevelCompleteMenuBehaviour : MonoBehaviour, ICommonGameEvents {
 
     private void DisplayTime()
     {
+        print("Bringing up the time:");
         float minutes = 0.0f;
         float seconds = 0.0f;
         sb.Remove(0, sb.Length); //flush the StringBuilder
