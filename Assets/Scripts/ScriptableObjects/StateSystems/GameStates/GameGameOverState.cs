@@ -8,7 +8,7 @@ namespace cpioli.States
     {
         public GameEventListenerObj RestartListener;
         public GameEvent GameOverEvent;
-        public GameState InPlayState;
+        public GameState LevelBeginState;
         
         public override void OnStateEnter(GameManager gm)
         {
@@ -32,7 +32,7 @@ namespace cpioli.States
 
         public void ResponseToLevelBeginListener()
         {
-            gm.ChangeGameState(InPlayState);
+            gm.ChangeGameState(LevelBeginState);
             return;
         }
     }
