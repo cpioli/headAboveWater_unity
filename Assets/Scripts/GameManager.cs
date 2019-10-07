@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
     public GameObject Swimmer;
 
 	// Use this for initialization
-	void Awake () {
+	void Start () {
 
         ChangeGameState(initialState);
         //initialState.OnStateEnter(this);
