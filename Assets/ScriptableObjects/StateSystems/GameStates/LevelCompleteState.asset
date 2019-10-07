@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: LevelCompleteState
   m_EditorClassIdentifier: 
   LevelCompleteEvent: {fileID: 11400000, guid: 9e071845ccf83ac449611a153f484202, type: 2}
-  LevelBeginState: {fileID: 0}
+  LevelBeginState: {fileID: 11400000, guid: 00de8472ca5f8cb40adc583abd7a811c, type: 2}
   RestartListener:
     name: 
     Event: {fileID: 11400000, guid: cff1ecc6af3b2ce44aa81375da4cb2a3, type: 2}

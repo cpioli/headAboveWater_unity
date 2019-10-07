@@ -268,6 +268,11 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 61479249361245782, guid: 0f6956da11d20ba43bf1f775ab5577f2,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: 5.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f6956da11d20ba43bf1f775ab5577f2, type: 2}
   m_IsPrefabAsset: 0
@@ -1131,7 +1136,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 57.5, y: 5}
+  m_Offset: {x: 57.5, y: 5.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1189,7 +1194,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 103.25, y: 5.5}
+  m_Offset: {x: 103.25, y: 5.65}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1838,6 +1843,11 @@ Prefab:
       value: 
       objectReference: {fileID: 11400000, guid: 461668d609b01344abfcff57242597ed,
         type: 2}
+    - target: {fileID: 114547344086009020, guid: 18e5cb9d70d6bd64a859e6c8f8f63522,
+        type: 2}
+      propertyPath: emptyEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Raise
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
   m_IsPrefabAsset: 0
