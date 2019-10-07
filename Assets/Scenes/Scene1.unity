@@ -569,7 +569,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1019433626426532, guid: 8945009f7ef82304b8beda28fa6e09ac, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8945009f7ef82304b8beda28fa6e09ac, type: 2}
@@ -879,7 +879,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: cff1ecc6af3b2ce44aa81375da4cb2a3, type: 2}
-        m_MethodName: 
+        m_MethodName: Raise
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2469,7 +2469,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 3.7, y: 41.3}
-  m_SizeDelta: {x: 599.9, y: 100}
+  m_SizeDelta: {x: 650, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1456649698
 MonoBehaviour:
@@ -10607,7 +10607,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1722406904808882, guid: 6e9458611b74c2742a7d56ed35a1b723, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114085179946636606, guid: 6e9458611b74c2742a7d56ed35a1b723,
         type: 2}
