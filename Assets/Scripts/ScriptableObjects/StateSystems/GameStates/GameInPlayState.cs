@@ -43,6 +43,7 @@ namespace cpioli.States
             }
             if (ppc.currentPMState.name.Equals(ledgeHangingState.name))
             {
+                Debug.Log("InPlay can read the LedgeHangingState");
                 if(ppc.FindCollision("LevelCompleteLedge"))
                 {
                     gm.ChangeGameState(LevelCompleteState);

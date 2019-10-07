@@ -15,6 +15,7 @@ namespace cpioli.States
         public override void OnStateEnter(GameManager gm)
         {
             Debug.Log("Entered the GameState: LevelStart");
+            SubmergedEventListener.Event.RegisterListener(SubmergedEventListener);
             LevelBeginEvent.Raise();
             base.OnStateEnter(gm);
         }
@@ -22,6 +23,7 @@ namespace cpioli.States
         public override void OnStateExit()
         {
             Debug.Log("Exiting the GameState: LevelStart");
+            SubmergedEventListener.Event.UnregisterListener(SubmergedEventListener);
             base.OnStateExit();
         }
 
@@ -32,6 +34,7 @@ namespace cpioli.States
 
         public void RespondToSubmergedEvent()
         {
+            Debug.Log("LevelStartState is responding to the submerged event!");
             gm.ChangeGameState(InPlay);
             return;
         }
