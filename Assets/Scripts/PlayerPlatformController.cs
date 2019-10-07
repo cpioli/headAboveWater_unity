@@ -72,37 +72,9 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         animator.SetFloat("velocityY", velocity.y);
     }
 
-    public void GameOver()
-    {
-        base.gameOver = true;
-
-    }
-
-    public void GamePaused()
-    {
-        this.paused = true;
-        animator.enabled = false;
-    }
-
-    public void GameResumed()
-    {
-        this.paused = false;
-        animator.enabled = true;
-    }
-
-    public void LevelStarted()
-    {
-        base.gameOver = false;
-        gameObject.transform.position = startPosition.Value;
-    }
-
-    public void LevelCompleted()
-    {
-    }
-
     public bool FindCollision(string tagName)
     {
-        for(int i = 0; i < hitBufferList.Count; i++)
+        for (int i = 0; i < hitBufferList.Count; i++)
         {
             if (hitBufferList[i].collider.gameObject.CompareTag(tagName))
             {
@@ -113,16 +85,8 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
 
         return false;
     }
-    
-    public bool isGrounded()
-    {
-        return this.grounded;
-    }
 
-    public void SetHanging(bool isHanging)
-    {
-        hanging = isHanging;
-    }
+
 
     public void GetLedgeInfo(Vector2 move)
     {
@@ -152,4 +116,44 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
             }
         }
     }
+
+    public void GameOver()
+    {
+        base.gameOver = true;
+
+    }
+
+    public void GamePaused()
+    {
+        this.paused = true;
+        animator.enabled = false;
+    }
+
+    public void GameResumed()
+    {
+        this.paused = false;
+        animator.enabled = true;
+    }
+
+    public void LevelStarted()
+    {
+        base.gameOver = false;
+        base.hanging = false;
+        gameObject.transform.position = startPosition.Value;
+    }
+
+    public void LevelCompleted()
+    {
+    }
+
+    public bool isGrounded()
+    {
+        return this.grounded;
+    }
+
+    public void SetHanging(bool isHanging)
+    {
+        hanging = isHanging;
+    }
+
 }
