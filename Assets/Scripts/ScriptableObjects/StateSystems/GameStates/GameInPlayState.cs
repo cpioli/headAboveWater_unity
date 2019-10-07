@@ -9,9 +9,6 @@ namespace cpioli.States
         private PlayerPlatformController ppc;
 
         public PlayerMovementState ledgeHangingState;
-
-        public GameEvent BeginPlayEvent;
-
         public GameEventListenerObj SwimmerDiesListener;
 
         public GameState PausedState;
@@ -43,7 +40,6 @@ namespace cpioli.States
             }
             if (ppc.currentPMState.name.Equals(ledgeHangingState.name))
             {
-                Debug.Log("InPlay can read the LedgeHangingState");
                 if(ppc.FindCollision("LevelCompleteLedge"))
                 {
                     gm.ChangeGameState(LevelCompleteState);

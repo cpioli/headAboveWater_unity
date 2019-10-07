@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
     public cpioli.States.GameState initialState;
     public GameObject Swimmer;
 
-	// Use this for initialization
+	
 	void Start () {
 
         ChangeGameState(initialState);

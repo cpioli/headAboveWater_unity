@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: InPlayState
   m_EditorClassIdentifier: 
   ledgeHangingState: {fileID: 11400000, guid: 6050d2ece29fdf949ae412740dc7210f, type: 2}
-  LevelBeginEvent: {fileID: 11400000, guid: 3c25bb975287a804484590b965753c1b, type: 2}
+  BeginPlayEvent: {fileID: 11400000, guid: 3c25bb975287a804484590b965753c1b, type: 2}
   SwimmerDiesListener:
     name: 
     Event: {fileID: 11400000, guid: c8b30e274c8ea9e4284db62d9aa34b2a, type: 2}
