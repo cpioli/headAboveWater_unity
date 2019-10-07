@@ -18,12 +18,14 @@ namespace cpioli.States
             base.OnStateEnter(gm);
             Debug.Log("Entering the LevelCompleteState");
             LevelCompleteEvent.Raise();
+            RestartListener.Event.RegisterListener(RestartListener);
         }
 
         public override void OnStateExit()
         {
             base.OnStateExit();
             Debug.Log("Exiting the LevelCompleteState");
+            RestartListener.Event.UnregisterListener(RestartListener);
         }
 
         public override void Act()
@@ -33,6 +35,7 @@ namespace cpioli.States
 
         public void ResponseToRestartEvent()
         {
+            Debug.Log("Responding to Restart Event!");
             gm.ChangeGameState(LevelBeginState);
         }
     }
