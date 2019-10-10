@@ -27,6 +27,6 @@ public class PlayerMidairState : PlayerMovementState
             return;
         }
         ppc.move = Vector2.zero;
-        ppc.move.x = Input.GetAxis("Horizontal");
+        ppc.move.x = SwimmerInput.GetAxis("Horizontal");
     }
 }

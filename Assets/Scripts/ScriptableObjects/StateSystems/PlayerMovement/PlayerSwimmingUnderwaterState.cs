@@ -29,14 +29,14 @@ public class PlayerSwimmingUnderwaterState : PlayerMovementState
         ppc.move = Vector2.zero;
         ppc.move.x = Input.GetAxis("Horizontal");
         if (ppc.exhausted) return;
-        if (Input.GetButtonDown("Jump"))
+        if (SwimmerInput.GetButtonDown("Jump"))
         {
             Debug.Log("Jumping!");
             velocity.y = ppc.jumpTakeOffSpeed;
             ppc.animator.SetTrigger("strokePerformed");
             StrokeEvent.Raise();
         }
-        if (Input.GetButtonDown("Jump")) UnderwaterStrokeEvent.Raise();
+        if (SwimmerInput.GetButtonDown("Jump")) UnderwaterStrokeEvent.Raise();
         if (ppc.isGrounded())
         {
             ppc.SetState(GroundedState);

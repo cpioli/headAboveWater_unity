@@ -142,7 +142,7 @@ public class SwimmerInput : MonoBehaviour {
 #endif
     }
 
-   /* private bool GetButton(KeyCode key)
+   /* private bool GetTouchInput(KeyCode key)
     {
         switch(key)
         {
@@ -156,6 +156,17 @@ public class SwimmerInput : MonoBehaviour {
         return false;
     }*/
 
+    public static bool GetButtonDown(string buttonName)
+    {
+#if UNITY_STANDALONE
+        return Input.GetButtonDown(buttonName);
+#elif UNITY_IOS || UNITY_ANDROID
+        return GetButtonDown(key);
+#endif
+    }
+
+    //TODO: implement GetTouchInputDown(string buttonName)
+
     public static bool GetKeyDown(KeyCode key)
     {
 #if UNITY_STANDALONE
@@ -165,7 +176,7 @@ public class SwimmerInput : MonoBehaviour {
 #endif
     }
 
-    /*private bool GetButtonDown(KeyCode key)
+    /*private bool GetTouchInputDown(KeyCode key)
     {
         switch(key)
         {
@@ -189,7 +200,7 @@ public class SwimmerInput : MonoBehaviour {
 #endif
     }
 
-    /*private bool GetButtonUp(KeyCode key)
+    /*private bool GetTouchInputUp(KeyCode key)
     {
         switch(key)
         {
@@ -203,10 +214,10 @@ public class SwimmerInput : MonoBehaviour {
         return false;
     }*/
 
-    public static float GetXAxis()
+    public static float GetAxis(string axisName)
     {
 #if UNITY_STANDALONE
-        return Input.GetAxis("Horizontal");
+        return Input.GetAxis(axisName);
 #endif
 
 #if UNITY_IOS || UNITY_ANDROID

@@ -35,9 +35,9 @@ public class PlayerLedgeHangState : PlayerMovementState
     {
         velocity.y = 0.0f;
         velocity.x = 0.0f;
-        if ((Input.GetKeyDown(KeyCode.A) && ppc.ledgeType == PlayerPlatformController.LEDGE.LEFT)
-         || (Input.GetKeyDown(KeyCode.D) && ppc.ledgeType == PlayerPlatformController.LEDGE.RIGHT)
-         || Input.GetKeyDown(KeyCode.S))      
+        if ((SwimmerInput.GetKeyDown(KeyCode.A) && ppc.ledgeType == PlayerPlatformController.LEDGE.LEFT)
+         || (SwimmerInput.GetKeyDown(KeyCode.D) && ppc.ledgeType == PlayerPlatformController.LEDGE.RIGHT)
+         || SwimmerInput.GetKeyDown(KeyCode.S))      
         {
             ppc.animator.SetTrigger("grabbedLedge");
             ppc.SetState(UnderwaterSwimState);
