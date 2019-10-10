@@ -9,7 +9,7 @@ public class SwimmerInput : MonoBehaviour {
     /// Houses data related the button's position on-screen and its interaction state.
     /// Methods equivalent to Input.GetKey can be called on each button.
     /// </summary>
-    /*struct ButtonData
+    struct ButtonData
     {
         enum ButtonState { UNTOUCHED, PRESSED, HELD_DOWN, RELEASED };
         ButtonState state;
@@ -28,7 +28,7 @@ public class SwimmerInput : MonoBehaviour {
             return Vector2.Distance(this.position, position) <= radius;
         }
 
-        public bool GetKeyDown()
+        /*public bool GetKeyDown()
         {
             return (state == ButtonState.PRESSED);
         }
@@ -78,10 +78,10 @@ public class SwimmerInput : MonoBehaviour {
                     }
                     break;
             }
-        }
-    }*/
+        }*/
+    }
 
-    /*private ButtonData leftMoveData, rightMoveData, leftJumpData, rightJumpData;
+    private ButtonData leftMoveData, rightMoveData, leftJumpData, rightJumpData;
     private Touch[] touchList;
 
     public RawImage rightMovementImage;
@@ -109,74 +109,81 @@ public class SwimmerInput : MonoBehaviour {
             if (leftMoveData.InRange(touchPosition))
             {
                 leftMoveTouched = true;
+                print("Left move button is pressed!");
                 continue;
             }
             else if (rightMoveData.InRange(touchPosition))
             {
+                print("Right move button is pressed!");
                 rightMoveTouched = true;
                 continue;
             }
             else if (leftJumpData.InRange(touchPosition))
             {
                 leftJumpTouched = true;
+                print("Left jump button is pressed!");
                 continue;
             }
             else if (rightJumpData.InRange(touchPosition))
             {
                 rightJumpTouched = true;
+                print("Right jump button is pressed!");
                 continue;
             }
         }
-        leftMoveData.UpdateData(leftMoveTouched);
-        leftJumpData.UpdateData(leftJumpTouched);
-        rightMoveData.UpdateData(rightMoveTouched);
-        rightJumpData.UpdateData(rightJumpTouched);
-    }*/
+        //leftMoveData.UpdateData(leftMoveTouched);
+        //leftJumpData.UpdateData(leftJumpTouched);
+        //rightMoveData.UpdateData(rightMoveTouched);
+        //rightJumpData.UpdateData(rightJumpTouched);
+    }
 
     public static bool GetKey(KeyCode key)
     {
 #if UNITY_STANDALONE
         return Input.GetKey(key);
 #elif UNITY_IOS || UNITY_ANDROID
-        return GetButton(key);
+        return false;//GetButton(key);
 #endif
     }
 
-   /* private bool GetTouchInput(KeyCode key)
+    private bool GetTouchInput(KeyCode key)
     {
         switch(key)
         {
             case KeyCode.A:
-                return leftMoveData.GetKey();
+                return false;// leftMoveData.GetKey();
             case KeyCode.D:
-                return rightMoveData.GetKey();
+                return false;// rightMoveData.GetKey();
             case KeyCode.Space:
-                return leftJumpData.GetKey() || rightJumpData.GetKey();
+                return false;// leftJumpData.GetKey() || rightJumpData.GetKey();
         }
         return false;
-    }*/
+    }
 
     public static bool GetButtonDown(string buttonName)
     {
 #if UNITY_STANDALONE
         return Input.GetButtonDown(buttonName);
 #elif UNITY_IOS || UNITY_ANDROID
-        return GetButtonDown(key);
+        return false;//GetTouchInputDown(buttonName);
 #endif
     }
 
     //TODO: implement GetTouchInputDown(string buttonName)
-
+    private bool GetTouchInputDown(string buttonName)
+    {
+        return false;//this is all I need for now until I get the other features working
+    }
     public static bool GetKeyDown(KeyCode key)
     {
 #if UNITY_STANDALONE
         return Input.GetKeyDown(key);
 #elif UNITY_IOS || UNITY_ANDROID
-        return GetButtonDown(key);
+        return false; //SwimmerInput.GetTouchInputDown(key);
 #endif
     }
 
-    /*private bool GetTouchInputDown(KeyCode key)
+   /* protected bool GetTouchInputDown(KeyCode key)
     {
         switch(key)
         {
@@ -196,7 +203,7 @@ public class SwimmerInput : MonoBehaviour {
 #if UNITY_STANDALONE
         return Input.GetKeyUp(key);
 #elif UNITY_IOS || UNITY_ANDROID
-        return GetButtonUp(key);
+        return false; //GetButtonUp(key);
 #endif
     }
 
@@ -221,11 +228,11 @@ public class SwimmerInput : MonoBehaviour {
 #endif
 
 #if UNITY_IOS || UNITY_ANDROID
-            return GetTouchXAxis();
+        return 0.0f; // GetTouchXAxis();
 #endif
     }
 
-   /* private float GetTouchXAxis()
+    /*private float GetTouchXAxis()
     {
         float axisValue = 0.0f;
         if (leftMoveData.GetKeyDown()) axisValue -= 1.0f;
