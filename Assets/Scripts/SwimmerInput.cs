@@ -16,16 +16,22 @@ public class SwimmerInput : MonoBehaviour {
         public float radius;
         public Vector2 position;
 
-        public ButtonData(RawImage img)
+        public ButtonData(RawImage img, float wa, float ha)
         {
             state = ButtonState.UNTOUCHED;
             radius = img.rectTransform.sizeDelta.x / 2.0f;
-            position = new Vector2(img.rectTransform.localPosition.x, img.rectTransform.localPosition.y);
+            position = new Vector2(
+                img.rectTransform.localPosition.x + wa, img.rectTransform.localPosition.y + ha);
         }
 
         public bool InRange(Vector2 position)
         {
             return Vector2.Distance(this.position, position) <= radius;
+        }
+
+        public void print()
+        {
+            Debug.Log(this.position + " " + this.radius);
         }
 
         /*public bool GetKeyDown()
@@ -81,8 +87,10 @@ public class SwimmerInput : MonoBehaviour {
         }*/
     }
 
+    private static SwimmerInput instance;
     private ButtonData leftMoveData, rightMoveData, leftJumpData, rightJumpData;
     private Touch[] touchList;
+    private Camera mainCamera;
 
     public RawImage rightMovementImage;
     public RawImage leftMovementImage;
@@ -91,42 +99,50 @@ public class SwimmerInput : MonoBehaviour {
 
     void Awake()
     {
-        leftMoveData = new ButtonData(leftMovementImage);
-        leftJumpData = new ButtonData(leftJumpImage);
-        rightMoveData = new ButtonData(rightMovementImage);
-        rightJumpData = new ButtonData(rightJumpImage);
+        if (instance == null)
+            instance = this;
+        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        float widthAdjustment = mainCamera.pixelWidth / 2.0f;
+        float heightAdjustment = mainCamera.pixelHeight / 2.0f;
+        instance.leftMoveData = new ButtonData(leftMovementImage, widthAdjustment, heightAdjustment);
+        //print(instance.leftMoveData.ToString());
+        instance.leftJumpData = new ButtonData(leftJumpImage, widthAdjustment, heightAdjustment);
+        instance.rightMoveData = new ButtonData(rightMovementImage, widthAdjustment, heightAdjustment);
+        instance.rightJumpData = new ButtonData(rightJumpImage, widthAdjustment, heightAdjustment);
+        touchList = new Touch[10];
     }
 
     private void FixedUpdate()
     {
-        bool leftMoveTouched, leftJumpTouched, rightMoveTouched, rightJumpTouched;
-        leftMoveTouched = leftJumpTouched = rightMoveTouched = rightJumpTouched = false;
-        touchList = Input.touches;
+        //bool leftMoveTouched, leftJumpTouched, rightMoveTouched, rightJumpTouched;
+        //leftMoveTouched = leftJumpTouched = rightMoveTouched = rightJumpTouched = false;
+        instance.touchList = Input.touches;
         Vector2 touchPosition;
+        //if (touchList.Length > 0) print(touchList[0].position);
         for (int i = 0; i < touchList.Length; i++)
         {
             touchPosition = touchList[i].position;
-            if (leftMoveData.InRange(touchPosition))
+            if (instance.leftMoveData.InRange(touchPosition))
             {
-                leftMoveTouched = true;
+                //leftMoveTouched = true;
                 print("Left move button is pressed!");
                 continue;
             }
-            else if (rightMoveData.InRange(touchPosition))
+            else if (instance.rightMoveData.InRange(touchPosition))
             {
                 print("Right move button is pressed!");
-                rightMoveTouched = true;
+                //rightMoveTouched = true;
                 continue;
             }
-            else if (leftJumpData.InRange(touchPosition))
+            else if (instance.leftJumpData.InRange(touchPosition))
             {
-                leftJumpTouched = true;
+                //leftJumpTouched = true;
                 print("Left jump button is pressed!");
                 continue;
             }
-            else if (rightJumpData.InRange(touchPosition))
+            else if (instance.rightJumpData.InRange(touchPosition))
             {
-                rightJumpTouched = true;
+                //rightJumpTouched = true;
                 print("Right jump button is pressed!");
                 continue;
             }
@@ -142,7 +158,7 @@ public class SwimmerInput : MonoBehaviour {
 #if UNITY_STANDALONE
         return Input.GetKey(key);
 #elif UNITY_IOS || UNITY_ANDROID
-        return false;//GetButton(key);
+        return instance.GetTouchInput(key);
 #endif
     }
 
@@ -165,7 +181,7 @@ public class SwimmerInput : MonoBehaviour {
 #if UNITY_STANDALONE
         return Input.GetButtonDown(buttonName);
 #elif UNITY_IOS || UNITY_ANDROID
-        return false;//GetTouchInputDown(buttonName);
+        return instance.GetTouchInputDown(buttonName);
 #endif
     }
 
@@ -174,29 +190,30 @@ public class SwimmerInput : MonoBehaviour {
     {
         return false;//this is all I need for now until I get the other features working
     }
+
     public static bool GetKeyDown(KeyCode key)
     {
 #if UNITY_STANDALONE
         return Input.GetKeyDown(key);
 #elif UNITY_IOS || UNITY_ANDROID
-        return false; //SwimmerInput.GetTouchInputDown(key);
+        return instance.GetTouchInputDown(key);
 #endif
     }
 
-   /* protected bool GetTouchInputDown(KeyCode key)
+    protected bool GetTouchInputDown(KeyCode key)
     {
         switch(key)
         {
             case KeyCode.A:
-                return leftMoveData.GetKeyDown();
+                return false;// leftMoveData.GetKeyDown();
             case KeyCode.D:
-                return rightMoveData.GetKeyDown();
+                return false;// rightMoveData.GetKeyDown();
             case KeyCode.Space:
-                return leftJumpData.GetKeyDown() || rightJumpData.GetKeyDown();
+                return false;// leftJumpData.GetKeyDown() || rightJumpData.GetKeyDown();
             
         }
         return false;
-    }*/
+    }
 
     public static bool GetKeyUp(KeyCode key)
     {
