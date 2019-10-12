@@ -27,7 +27,7 @@ public class PlayerSwimmingUnderwaterState : PlayerMovementState
     public override void ComputeVelocity(PlayerPlatformController ppc, ref Vector2 velocity)
     {
         ppc.move = Vector2.zero;
-        ppc.move.x = Input.GetAxis("Horizontal");
+        ppc.move.x = SwimmerInput.GetAxis("Horizontal");
         if (ppc.exhausted) return;
         if (SwimmerInput.GetButtonDown("Jump"))
         {

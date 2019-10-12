@@ -43,7 +43,7 @@ public class PlayerLedgeHangState : PlayerMovementState
             ppc.SetState(UnderwaterSwimState);
             return;
         }
-        else if (Input.GetButtonDown("Jump"))
+        else if (SwimmerInput.GetButtonDown("Jump"))
         {
             //velocity.y = ppc.jumpTakeOffSpeed;
             ppc.SetState(LedgeClimbingState);

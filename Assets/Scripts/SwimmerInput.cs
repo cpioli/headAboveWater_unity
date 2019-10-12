@@ -34,7 +34,7 @@ public class SwimmerInput : MonoBehaviour {
             Debug.Log(this.position + " " + this.radius);
         }
 
-        /*public bool GetKeyDown()
+        public bool GetKeyDown()
         {
             return (state == ButtonState.PRESSED);
         }
@@ -84,7 +84,7 @@ public class SwimmerInput : MonoBehaviour {
                     }
                     break;
             }
-        }*/
+        }
     }
 
     private static SwimmerInput instance;
@@ -105,7 +105,6 @@ public class SwimmerInput : MonoBehaviour {
         float widthAdjustment = mainCamera.pixelWidth / 2.0f;
         float heightAdjustment = mainCamera.pixelHeight / 2.0f;
         instance.leftMoveData = new ButtonData(leftMovementImage, widthAdjustment, heightAdjustment);
-        //print(instance.leftMoveData.ToString());
         instance.leftJumpData = new ButtonData(leftJumpImage, widthAdjustment, heightAdjustment);
         instance.rightMoveData = new ButtonData(rightMovementImage, widthAdjustment, heightAdjustment);
         instance.rightJumpData = new ButtonData(rightJumpImage, widthAdjustment, heightAdjustment);
@@ -114,8 +113,8 @@ public class SwimmerInput : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        //bool leftMoveTouched, leftJumpTouched, rightMoveTouched, rightJumpTouched;
-        //leftMoveTouched = leftJumpTouched = rightMoveTouched = rightJumpTouched = false;
+        bool leftMoveTouched, leftJumpTouched, rightMoveTouched, rightJumpTouched;
+        leftMoveTouched = leftJumpTouched = rightMoveTouched = rightJumpTouched = false;
         instance.touchList = Input.touches;
         Vector2 touchPosition;
         //if (touchList.Length > 0) print(touchList[0].position);
@@ -124,33 +123,33 @@ public class SwimmerInput : MonoBehaviour {
             touchPosition = touchList[i].position;
             if (instance.leftMoveData.InRange(touchPosition))
             {
-                //leftMoveTouched = true;
+                leftMoveTouched = true;
                 print("Left move button is pressed!");
                 continue;
             }
             else if (instance.rightMoveData.InRange(touchPosition))
             {
                 print("Right move button is pressed!");
-                //rightMoveTouched = true;
+                rightMoveTouched = true;
                 continue;
             }
             else if (instance.leftJumpData.InRange(touchPosition))
             {
-                //leftJumpTouched = true;
+                leftJumpTouched = true;
                 print("Left jump button is pressed!");
                 continue;
             }
             else if (instance.rightJumpData.InRange(touchPosition))
             {
-                //rightJumpTouched = true;
+                rightJumpTouched = true;
                 print("Right jump button is pressed!");
                 continue;
             }
         }
-        //leftMoveData.UpdateData(leftMoveTouched);
-        //leftJumpData.UpdateData(leftJumpTouched);
-        //rightMoveData.UpdateData(rightMoveTouched);
-        //rightJumpData.UpdateData(rightJumpTouched);
+        leftMoveData.UpdateData(leftMoveTouched);
+        leftJumpData.UpdateData(leftJumpTouched);
+        rightMoveData.UpdateData(rightMoveTouched);
+        rightJumpData.UpdateData(rightJumpTouched);
     }
 
     public static bool GetKey(KeyCode key)
@@ -167,11 +166,11 @@ public class SwimmerInput : MonoBehaviour {
         switch(key)
         {
             case KeyCode.A:
-                return false;// leftMoveData.GetKey();
+                return leftMoveData.GetKey();
             case KeyCode.D:
-                return false;// rightMoveData.GetKey();
+                return rightMoveData.GetKey();
             case KeyCode.Space:
-                return false;// leftJumpData.GetKey() || rightJumpData.GetKey();
+                return leftJumpData.GetKey() || rightJumpData.GetKey();
         }
         return false;
     }
@@ -188,7 +187,10 @@ public class SwimmerInput : MonoBehaviour {
     //TODO: implement GetTouchInputDown(string buttonName)
     private bool GetTouchInputDown(string buttonName)
     {
-        return false;//this is all I need for now until I get the other features working
+        if (buttonName.Equals("Jump"))
+            return leftJumpData.GetKeyDown() || rightJumpData.GetKeyDown();
+        else
+            return false;
     }
 
     public static bool GetKeyDown(KeyCode key)
@@ -205,11 +207,11 @@ public class SwimmerInput : MonoBehaviour {
         switch(key)
         {
             case KeyCode.A:
-                return false;// leftMoveData.GetKeyDown();
+                return leftMoveData.GetKeyDown();
             case KeyCode.D:
-                return false;// rightMoveData.GetKeyDown();
+                return rightMoveData.GetKeyDown();
             case KeyCode.Space:
-                return false;// leftJumpData.GetKeyDown() || rightJumpData.GetKeyDown();
+                return leftJumpData.GetKeyDown() || rightJumpData.GetKeyDown();
             
         }
         return false;
@@ -220,11 +222,11 @@ public class SwimmerInput : MonoBehaviour {
 #if UNITY_STANDALONE
         return Input.GetKeyUp(key);
 #elif UNITY_IOS || UNITY_ANDROID
-        return false; //GetButtonUp(key);
+        return instance.GetTouchInputUp(key);
 #endif
     }
 
-    /*private bool GetTouchInputUp(KeyCode key)
+    private bool GetTouchInputUp(KeyCode key)
     {
         switch(key)
         {
@@ -236,7 +238,7 @@ public class SwimmerInput : MonoBehaviour {
                 return leftJumpData.GetKeyUp() || rightJumpData.GetKeyUp();
         }
         return false;
-    }*/
+    }
 
     public static float GetAxis(string axisName)
     {
@@ -245,15 +247,15 @@ public class SwimmerInput : MonoBehaviour {
 #endif
 
 #if UNITY_IOS || UNITY_ANDROID
-        return 0.0f; // GetTouchXAxis();
+        return instance.GetTouchXAxis();
 #endif
     }
 
-    /*private float GetTouchXAxis()
+    private float GetTouchXAxis()
     {
         float axisValue = 0.0f;
-        if (leftMoveData.GetKeyDown()) axisValue -= 1.0f;
-        if (rightMoveData.GetKeyDown()) axisValue += 1.0f;
+        if (leftMoveData.GetKey()) axisValue -= 1.0f;
+        if (rightMoveData.GetKey()) axisValue += 1.0f;
         return axisValue;
-    }*/
+    }
 }
