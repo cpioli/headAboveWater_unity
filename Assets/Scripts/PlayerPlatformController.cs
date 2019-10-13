@@ -86,8 +86,6 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         return false;
     }
 
-
-
     public void GetLedgeInfo(Vector2 move)
     {
         int count = rBody2d.Cast(move, contactFilter, hitBuffer, 1.0f);
@@ -140,6 +138,7 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         base.gameOver = false;
         base.hanging = false;
         gameObject.transform.position = startPosition.Value;
+        SetState(initialPMState);
     }
 
     public void LevelCompleted()
