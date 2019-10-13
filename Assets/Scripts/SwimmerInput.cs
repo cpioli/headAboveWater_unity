@@ -11,6 +11,7 @@ public class SwimmerInput : MonoBehaviour {
     /// </summary>
     struct ButtonData
     {
+        private RawImage image;
         enum ButtonState { UNTOUCHED, PRESSED, HELD_DOWN, RELEASED };
         ButtonState state;
         public float radius;
@@ -18,6 +19,7 @@ public class SwimmerInput : MonoBehaviour {
 
         public ButtonData(RawImage img, float wa, float ha)
         {
+            image = img;
             state = ButtonState.UNTOUCHED;
             radius = img.rectTransform.sizeDelta.x / 2.0f;
             position = new Vector2(
@@ -57,6 +59,7 @@ public class SwimmerInput : MonoBehaviour {
                     if(isPressed)
                     {
                         state = ButtonState.PRESSED;
+                        image.color = Color.gray;
                     }
                     break;
                 case ButtonState.PRESSED:
@@ -66,18 +69,21 @@ public class SwimmerInput : MonoBehaviour {
                     } else
                     {
                         state = ButtonState.RELEASED;
+                        image.color = Color.white;
                     }
                     break;
                 case ButtonState.HELD_DOWN:
                     if(!isPressed)
                     {
                         state = ButtonState.RELEASED;
+                        image.color = Color.white;
                     } //no need to check the alternative: the state will remain the same
                     break;
                 case ButtonState.RELEASED:
                     if(isPressed)
                     {
                         state = ButtonState.PRESSED;
+                        image.color = Color.gray;
                     } else
                     {
                         state = ButtonState.UNTOUCHED;
@@ -97,10 +103,12 @@ public class SwimmerInput : MonoBehaviour {
     public RawImage rightJumpImage;
     public RawImage leftJumpImage;
 
+#if UNITY_IOS || UNITY_ANDROID
     void Awake()
     {
         if (instance == null)
             instance = this;
+
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         float widthAdjustment = mainCamera.pixelWidth / 2.0f;
         float heightAdjustment = mainCamera.pixelHeight / 2.0f;
@@ -124,25 +132,25 @@ public class SwimmerInput : MonoBehaviour {
             if (instance.leftMoveData.InRange(touchPosition))
             {
                 leftMoveTouched = true;
-                print("Left move button is pressed!");
+                //print("Left move button is pressed!");
                 continue;
             }
             else if (instance.rightMoveData.InRange(touchPosition))
             {
-                print("Right move button is pressed!");
+                //print("Right move button is pressed!");
                 rightMoveTouched = true;
                 continue;
             }
             else if (instance.leftJumpData.InRange(touchPosition))
             {
                 leftJumpTouched = true;
-                print("Left jump button is pressed!");
+                //print("Left jump button is pressed!");
                 continue;
             }
             else if (instance.rightJumpData.InRange(touchPosition))
             {
                 rightJumpTouched = true;
-                print("Right jump button is pressed!");
+                //print("Right jump button is pressed!");
                 continue;
             }
         }
@@ -151,6 +159,7 @@ public class SwimmerInput : MonoBehaviour {
         rightMoveData.UpdateData(rightMoveTouched);
         rightJumpData.UpdateData(rightJumpTouched);
     }
+#endif
 
     public static bool GetKey(KeyCode key)
     {
@@ -212,6 +221,13 @@ public class SwimmerInput : MonoBehaviour {
                 return rightMoveData.GetKeyDown();
             case KeyCode.Space:
                 return leftJumpData.GetKeyDown() || rightJumpData.GetKeyDown();
+            case KeyCode.Escape:
+            case KeyCode.Menu:
+                if (Input.GetKeyDown(key))
+                {
+                    print(key.ToString());
+                }
+                return Input.GetKeyDown(key);
             
         }
         return false;
