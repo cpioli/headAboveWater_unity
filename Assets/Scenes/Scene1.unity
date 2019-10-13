@@ -1908,6 +1908,7 @@ GameObject:
   - component: {fileID: 920535494}
   - component: {fileID: 920535493}
   - component: {fileID: 920535492}
+  - component: {fileID: 920535495}
   m_Layer: 0
   m_Name: TouchInputCanvas
   m_TagString: Untagged
@@ -1994,6 +1995,17 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &920535495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 920535490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e28eb579dccd6449639d85da528ce4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &943194671
 Prefab:
   m_ObjectHideFlags: 0
@@ -2044,7 +2056,15 @@ Prefab:
       propertyPath: emptyEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Raise
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114582604571838910, guid: 18e5cb9d70d6bd64a859e6c8f8f63522,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114582604571838910, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
+    - {fileID: 114828094706189298, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
+    - {fileID: 82465189300509140, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 18e5cb9d70d6bd64a859e6c8f8f63522, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &949158840
@@ -11120,7 +11140,8 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: cff1ecc6af3b2ce44aa81375da4cb2a3,
+        type: 2}
     - target: {fileID: 1722406904808882, guid: 6e9458611b74c2742a7d56ed35a1b723, type: 2}
       propertyPath: m_IsActive
       value: 1
@@ -11128,7 +11149,7 @@ Prefab:
     - target: {fileID: 114085179946636606, guid: 6e9458611b74c2742a7d56ed35a1b723,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: Raise
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e9458611b74c2742a7d56ed35a1b723, type: 2}
