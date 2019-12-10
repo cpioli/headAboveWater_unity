@@ -27,7 +27,10 @@ public class PlayerLedgeClimbingState : PlayerMovementState {
         currentPlayerPos = ppc.transform.position;
         ledgePosition = ppc.gameObject.transform.position;
         step1YPos = currentPlayerPos.y + 0.5f;
-        step2XPos = currentPlayerPos.x + 0.5f;
+        if (ppc.ledgeType == PlayerPlatformController.LEDGE.RIGHT)
+            step2XPos = currentPlayerPos.x - 0.5f;
+        else if (ppc.ledgeType == PlayerPlatformController.LEDGE.LEFT)
+            step2XPos = currentPlayerPos.x + 0.5f;
         Debug.Log("Entered the Climbing State");
     }
 
