@@ -85,7 +85,7 @@ public class TileMapBehaviour : MonoBehaviour {
         int colMax = (int)tilemapBounds.max.x;
         int rowMax = (int)tilemapBounds.max.y;
         Vector3Int tilePosition = Vector3Int.zero;
-        TileBase tb;
+        Sprite sprite;
         PlayerPlatformController.LEDGE ledgeType;
         while (col <= colMax)
         {
@@ -97,12 +97,11 @@ public class TileMapBehaviour : MonoBehaviour {
                 tilePosition.z = 0;
                 tilePosition = tilemap.WorldToCell(tilePosition);
                 ledgeType = PlayerPlatformController.LEDGE.NONE;
-                tb = null;
+                sprite = null; 
                 if (tilemap.HasTile(tilePosition))
                 {
-                    tb = tilemap.GetTile(tilePosition);
-                    ledgeType = IsLedgeTile(ref tb);
-                    if (ledgeType != PlayerPlatformController.LEDGE.NONE)
+                    sprite = tilemap.GetSprite(tilePosition);
+                    if((ledgeType = IsLedgeTile(sprite.name)) != PlayerPlatformController.LEDGE.NONE)
                     {
                         InsertTileIntoIndex(ref ledgeType, ref tilePosition);
                     }
@@ -113,18 +112,20 @@ public class TileMapBehaviour : MonoBehaviour {
         }
     }
 
-    public PlayerPlatformController.LEDGE IsLedgeTile(ref TileBase _Tile)
+    public PlayerPlatformController.LEDGE IsLedgeTile(string spriteName)
     {
-        if (_Tile == null) return PlayerPlatformController.LEDGE.NONE;
-
+        if (spriteName == null) return PlayerPlatformController.LEDGE.NONE;
         for (int i = 0; i < LeftLedgeTiles.Length; i++)
         {
-            if (_Tile.name.Equals(LeftLedgeTiles[i].name))
+            if (spriteName.Equals(LeftLedgeTiles[i].name))
+            {
                 return PlayerPlatformController.LEDGE.LEFT;
+            }
+
         }
         for (int i = 0; i < RightLedgeTiles.Length; i++)
         {
-            if (_Tile.name.Equals(RightLedgeTiles[i].name))
+            if (spriteName.Equals(RightLedgeTiles[i].name))
                 return PlayerPlatformController.LEDGE.RIGHT;
         }
 

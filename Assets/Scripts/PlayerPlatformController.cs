@@ -92,21 +92,22 @@ public class PlayerPlatformController : PhysicsObject, ICommonGameEvents {
         ResetHitTiles();
         ledgeType = LEDGE.NONE;
         lastClimbingLocation = Vector3.zero;
+        string spriteName;
         TileData td;
         for (int i = 0; i < count; i++)
         {
             Tilemap tm = hitBuffer[i].collider.GetComponent<Tilemap>();
             if (tm == null) continue;
-            GetTile(hitBuffer[i], out td);
-            if (string.Equals(td.name, "spritesheet_ground_39")
-             || string.Equals(td.name, "spritesheet_ground_18"))
+            GetTile(hitBuffer[i], out td, out spriteName);
+            if (string.Equals(spriteName, "spritesheet_ground_39")
+             || string.Equals(spriteName, "spritesheet_ground_18"))
             {
                 ledgeType = LEDGE.RIGHT;
                 lastClimbingLocation.x = td.worldPos.x;
                 lastClimbingLocation.y = td.worldPos.y;
             }
-            else if (string.Equals(td.name, "spritesheet_ground_40")
-           || string.Equals(td.name, "spritesheet_ground_19"))
+            else if (string.Equals(spriteName, "spritesheet_ground_40")
+           || string.Equals(spriteName, "spritesheet_ground_19"))
             {
                 ledgeType = LEDGE.LEFT;
                 lastClimbingLocation.x = td.worldPos.x;

@@ -154,6 +154,13 @@ public class PhysicsObject : MonoBehaviour {
         rBody2d.position = rBody2d.position + move.normalized * distance;
     }
 
+    protected void GetTile(RaycastHit2D hit, out TileData data, out string spriteName)
+    {
+        
+        GetTile(hit, out data);
+        spriteName = hit.collider.GetComponent<Tilemap>().GetSprite(data.worldPos).name;
+    }
+
     protected void GetTile(RaycastHit2D hit, out TileData data)
     {
         data = new TileData();
