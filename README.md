@@ -1,5 +1,5 @@
 # headAboveWater_unity
-Clean version of the Unity2d Implementation of Head Above Water
+Clean version of the Unity2d Implementation of Head Above Water. Developed in Unity3D version 2018.2.15f1.
 
 This is an implementation of a prototype I developed in my graduate program. The focus wasn't to create any new gameplay, but to rebuild the mechanics using the features of Unity3D, most significantly Scriptable Objects.
 
