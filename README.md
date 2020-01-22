@@ -5,15 +5,13 @@ This is an implementation of a prototype I developed in my graduate program. The
 
 <h2>Scriptable Objects</h2>
 
-I used Scriptable Objects to encapsulate systems and relationships between objects. The approach I took was laid out by Ryan Hipple in his talk on the subject (summarized in an article [here](https://unity3d.com/how-to/architect-with-scriptable-objects)): to decouple complex systems and make it easier to control data outside of code by designers. Here are a few features I implemented
-
-The idea is to assign every Unity Prefab a single MonoBehaviour script, and that script would act as a platform to access systems of scriptable objects
+I used Scriptable Objects to encapsulate systems and relationships between objects. The approach I took was laid out by Ryan Hipple in his talk on the subject (summarized in an article [here](https://unity3d.com/how-to/architect-with-scriptable-objects)): to decouple complex systems and make it easier to control data outside of code by designers. Here are a few features I implemented.
 
 <h3>Player Movement State System</h3>
 
-Using the State Pattern, I built a series of state classes that decoupled controller code as well as environment variables from the player-character. An instance of each state is created, and I input values to track what states they can branch off to, the current movement restrictions, and other features. In each Class's code, variables are updated for the Player's Sprite's State System. You can find the source code for these objects [here](https://github.com/cpioli/headAboveWater_unity/tree/master/Assets/Scripts/ScriptableObjects/StateSystems/PlayerMovement).
+Using the State Pattern, I built a series of state classes that decoupled controller code as well as environment variables from the player-character to create a StateMachine. An instance of each state is written in code (inheriting ScriptableObject), and then I created instances of them. In those instances I input values to track what states they can branch off to, the current movement restrictions, and other features. In each Class's code, variables are updated for the Player's Sprite's State System. You can find the source code for these objects [here](https://github.com/cpioli/headAboveWater_unity/tree/master/Assets/Scripts/ScriptableObjects/StateSystems/PlayerMovement).
 
-The benefit of this system is that it's easy to provide updates. I can isolate the code I have to modify to a single state without having to check a set of booleans, I can add a new feature (climbing, for instance) just by adding a few new lines of code. It's really, truly helpful. If I wanted to take this system to the next level, I would design a generic "state" ScriptableObject - no unique classes for individual states - then I would write a series of ScriptableObjects that would run the instructions I wrote up in code.
+The benefit of this system is that it's easy to update with bug fixes and new features. I can isolate the code I have to modify to a single state without having to check a set of booleans, I can add a new feature (climbing, for instance) just by adding a few new lines of code. It's really, truly helpful. If I wanted to take this system to the next level, I would design a generic "state" ScriptableObject - no unique classes for individual states - then I would write a series of ScriptableObjects that would run the instructions I wrote up in code.
 
 Note: a similar system was also used to handle [Game States](https://github.com/cpioli/headAboveWater_unity/tree/master/Assets/Scripts/ScriptableObjects/StateSystems/GameStates).
 
