@@ -42,21 +42,6 @@ public class PlayerLedgeClimbingState : PlayerMovementState {
 
     public override void ComputeVelocity(PlayerPlatformController ppc, ref Vector2 velocity)
     {
-        /*ppc.move = Vector2.zero;
-        ppc.move.x = Input.GetAxis("Horizontal");
-        if (ppc.exhausted) return;*/
-        /*if (Input.GetButtonDown("Jump"))
-        {
-            Debug.Log("Jumping!");
-            velocity.y = ppc.jumpTakeOffSpeed;
-            //ppc.move.y = ppc.jumpTakeOffSpeed;
-            ppc.animator.SetTrigger("strokePerformed");
-            StrokeEvent.Raise();
-        }
-
-        if (Vector3.Distance(ppc.transform.position, ledgePosition) > 1.50f) {
-            ppc.SetState(UnderwaterSwimState);
-        }*/
 
         timePassed += Time.deltaTime;
         if(timePassed > stateDuration)
